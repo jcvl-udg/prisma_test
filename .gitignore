@@ -5,6 +5,17 @@
 /.pnp
 .pnp.js
 
+src/generated/
+.next/
+
+# lock files
+*lock.*
+*.lock
+
+# db
+*.db*
+
+
 # testing
 /coverage
 
@@ -34,3 +45,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
