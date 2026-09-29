@@ -1,7 +1,6 @@
 import { createYoga } from 'graphql-yoga'
 import SchemaBuilder from "@pothos/core";
 import PrismaPlugin from "@pothos/plugin-prisma";
-import { DateTimeResolver } from 'graphql-scalars'
 
 import type PrismaTypes from "../../lib/pothos-prisma-types";
 import { getDatamodel } from "../../lib/pothos-prisma-types";
@@ -21,89 +20,94 @@ const builder = new SchemaBuilder<{
 })
 
 builder.queryType({})
-
 builder.mutationType({})
+
+// --- EXPOSICIÓN DE MODELOS (TIPOS GRAPHQL) ---
 
 builder.prismaObject("User", {
   fields: (t) => ({
     id: t.exposeID('id'),
     email: t.exposeString('email'),
     name: t.exposeString('name', { nullable: true }),
-    posts: t.relation("posts")
+    profile: t.relation('profile', { nullable: true }),
   })
 })
 
-builder.prismaObject("Post", {
+builder.prismaObject("Profile", {
+  fields: (t) => ({
+    id: t.exposeID('id'),
+    bio: t.exposeString('bio', { nullable: true }),
+    user: t.relation('user'),
+  }),
+})
+
+builder.prismaObject("Destination", {
+  fields: (t) => ({
+    id: t.exposeID('id'),
+    name: t.exposeString('name'),
+    code: t.exposeString('code', { nullable: true }),
+    hotels: t.relation('hotels')
+  })
+})
+
+builder.prismaObject('Hotel', {
   fields: (t) => ({
     id: t.exposeID('id'),
     title: t.exposeString('title'),
-    content: t.exposeString('content', { nullable: true }),
-    published: t.exposeBoolean('published'),
-    author: t.relation('author')
+    categoryStars: t.exposeInt('categoryStars'),
+    destination: t.relation('destination'),
+    rooms: t.relation('rooms'),
+  }),
+});
+
+builder.prismaObject("Room", {
+  fields: (t) => ({
+    id: t.exposeID('id'),
+    name: t.exposeString('name'),
   })
 })
 
-builder.queryField('feed', (t) =>
-  t.prismaField({
-    type: ['Post'],
-    resolve: async (query, _parent, _args, _info) =>
-      prisma.post.findMany({
-        ...query,
-        where: { published: true }
-      })
-  })
-)
+// --- QUERIES (BÚSQUEDAS) ---
 
-builder.queryField('post', (t) =>
+builder.queryField('searchHotels', (t) =>
   t.prismaField({
-    type: 'Post',
+    type: ['Hotel'],
     args: {
-      id: t.arg.id({ required: true }),
+      query: t.arg.string({ required: false, description: 'Búsqueda de texto libre en título o destino' }),
+      destinationId: t.arg.string({ required: false }),
+      minStars: t.arg.int({ required: false }),
+      skip: t.arg.int({ required: false, defaultValue: 0 }),
+      take: t.arg.int({ required: false, defaultValue: 10 }),
     },
-    nullable: true,
-    resolve: async (query, _parent, args, _info) =>
-      prisma.post.findUnique({
-        ...query,
+    resolve: async (query, root, args, ctx, info) => {
+      const { query: searchQuery, destinationId, minStars, skip, take } = args;
+
+      return prisma.hotel.findMany({
+        ...query, // Inyecta selecciones de campos optimizadas por Pothos
         where: {
-          id: Number(args.id)
-        }
-      })
-  })
-)
-
-builder.queryField('drafts', (t) =>
-  t.prismaField({
-    type: ['Post'],
-    resolve: async (query, _parent, _args, _info) =>
-      prisma.post.findMany({
-        ...query,
-        where: { published: false }
-      })
-  })
-)
-
-builder.queryField('filterPosts', (t) =>
-  t.prismaField({
-    type: ['Post'],
-    args: {
-      searchString: t.arg.string({ required: false })
-    },
-    resolve: async (query, _parent, args, _info) => {
-      const or = args.searchString
-        ? {
-          OR: [
-            { title: { contains: args.searchString } },
-            { content: { contains: args.searchString } },
+          AND: [
+            searchQuery ? {
+              OR: [
+                { title: { contains: searchQuery, mode: 'insensitive' } },
+                { destination: { name: { contains: searchQuery, mode: 'insensitive' } } },
+              ],
+            } : {},
+            destinationId ? { destinationId } : {},
+            minStars ? { categoryStars: { gte: minStars } } : {},
           ],
-        }
-        : {}
-      return prisma.post.findMany({
-        ...query,
-        where: { ...or }
-      })
-    }
+        },
+        skip: skip ?? 0,
+        take: take ?? 10,
+        orderBy: [
+          { categoryStars: 'desc' },
+          { title: 'asc' }
+        ],
+      });
+    },
   })
-)
+);
+
+// --- MUTATIONS (CRUD Y USUARIOS) ---
 
 builder.mutationField('signupUser', (t) =>
   t.prismaField({
@@ -123,60 +127,69 @@ builder.mutationField('signupUser', (t) =>
   })
 )
 
-builder.mutationField('deletePost', (t) =>
+// Corrección del error UserUniqueInput: Pedimos el email directamente como string
+builder.mutationField('createProfile', (t) =>
   t.prismaField({
-    type: 'Post',
+    type: "Profile",
     args: {
-      id: t.arg.id({ required: true }),
+      bio: t.arg.string({ required: true }),
+      userEmail: t.arg.string({ required: true }) 
     },
-    resolve: async (query, _parent, args, _info) =>
-      prisma.post.delete({
-        ...query,
-        where: {
-          id: Number(args.id),
-        }
-      })
-  })
-)
-
-builder.mutationField('publish', (t) =>
-  t.prismaField({
-    type: 'Post',
-    args: {
-      id: t.arg.id({ required: true }),
-    },
-    resolve: async (query, _parent, args, _info) =>
-      prisma.post.update({
-        ...query,
-        where: {
-          id: Number(args.id),
-        },
-        data: {
-          published: true,
-        }
-      })
-  })
-)
-
-builder.mutationField('createDraft', (t) =>
-  t.prismaField({
-    type: 'Post',
-    args: {
-      title: t.arg.string({ required: true }),
-      content: t.arg.string(),
-      authorEmail: t.arg.string({ required: true }),
-    },
-    resolve: async (query, _parent, args, _info) =>
-      prisma.post.create({
+    resolve: async (query, _parent, args, _context) =>
+      prisma.profile.create({
         ...query,
         data: {
-          title: args.title,
-          content: args.content,
-          author: {
-            connect: { email: args.authorEmail }
+          bio: args.bio,
+          user: {
+            connect: { email: args.userEmail }
           }
         }
       })
+  })
+)
+
+// Mutación para que registres tus paquetes/hoteles manualmente desde tu CMS
+builder.mutationField('createManualHotel', (t) =>
+  t.prismaField({
+    type: 'Hotel',
+    args: {
+      title: t.arg.string({ required: true }),
+      categoryStars: t.arg.int({ required: true }),
+      destinationName: t.arg.string({ required: true }),
+      destinationCode: t.arg.string({ required: false }), // <--- Nuevo argumento opcional
+    },
+    resolve: async (query, _parent, args, _info) => {
+      // 1. Buscamos si el destino ya existe (ignorando mayúsculas/minúsculas)
+      let destination = await prisma.destination.findFirst({
+        where: { name: { equals: args.destinationName, mode: 'insensitive' } }
+      })
+
+      // 2. Si no existe, lo creamos guardando su código
+      if (!destination) {
+        destination = await prisma.destination.create({
+          data: {
+            name: args.destinationName,
+            code: args.destinationCode ? args.destinationCode.toUpperCase() : args.destinationName.substring(0, 3).toUpperCase(),
+          }
+        })
+      }
+
+      // 3. Creamos el hotel y lo vinculamos al ID real del destino
+      return prisma.hotel.create({
+        ...query,
+        data: {
+          title: args.title,
+          categoryStars: args.categoryStars,
+          destinationId: destination.id,
+          providerMappings: {
+            create: {
+              providerName: 'LOCAL',
+              externalId: `local-${Date.now()}`
+            }
+          }
+        }
+      })
+    }
   })
 )
 
