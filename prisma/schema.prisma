@@ -24,9 +24,31 @@ model User {
   email   String   @unique
   name    String?
   profile Profile?
-  
-  // En el futuro aquí agregaremos:
-  // bookings Booking[]
+
+  bookings Booking[]
+}
+
+model Booking {
+  id        String   @id @default(cuid())
+  userId    Int? // Opcional para checkout de invitados
+  user      User?    @relation(fields: [userId], references: [id])
+  status    String   @default("PENDING") // PENDING, CONFIRMED, CANCELLED
+  createdAt DateTime @default(now())
+
+  items BookingItem[]
+}
+
+model BookingItem {
+  id String @id @default(cuid())
+
+  bookingId String
+  booking   Booking @relation(fields: [bookingId], references: [id])
+
+  hotelId String
+  hotel   Hotel  @relation(fields: [hotelId], references: [id])
+
+  roomId String
+  room   Room   @relation(fields: [roomId], references: [id])
 }
 
 model Profile {
@@ -42,7 +64,7 @@ model Profile {
 
 model Destination {
   id     String  @id @default(cuid())
-  name   String  // Ej: "Cancún" o "Mallorca"
+  name   String // Ej: "Cancún" o "Mallorca"
   code   String? // Ej: "CUN"
   hotels Hotel[]
 
@@ -50,15 +72,16 @@ model Destination {
 }
 
 model Hotel {
-  id            String   @id @default(cuid())
-  title         String   // Nombre del hotel
-  categoryStars Int      // Estrellas (1-5)
-  
+  id            String @id @default(cuid())
+  title         String // Nombre del hotel
+  categoryStars Int // Estrellas (1-5)
+
   destinationId String
   destination   Destination @relation(fields: [destinationId], references: [id])
-  
-  rooms         Room[]
+
+  rooms            Room[]
   providerMappings ProviderMapping[]
+  bookingItems     BookingItem[]
 
   @@index([title]) // Optimiza búsqueda por nombre de hotel
   @@index([categoryStars]) // Optimiza filtros de estrellas
@@ -66,24 +89,25 @@ model Hotel {
 }
 
 model Room {
-  id               String  @id @default(cuid())
-  name             String  // Ej: "Double Standard"
-  
-  hotelId          String
-  hotel            Hotel   @relation(fields: [hotelId], references: [id])
-  
+  id   String @id @default(cuid())
+  name String // Ej: "Double Standard"
+
+  hotelId String
+  hotel   Hotel  @relation(fields: [hotelId], references: [id])
+
   // Código de la habitación en el proveedor externo (opcional si es manual)
-  externalRoomCode String? 
+  externalRoomCode String?
+  bookingItems     BookingItem[]
 }
 
 model ProviderMapping {
   id           String @id @default(cuid())
   providerName String // Ej: "HOTELBEDS", "LOCAL"
   externalId   String // El ID que usa el proveedor (Ej: "6930")
-  
-  hotelId      String
-  hotel        Hotel  @relation(fields: [hotelId], references: [id])
+
+  hotelId String
+  hotel   Hotel  @relation(fields: [hotelId], references: [id])
 
   // Evita registrar el mismo hotel del mismo proveedor dos veces
-  @@unique([providerName, externalId]) 
+  @@unique([providerName, externalId])
 }

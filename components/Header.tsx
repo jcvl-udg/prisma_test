@@ -13,11 +13,11 @@ const Header = () => {
       <div className="left">
         <Link href="/" legacyBehavior>
           <a className="bold" data-active={isActive("/")}>
-            Blog
+            Catalogo(List)
           </a>
         </Link>
-        <Link href="/drafts" legacyBehavior>
-          <a data-active={isActive("/drafts")}>Drafts</a>
+        <Link href="/search" legacyBehavior>
+          <a data-active={isActive("/drafts")}>Busqueda</a>
         </Link>
       </div>
       <div className="right">
@@ -25,7 +25,7 @@ const Header = () => {
           <a data-active={isActive("/signup")}>Signup</a>
         </Link>
         <Link href="/create" legacyBehavior>
-          <a data-active={isActive("/create")}>+ Create draft</a>
+          <a data-active={isActive("/create")}>+ Nuevo Hotel</a>
         </Link>
       </div>
       <style jsx>{`

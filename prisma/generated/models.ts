@@ -9,6 +9,8 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/User.ts'
+export type * from './models/Booking.ts'
+export type * from './models/BookingItem.ts'
 export type * from './models/Profile.ts'
 export type * from './models/Destination.ts'
 export type * from './models/Hotel.ts'

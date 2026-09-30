@@ -151,7 +151,7 @@ export type ProviderMappingGroupByOutputType = {
   _max: ProviderMappingMaxAggregateOutputType | null
 }
 
-type GetProviderMappingGroupByPayload<T extends ProviderMappingGroupByArgs> = Prisma.PrismaPromise<
+export type GetProviderMappingGroupByPayload<T extends ProviderMappingGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<ProviderMappingGroupByOutputType, T['by']> &
       {

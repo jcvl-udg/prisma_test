@@ -67,6 +67,33 @@ builder.prismaObject("Room", {
   })
 })
 
+builder.prismaObject('Booking', {
+  fields: (t) => ({
+    id: t.exposeID('id'),
+    status: t.exposeString('status'),
+    createdAt: t.string({
+      resolve: (booking) => booking.createdAt.toISOString(),
+    }),
+    items: t.relation('items'),
+  }),
+});
+
+builder.prismaObject('BookingItem', {
+  fields: (t) => ({
+    id: t.exposeID('id'),
+    hotel: t.relation('hotel'),
+    room: t.relation('room'),
+  }),
+});
+
+// 2. Input Type para el Cart
+const BookingItemInput = builder.inputType('BookingItemInput', {
+  fields: (t) => ({
+    hotelId: t.string({ required: true }),
+    roomId: t.string({ required: true }),
+  }),
+});
+
 // --- QUERIES (BÚSQUEDAS) ---
 
 builder.queryField('searchHotels', (t) =>
@@ -192,6 +219,32 @@ builder.mutationField('createManualHotel', (t) =>
     }
   })
 )
+
+builder.mutationField('createBooking', (t) =>
+  t.prismaField({
+    type: 'Booking',
+    args: {
+      items: t.arg({ type: [BookingItemInput], required: true }),
+      userId: t.arg.int({ required: false }), 
+    },
+    resolve: async (query, root, args) => {
+      // Prisma maneja la transacción implícita para crear el Booking y sus Items
+      return prisma.booking.create({
+        ...query,
+        data: {
+          status: 'CONFIRMED', // En producción pasaría a PENDING hasta validar pago/provider
+          userId: args.userId ?? undefined,
+          items: {
+            create: args.items.map((item) => ({
+              hotelId: item.hotelId,
+              roomId: item.roomId,
+            })),
+          },
+        },
+      });
+    },
+  })
+);
 
 const schema = builder.toSchema()
 
