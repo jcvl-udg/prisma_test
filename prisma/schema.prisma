@@ -15,99 +15,441 @@ datasource db {
   provider = "postgresql"
 }
 
-// ------------------------------------------------------
-// 1. GESTIÓN DE USUARIOS (Mantenemos la base)
-// ------------------------------------------------------
+// ======================================================
+// ENUMS
+// Los enums se validan en la BD: no puede entrar un estado inventado.
+// ======================================================
+
+enum UserRole {
+  CUSTOMER
+  AGENT
+  ADMIN
+}
+
+enum HotelStatus {
+  DRAFT
+  ACTIVE
+  INACTIVE
+}
+
+// Máquina de estados de una reserva (y de cada ítem, porque cada proveedor
+// confirma por separado):
+// PENDING -> CONFIRMED | FAILED | EXPIRED ; CONFIRMED -> CANCELLED
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  FAILED
+  EXPIRED
+}
+
+// Señales de comportamiento: alimentan recomendaciones y analítica
+enum EventType {
+  SEARCH
+  HOTEL_VIEW
+  CART_ADD
+  CHECKOUT_START
+  BOOKED
+}
+
+// ======================================================
+// 1. USUARIOS Y SESIONES
+// Account / Session / VerificationToken siguen el formato del adaptador
+// Prisma de Auth.js. Si eliges otra librería (p. ej. Better Auth),
+// genera SUS tablas con su CLI y elimina estas tres.
+// ======================================================
 
 model User {
-  id      Int      @id @default(autoincrement())
-  email   String   @unique
-  name    String?
-  profile Profile?
+  id            String    @id @default(cuid())
+  email         String    @unique // guardar SIEMPRE en minúsculas (normalizar al escribir)
+  emailVerified DateTime?
+  name          String?
+  image         String?
+  role          UserRole  @default(CUSTOMER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
-  bookings Booking[]
-}
+  profile   Profile?
+  accounts  Account[]
+  sessions  Session[]
+  bookings  Booking[]
+  favorites Favorite[]
+  events    UserEvent[]
+  quotes    Quote[]
 
-model Booking {
-  id        String   @id @default(cuid())
-  userId    Int? // Opcional para checkout de invitados
-  user      User?    @relation(fields: [userId], references: [id])
-  status    String   @default("PENDING") // PENDING, CONFIRMED, CANCELLED
-  createdAt DateTime @default(now())
-
-  items BookingItem[]
-}
-
-model BookingItem {
-  id String @id @default(cuid())
-
-  bookingId String
-  booking   Booking @relation(fields: [bookingId], references: [id])
-
-  hotelId String
-  hotel   Hotel  @relation(fields: [hotelId], references: [id])
-
-  roomId String
-  room   Room   @relation(fields: [roomId], references: [id])
+  @@index([role])
 }
 
 model Profile {
-  id     Int     @id @default(autoincrement())
-  bio    String?
-  userId Int     @unique
-  user   User    @relation(fields: [userId], references: [id])
+  id       String  @id @default(cuid())
+  userId   String  @unique
+  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  phone    String?
+  country  String? // ISO 3166-1 alpha-2
+  locale   String  @default("es-MX")
+  currency String  @default("MXN") // moneda preferida de visualización
+  bio      String?
 }
 
-// ------------------------------------------------------
-// 2. MODELO CANÓNICO DE VIAJES (Nueva arquitectura)
-// ------------------------------------------------------
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ======================================================
+// 2. PROVEEDORES (HBX, Omnibees, inventario propio)
+// Una tabla en lugar de strings sueltos: se activan/desactivan sin desplegar.
+// ======================================================
+
+model Provider {
+  id       String  @id @default(cuid())
+  code     String  @unique // LOCAL, HOTELBEDS, OMNIBEES
+  name     String
+  isActive Boolean @default(true)
+
+  hotelMappings ProviderMapping[]
+  roomMappings  RoomMapping[]
+  quotes        Quote[]
+  bookingItems  BookingItem[]
+}
+
+// Puente hotel canónico <-> ID del hotel en el proveedor
+model ProviderMapping {
+  id           String    @id @default(cuid())
+  providerId   String
+  hotelId      String
+  externalId   String // ID que usa el proveedor (p. ej. "6930")
+  lastSyncedAt DateTime?
+
+  provider Provider @relation(fields: [providerId], references: [id])
+  hotel    Hotel    @relation(fields: [hotelId], references: [id], onDelete: Cascade)
+
+  @@unique([providerId, externalId]) // el mismo hotel del proveedor no se registra dos veces
+  @@unique([hotelId, providerId]) // un hotel, una ficha por proveedor
+}
+
+// Puente habitación canónica <-> código de habitación/tarifa del proveedor
+model RoomMapping {
+  id           String @id @default(cuid())
+  providerId   String
+  roomId       String
+  externalCode String
+
+  provider Provider @relation(fields: [providerId], references: [id])
+  room     Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+  @@unique([providerId, roomId])
+  @@index([roomId])
+}
+
+// ======================================================
+// 3. CATÁLOGO CANÓNICO
+// `searchKey` = texto normalizado (minúsculas, sin acentos) mantenido por la
+// app al escribir. Con un índice GIN trigram, "cancun" encuentra "Cancún"
+// y el buscador sigue rápido con decenas de miles de filas.
+// ======================================================
 
 model Destination {
-  id     String  @id @default(cuid())
-  name   String // Ej: "Cancún" o "Mallorca"
-  code   String? // Ej: "CUN"
-  hotels Hotel[]
+  id              String   @id @default(cuid())
+  slug            String   @unique // URLs: /destinos/cancun
+  name            String
+  code            String? // IATA
+  countryCode     String // ISO 3166-1 alpha-2
+  latitude        Float?
+  longitude       Float?
+  description     String?
+  imageUrl        String?
+  themes          String[] // ["beach","family","romantic"...]
+  popularityScore Int      @default(0)
+  isFeatured      Boolean  @default(false)
+  searchKey       String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
-  @@index([name]) // Optimiza búsqueda por nombre de destino
+  hotels Hotel[]
+  events UserEvent[]
+
+  @@index([searchKey(ops: raw("gin_trgm_ops"))], type: Gin)
+  @@index([isFeatured, popularityScore(sort: Desc)]) // destinos populares de la landing
+  @@index([countryCode])
+  @@index([code])
 }
 
 model Hotel {
-  id            String @id @default(cuid())
-  title         String // Nombre del hotel
-  categoryStars Int // Estrellas (1-5)
+  id            String      @id @default(cuid())
+  slug          String      @unique
+  title         String
+  description   String?
+  categoryStars Int // 1-5
+  status        HotelStatus @default(ACTIVE)
+
+  address   String?
+  latitude  Float?
+  longitude Float?
+
+  // Datos DENORMALIZADOS para ordenar/filtrar sin JOINs pesados.
+  // Los recalcula un job (o el proceso de sync) — son caché, no fuente de verdad.
+  ratingAvg       Float?
+  reviewCount     Int       @default(0)
+  popularityScore Int       @default(0)
+  priceFrom       Decimal?  @db.Decimal(10, 2) // "desde $X por noche"
+  priceCurrency   String    @default("USD")
+  priceUpdatedAt  DateTime?
+
+  themes       String[] // base para recomendaciones por afinidad
+  mainImageUrl String?
+  searchKey    String // normalize(title + destino + código)
 
   destinationId String
   destination   Destination @relation(fields: [destinationId], references: [id])
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   rooms            Room[]
+  images           HotelImage[]
+  amenities        HotelAmenity[]
   providerMappings ProviderMapping[]
   bookingItems     BookingItem[]
+  quotes           Quote[]
+  favorites        Favorite[]
+  events           UserEvent[]
 
-  @@index([title]) // Optimiza búsqueda por nombre de hotel
-  @@index([categoryStars]) // Optimiza filtros de estrellas
-  @@index([destinationId]) // Optimiza joins y filtrado por destino
+  @@index([searchKey(ops: raw("gin_trgm_ops"))], type: Gin) // texto libre tolerante
+  @@index([destinationId, status, categoryStars]) // búsqueda típica: destino + estrellas
+  @@index([status, popularityScore(sort: Desc)]) // ranking por defecto
+  @@index([status, priceFrom]) // orden/filtro por precio
+  @@index([themes], type: Gin) // filtros y afinidad por tema
 }
 
+model HotelImage {
+  id       String  @id @default(cuid())
+  hotelId  String
+  url      String
+  alt      String?
+  position Int     @default(0)
+  hotel    Hotel   @relation(fields: [hotelId], references: [id], onDelete: Cascade)
+
+  @@index([hotelId, position])
+}
+
+model Amenity {
+  id       String         @id @default(cuid())
+  code     String         @unique // POOL, WIFI, SPA...
+  name     String
+  category String // GENERAL, WELLNESS, FAMILY, FOOD...
+  hotels   HotelAmenity[]
+}
+
+model HotelAmenity {
+  hotelId   String
+  amenityId String
+  hotel     Hotel   @relation(fields: [hotelId], references: [id], onDelete: Cascade)
+  amenity   Amenity @relation(fields: [amenityId], references: [id], onDelete: Cascade)
+
+  @@id([hotelId, amenityId])
+  @@index([amenityId]) // "hoteles con alberca"
+}
+
+// "Room" = TIPO de habitación (Standard, Suite...), no una unidad física.
 model Room {
-  id   String @id @default(cuid())
-  name String // Ej: "Double Standard"
+  id          String  @id @default(cuid())
+  hotelId     String
+  name        String
+  code        String?
+  maxAdults   Int     @default(2)
+  maxChildren Int     @default(0)
+  sizeM2      Int?
+  bedType     String?
+  hotel       Hotel   @relation(fields: [hotelId], references: [id], onDelete: Cascade)
 
-  hotelId String
-  hotel   Hotel  @relation(fields: [hotelId], references: [id])
+  inventory    RoomInventory[]
+  mappings     RoomMapping[]
+  bookingItems BookingItem[]
+  quotes       Quote[]
 
-  // Código de la habitación en el proveedor externo (opcional si es manual)
-  externalRoomCode String?
-  bookingItems     BookingItem[]
+  @@unique([hotelId, name])
 }
 
-model ProviderMapping {
-  id           String @id @default(cuid())
-  providerName String // Ej: "HOTELBEDS", "LOCAL"
-  externalId   String // El ID que usa el proveedor (Ej: "6930")
+// Disponibilidad y precio POR NOCHE. Para inventario propio es la fuente de
+// verdad; para hoteles de proveedor funciona como CACHÉ de disponibilidad
+// (los precios en vivo se consultan al proveedor y se cotizan en `Quote`).
+model RoomInventory {
+  roomId      String
+  date        DateTime @db.Date
+  available   Int // unidades libres esa noche (0 = cerrado)
+  priceAmount Decimal  @db.Decimal(10, 2) // precio por noche, base 2 adultos
+  currency    String   @default("USD")
+  room        Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
 
-  hotelId String
-  hotel   Hotel  @relation(fields: [hotelId], references: [id])
+  @@id([roomId, date])
+  @@index([date, available]) // filtrar por rango de fechas con disponibilidad
+}
 
-  // Evita registrar el mismo hotel del mismo proveedor dos veces
-  @@unique([providerName, externalId])
+// ======================================================
+// 4. COTIZACIÓN -> RESERVA
+// Flujo: búsqueda -> Quote (precio congelado, caduca) -> Booking.
+// El cliente nunca dicta el precio: el servidor lo toma de la Quote.
+// ======================================================
+
+model Quote {
+  id              String   @id @default(cuid())
+  userId          String? // sesión autenticada, o...
+  anonymousId     String? // ...visitante anónimo (cookie)
+  hotelId         String
+  roomId          String
+  providerId      String
+  checkIn         DateTime @db.Date
+  checkOut        DateTime @db.Date
+  adults          Int
+  childrenAges    Int[]
+  priceAmount     Decimal  @db.Decimal(10, 2) // total de la estancia
+  currency        String
+  providerRateKey String? // token de tarifa que exige el proveedor para reservar
+  expiresAt       DateTime
+  createdAt       DateTime @default(now())
+
+  user     User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  hotel    Hotel    @relation(fields: [hotelId], references: [id])
+  room     Room     @relation(fields: [roomId], references: [id])
+  provider Provider @relation(fields: [providerId], references: [id])
+
+  @@index([expiresAt]) // limpieza de cotizaciones vencidas
+  @@index([userId])
+  @@index([anonymousId])
+}
+
+model Booking {
+  id             String        @id @default(cuid())
+  reference      String        @unique // código legible: AG-7K3M9Q
+  userId         String? // null = checkout de invitado
+  guestName      String
+  guestEmail     String
+  guestPhone     String?
+  status         BookingStatus @default(PENDING)
+  totalAmount    Decimal       @db.Decimal(12, 2)
+  currency       String // una moneda por reserva
+  idempotencyKey String        @unique // un doble clic NO crea dos reservas
+  expiresAt      DateTime? // retención de la reserva PENDING
+  confirmedAt    DateTime?
+  cancelledAt    DateTime?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  user   User?          @relation(fields: [userId], references: [id], onDelete: SetNull)
+  items  BookingItem[]
+  events BookingEvent[]
+
+  @@index([userId, createdAt(sort: Desc)]) // "mis reservas"
+  @@index([guestEmail])
+  @@index([status, expiresAt]) // job que expira PENDING vencidas
+}
+
+model BookingItem {
+  id         String @id @default(cuid())
+  bookingId  String
+  hotelId    String
+  roomId     String
+  providerId String
+
+  // Snapshot: lo que se vendió, inmune a cambios posteriores del catálogo
+  checkIn      DateTime @db.Date
+  checkOut     DateTime @db.Date
+  adults       Int
+  childrenAges Int[]
+  priceAmount  Decimal  @db.Decimal(10, 2)
+  currency     String
+
+  status             BookingStatus @default(PENDING)
+  providerRateKey    String?
+  providerBookingRef String? // localizador del proveedor
+
+  booking  Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  hotel    Hotel    @relation(fields: [hotelId], references: [id])
+  room     Room     @relation(fields: [roomId], references: [id])
+  provider Provider @relation(fields: [providerId], references: [id])
+
+  @@index([bookingId])
+  @@index([hotelId])
+  @@index([roomId, checkIn])
+}
+
+// Bitácora de auditoría: qué pasó, cuándo y con qué respuesta del proveedor
+model BookingEvent {
+  id        String   @id @default(cuid())
+  bookingId String
+  type      String // CREATED, PROVIDER_CONFIRMED, PROVIDER_FAILED, CANCELLED...
+  payload   Json?
+  createdAt DateTime @default(now())
+  booking   Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@index([bookingId, createdAt])
+}
+
+// ======================================================
+// 5. PERSONALIZACIÓN Y RECOMENDACIONES
+// ======================================================
+
+model Favorite {
+  userId    String
+  hotelId   String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  hotel     Hotel    @relation(fields: [hotelId], references: [id], onDelete: Cascade)
+
+  @@id([userId, hotelId])
+  @@index([hotelId])
+}
+
+model UserEvent {
+  id            String    @id @default(cuid())
+  userId        String?
+  anonymousId   String?
+  type          EventType
+  hotelId       String?
+  destinationId String?
+  query         String?
+  createdAt     DateTime  @default(now())
+
+  user        User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
+  hotel       Hotel?       @relation(fields: [hotelId], references: [id], onDelete: SetNull)
+  destination Destination? @relation(fields: [destinationId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt(sort: Desc)])
+  @@index([anonymousId, createdAt(sort: Desc)])
+  @@index([hotelId, type, createdAt]) // "lo más visto esta semana"
+  @@index([type, createdAt])
 }

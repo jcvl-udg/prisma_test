@@ -1,7 +1,8 @@
 // pages/index.tsx (Reemplaza a tu antiguo Blog)
 import Layout from "../components/Layout"
 import { gql } from "@apollo/client/core"
-import client from "../lib/apollo-client"
+
+import { createApolloClient } from "../lib/apollo-client";
 
 // Definimos los tipos basados en tu nuevo esquema
 type HotelProps = {
@@ -72,6 +73,8 @@ const HotelesHome: React.FC<{ data: { searchHotels: HotelProps[] } }> = (props) 
 
 // Hacemos la consulta GraphQL a tu nueva API
 export async function getServerSideProps() {
+  const client = createApolloClient();
+  
   const { data } = await client.query({
     query: gql`
       query SearchHotels {

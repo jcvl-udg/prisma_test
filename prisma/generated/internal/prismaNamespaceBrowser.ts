@@ -52,13 +52,26 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
-  Booking: 'Booking',
-  BookingItem: 'BookingItem',
   Profile: 'Profile',
+  Account: 'Account',
+  Session: 'Session',
+  VerificationToken: 'VerificationToken',
+  Provider: 'Provider',
+  ProviderMapping: 'ProviderMapping',
+  RoomMapping: 'RoomMapping',
   Destination: 'Destination',
   Hotel: 'Hotel',
+  HotelImage: 'HotelImage',
+  Amenity: 'Amenity',
+  HotelAmenity: 'HotelAmenity',
   Room: 'Room',
-  ProviderMapping: 'ProviderMapping'
+  RoomInventory: 'RoomInventory',
+  Quote: 'Quote',
+  Booking: 'Booking',
+  BookingItem: 'BookingItem',
+  BookingEvent: 'BookingEvent',
+  Favorite: 'Favorite',
+  UserEvent: 'UserEvent'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -80,17 +93,237 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
-  name: 'name'
+  emailVerified: 'emailVerified',
+  name: 'name',
+  image: 'image',
+  role: 'role',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
-export const BookingScalarFieldEnum = {
+export const ProfileScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  phone: 'phone',
+  country: 'country',
+  locale: 'locale',
+  currency: 'currency',
+  bio: 'bio'
+} as const
+
+export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
+
+
+export const AccountScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  provider: 'provider',
+  providerAccountId: 'providerAccountId',
+  refresh_token: 'refresh_token',
+  access_token: 'access_token',
+  expires_at: 'expires_at',
+  token_type: 'token_type',
+  scope: 'scope',
+  id_token: 'id_token',
+  session_state: 'session_state'
+} as const
+
+export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
+
+
+export const SessionScalarFieldEnum = {
+  id: 'id',
+  sessionToken: 'sessionToken',
+  userId: 'userId',
+  expires: 'expires'
+} as const
+
+export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
+
+
+export const VerificationTokenScalarFieldEnum = {
+  identifier: 'identifier',
+  token: 'token',
+  expires: 'expires'
+} as const
+
+export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFieldEnum)[keyof typeof VerificationTokenScalarFieldEnum]
+
+
+export const ProviderScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  name: 'name',
+  isActive: 'isActive'
+} as const
+
+export type ProviderScalarFieldEnum = (typeof ProviderScalarFieldEnum)[keyof typeof ProviderScalarFieldEnum]
+
+
+export const ProviderMappingScalarFieldEnum = {
+  id: 'id',
+  providerId: 'providerId',
+  hotelId: 'hotelId',
+  externalId: 'externalId',
+  lastSyncedAt: 'lastSyncedAt'
+} as const
+
+export type ProviderMappingScalarFieldEnum = (typeof ProviderMappingScalarFieldEnum)[keyof typeof ProviderMappingScalarFieldEnum]
+
+
+export const RoomMappingScalarFieldEnum = {
+  id: 'id',
+  providerId: 'providerId',
+  roomId: 'roomId',
+  externalCode: 'externalCode'
+} as const
+
+export type RoomMappingScalarFieldEnum = (typeof RoomMappingScalarFieldEnum)[keyof typeof RoomMappingScalarFieldEnum]
+
+
+export const DestinationScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  name: 'name',
+  code: 'code',
+  countryCode: 'countryCode',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  description: 'description',
+  imageUrl: 'imageUrl',
+  themes: 'themes',
+  popularityScore: 'popularityScore',
+  isFeatured: 'isFeatured',
+  searchKey: 'searchKey',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DestinationScalarFieldEnum = (typeof DestinationScalarFieldEnum)[keyof typeof DestinationScalarFieldEnum]
+
+
+export const HotelScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  title: 'title',
+  description: 'description',
+  categoryStars: 'categoryStars',
   status: 'status',
+  address: 'address',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  ratingAvg: 'ratingAvg',
+  reviewCount: 'reviewCount',
+  popularityScore: 'popularityScore',
+  priceFrom: 'priceFrom',
+  priceCurrency: 'priceCurrency',
+  priceUpdatedAt: 'priceUpdatedAt',
+  themes: 'themes',
+  mainImageUrl: 'mainImageUrl',
+  searchKey: 'searchKey',
+  destinationId: 'destinationId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type HotelScalarFieldEnum = (typeof HotelScalarFieldEnum)[keyof typeof HotelScalarFieldEnum]
+
+
+export const HotelImageScalarFieldEnum = {
+  id: 'id',
+  hotelId: 'hotelId',
+  url: 'url',
+  alt: 'alt',
+  position: 'position'
+} as const
+
+export type HotelImageScalarFieldEnum = (typeof HotelImageScalarFieldEnum)[keyof typeof HotelImageScalarFieldEnum]
+
+
+export const AmenityScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  name: 'name',
+  category: 'category'
+} as const
+
+export type AmenityScalarFieldEnum = (typeof AmenityScalarFieldEnum)[keyof typeof AmenityScalarFieldEnum]
+
+
+export const HotelAmenityScalarFieldEnum = {
+  hotelId: 'hotelId',
+  amenityId: 'amenityId'
+} as const
+
+export type HotelAmenityScalarFieldEnum = (typeof HotelAmenityScalarFieldEnum)[keyof typeof HotelAmenityScalarFieldEnum]
+
+
+export const RoomScalarFieldEnum = {
+  id: 'id',
+  hotelId: 'hotelId',
+  name: 'name',
+  code: 'code',
+  maxAdults: 'maxAdults',
+  maxChildren: 'maxChildren',
+  sizeM2: 'sizeM2',
+  bedType: 'bedType'
+} as const
+
+export type RoomScalarFieldEnum = (typeof RoomScalarFieldEnum)[keyof typeof RoomScalarFieldEnum]
+
+
+export const RoomInventoryScalarFieldEnum = {
+  roomId: 'roomId',
+  date: 'date',
+  available: 'available',
+  priceAmount: 'priceAmount',
+  currency: 'currency'
+} as const
+
+export type RoomInventoryScalarFieldEnum = (typeof RoomInventoryScalarFieldEnum)[keyof typeof RoomInventoryScalarFieldEnum]
+
+
+export const QuoteScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  anonymousId: 'anonymousId',
+  hotelId: 'hotelId',
+  roomId: 'roomId',
+  providerId: 'providerId',
+  checkIn: 'checkIn',
+  checkOut: 'checkOut',
+  adults: 'adults',
+  childrenAges: 'childrenAges',
+  priceAmount: 'priceAmount',
+  currency: 'currency',
+  providerRateKey: 'providerRateKey',
+  expiresAt: 'expiresAt',
   createdAt: 'createdAt'
+} as const
+
+export type QuoteScalarFieldEnum = (typeof QuoteScalarFieldEnum)[keyof typeof QuoteScalarFieldEnum]
+
+
+export const BookingScalarFieldEnum = {
+  id: 'id',
+  reference: 'reference',
+  userId: 'userId',
+  guestName: 'guestName',
+  guestEmail: 'guestEmail',
+  guestPhone: 'guestPhone',
+  status: 'status',
+  totalAmount: 'totalAmount',
+  currency: 'currency',
+  idempotencyKey: 'idempotencyKey',
+  expiresAt: 'expiresAt',
+  confirmedAt: 'confirmedAt',
+  cancelledAt: 'cancelledAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type BookingScalarFieldEnum = (typeof BookingScalarFieldEnum)[keyof typeof BookingScalarFieldEnum]
@@ -100,58 +333,54 @@ export const BookingItemScalarFieldEnum = {
   id: 'id',
   bookingId: 'bookingId',
   hotelId: 'hotelId',
-  roomId: 'roomId'
+  roomId: 'roomId',
+  providerId: 'providerId',
+  checkIn: 'checkIn',
+  checkOut: 'checkOut',
+  adults: 'adults',
+  childrenAges: 'childrenAges',
+  priceAmount: 'priceAmount',
+  currency: 'currency',
+  status: 'status',
+  providerRateKey: 'providerRateKey',
+  providerBookingRef: 'providerBookingRef'
 } as const
 
 export type BookingItemScalarFieldEnum = (typeof BookingItemScalarFieldEnum)[keyof typeof BookingItemScalarFieldEnum]
 
 
-export const ProfileScalarFieldEnum = {
+export const BookingEventScalarFieldEnum = {
   id: 'id',
-  bio: 'bio',
-  userId: 'userId'
+  bookingId: 'bookingId',
+  type: 'type',
+  payload: 'payload',
+  createdAt: 'createdAt'
 } as const
 
-export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
+export type BookingEventScalarFieldEnum = (typeof BookingEventScalarFieldEnum)[keyof typeof BookingEventScalarFieldEnum]
 
 
-export const DestinationScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  code: 'code'
-} as const
-
-export type DestinationScalarFieldEnum = (typeof DestinationScalarFieldEnum)[keyof typeof DestinationScalarFieldEnum]
-
-
-export const HotelScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  categoryStars: 'categoryStars',
-  destinationId: 'destinationId'
-} as const
-
-export type HotelScalarFieldEnum = (typeof HotelScalarFieldEnum)[keyof typeof HotelScalarFieldEnum]
-
-
-export const RoomScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
+export const FavoriteScalarFieldEnum = {
+  userId: 'userId',
   hotelId: 'hotelId',
-  externalRoomCode: 'externalRoomCode'
+  createdAt: 'createdAt'
 } as const
 
-export type RoomScalarFieldEnum = (typeof RoomScalarFieldEnum)[keyof typeof RoomScalarFieldEnum]
+export type FavoriteScalarFieldEnum = (typeof FavoriteScalarFieldEnum)[keyof typeof FavoriteScalarFieldEnum]
 
 
-export const ProviderMappingScalarFieldEnum = {
+export const UserEventScalarFieldEnum = {
   id: 'id',
-  providerName: 'providerName',
-  externalId: 'externalId',
-  hotelId: 'hotelId'
+  userId: 'userId',
+  anonymousId: 'anonymousId',
+  type: 'type',
+  hotelId: 'hotelId',
+  destinationId: 'destinationId',
+  query: 'query',
+  createdAt: 'createdAt'
 } as const
 
-export type ProviderMappingScalarFieldEnum = (typeof ProviderMappingScalarFieldEnum)[keyof typeof ProviderMappingScalarFieldEnum]
+export type UserEventScalarFieldEnum = (typeof UserEventScalarFieldEnum)[keyof typeof UserEventScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -160,6 +389,14 @@ export const SortOrder = {
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -176,4 +413,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

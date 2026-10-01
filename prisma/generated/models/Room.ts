@@ -20,52 +20,102 @@ export type RoomModel = runtime.Types.Result.DefaultSelection<Prisma.$RoomPayloa
 
 export type AggregateRoom = {
   _count: RoomCountAggregateOutputType | null
+  _avg: RoomAvgAggregateOutputType | null
+  _sum: RoomSumAggregateOutputType | null
   _min: RoomMinAggregateOutputType | null
   _max: RoomMaxAggregateOutputType | null
 }
 
+export type RoomAvgAggregateOutputType = {
+  maxAdults: number | null
+  maxChildren: number | null
+  sizeM2: number | null
+}
+
+export type RoomSumAggregateOutputType = {
+  maxAdults: number | null
+  maxChildren: number | null
+  sizeM2: number | null
+}
+
 export type RoomMinAggregateOutputType = {
   id: string | null
-  name: string | null
   hotelId: string | null
-  externalRoomCode: string | null
+  name: string | null
+  code: string | null
+  maxAdults: number | null
+  maxChildren: number | null
+  sizeM2: number | null
+  bedType: string | null
 }
 
 export type RoomMaxAggregateOutputType = {
   id: string | null
-  name: string | null
   hotelId: string | null
-  externalRoomCode: string | null
+  name: string | null
+  code: string | null
+  maxAdults: number | null
+  maxChildren: number | null
+  sizeM2: number | null
+  bedType: string | null
 }
 
 export type RoomCountAggregateOutputType = {
   id: number
-  name: number
   hotelId: number
-  externalRoomCode: number
+  name: number
+  code: number
+  maxAdults: number
+  maxChildren: number
+  sizeM2: number
+  bedType: number
   _all: number
 }
 
 
+export type RoomAvgAggregateInputType = {
+  maxAdults?: true
+  maxChildren?: true
+  sizeM2?: true
+}
+
+export type RoomSumAggregateInputType = {
+  maxAdults?: true
+  maxChildren?: true
+  sizeM2?: true
+}
+
 export type RoomMinAggregateInputType = {
   id?: true
-  name?: true
   hotelId?: true
-  externalRoomCode?: true
+  name?: true
+  code?: true
+  maxAdults?: true
+  maxChildren?: true
+  sizeM2?: true
+  bedType?: true
 }
 
 export type RoomMaxAggregateInputType = {
   id?: true
-  name?: true
   hotelId?: true
-  externalRoomCode?: true
+  name?: true
+  code?: true
+  maxAdults?: true
+  maxChildren?: true
+  sizeM2?: true
+  bedType?: true
 }
 
 export type RoomCountAggregateInputType = {
   id?: true
-  name?: true
   hotelId?: true
-  externalRoomCode?: true
+  name?: true
+  code?: true
+  maxAdults?: true
+  maxChildren?: true
+  sizeM2?: true
+  bedType?: true
   _all?: true
 }
 
@@ -107,6 +157,18 @@ export type RoomAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: RoomAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: RoomSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: RoomMinAggregateInputType
@@ -137,16 +199,24 @@ export type RoomGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   _count?: RoomCountAggregateInputType | true
+  _avg?: RoomAvgAggregateInputType
+  _sum?: RoomSumAggregateInputType
   _min?: RoomMinAggregateInputType
   _max?: RoomMaxAggregateInputType
 }
 
 export type RoomGroupByOutputType = {
   id: string
-  name: string
   hotelId: string
-  externalRoomCode: string | null
+  name: string
+  code: string | null
+  maxAdults: number
+  maxChildren: number
+  sizeM2: number | null
+  bedType: string | null
   _count: RoomCountAggregateOutputType | null
+  _avg: RoomAvgAggregateOutputType | null
+  _sum: RoomSumAggregateOutputType | null
   _min: RoomMinAggregateOutputType | null
   _max: RoomMaxAggregateOutputType | null
 }
@@ -171,42 +241,70 @@ export type RoomWhereInput = {
   OR?: Prisma.RoomWhereInput[]
   NOT?: Prisma.RoomWhereInput | Prisma.RoomWhereInput[]
   id?: Prisma.StringFilter<"Room"> | string
-  name?: Prisma.StringFilter<"Room"> | string
   hotelId?: Prisma.StringFilter<"Room"> | string
-  externalRoomCode?: Prisma.StringNullableFilter<"Room"> | string | null
+  name?: Prisma.StringFilter<"Room"> | string
+  code?: Prisma.StringNullableFilter<"Room"> | string | null
+  maxAdults?: Prisma.IntFilter<"Room"> | number
+  maxChildren?: Prisma.IntFilter<"Room"> | number
+  sizeM2?: Prisma.IntNullableFilter<"Room"> | number | null
+  bedType?: Prisma.StringNullableFilter<"Room"> | string | null
   hotel?: Prisma.XOR<Prisma.HotelScalarRelationFilter, Prisma.HotelWhereInput>
+  inventory?: Prisma.RoomInventoryListRelationFilter
+  mappings?: Prisma.RoomMappingListRelationFilter
   bookingItems?: Prisma.BookingItemListRelationFilter
+  quotes?: Prisma.QuoteListRelationFilter
 }
 
 export type RoomOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
   hotelId?: Prisma.SortOrder
-  externalRoomCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  name?: Prisma.SortOrder
+  code?: Prisma.SortOrderInput | Prisma.SortOrder
+  maxAdults?: Prisma.SortOrder
+  maxChildren?: Prisma.SortOrder
+  sizeM2?: Prisma.SortOrderInput | Prisma.SortOrder
+  bedType?: Prisma.SortOrderInput | Prisma.SortOrder
   hotel?: Prisma.HotelOrderByWithRelationInput
+  inventory?: Prisma.RoomInventoryOrderByRelationAggregateInput
+  mappings?: Prisma.RoomMappingOrderByRelationAggregateInput
   bookingItems?: Prisma.BookingItemOrderByRelationAggregateInput
+  quotes?: Prisma.QuoteOrderByRelationAggregateInput
 }
 
 export type RoomWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  hotelId_name?: Prisma.RoomHotelIdNameCompoundUniqueInput
   AND?: Prisma.RoomWhereInput | Prisma.RoomWhereInput[]
   OR?: Prisma.RoomWhereInput[]
   NOT?: Prisma.RoomWhereInput | Prisma.RoomWhereInput[]
-  name?: Prisma.StringFilter<"Room"> | string
   hotelId?: Prisma.StringFilter<"Room"> | string
-  externalRoomCode?: Prisma.StringNullableFilter<"Room"> | string | null
+  name?: Prisma.StringFilter<"Room"> | string
+  code?: Prisma.StringNullableFilter<"Room"> | string | null
+  maxAdults?: Prisma.IntFilter<"Room"> | number
+  maxChildren?: Prisma.IntFilter<"Room"> | number
+  sizeM2?: Prisma.IntNullableFilter<"Room"> | number | null
+  bedType?: Prisma.StringNullableFilter<"Room"> | string | null
   hotel?: Prisma.XOR<Prisma.HotelScalarRelationFilter, Prisma.HotelWhereInput>
+  inventory?: Prisma.RoomInventoryListRelationFilter
+  mappings?: Prisma.RoomMappingListRelationFilter
   bookingItems?: Prisma.BookingItemListRelationFilter
-}, "id">
+  quotes?: Prisma.QuoteListRelationFilter
+}, "id" | "hotelId_name">
 
 export type RoomOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
   hotelId?: Prisma.SortOrder
-  externalRoomCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  name?: Prisma.SortOrder
+  code?: Prisma.SortOrderInput | Prisma.SortOrder
+  maxAdults?: Prisma.SortOrder
+  maxChildren?: Prisma.SortOrder
+  sizeM2?: Prisma.SortOrderInput | Prisma.SortOrder
+  bedType?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.RoomCountOrderByAggregateInput
+  _avg?: Prisma.RoomAvgOrderByAggregateInput
   _max?: Prisma.RoomMaxOrderByAggregateInput
   _min?: Prisma.RoomMinOrderByAggregateInput
+  _sum?: Prisma.RoomSumOrderByAggregateInput
 }
 
 export type RoomScalarWhereWithAggregatesInput = {
@@ -214,61 +312,105 @@ export type RoomScalarWhereWithAggregatesInput = {
   OR?: Prisma.RoomScalarWhereWithAggregatesInput[]
   NOT?: Prisma.RoomScalarWhereWithAggregatesInput | Prisma.RoomScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Room"> | string
-  name?: Prisma.StringWithAggregatesFilter<"Room"> | string
   hotelId?: Prisma.StringWithAggregatesFilter<"Room"> | string
-  externalRoomCode?: Prisma.StringNullableWithAggregatesFilter<"Room"> | string | null
+  name?: Prisma.StringWithAggregatesFilter<"Room"> | string
+  code?: Prisma.StringNullableWithAggregatesFilter<"Room"> | string | null
+  maxAdults?: Prisma.IntWithAggregatesFilter<"Room"> | number
+  maxChildren?: Prisma.IntWithAggregatesFilter<"Room"> | number
+  sizeM2?: Prisma.IntNullableWithAggregatesFilter<"Room"> | number | null
+  bedType?: Prisma.StringNullableWithAggregatesFilter<"Room"> | string | null
 }
 
 export type RoomCreateInput = {
   id?: string
   name: string
-  externalRoomCode?: string | null
+  code?: string | null
+  maxAdults?: number
+  maxChildren?: number
+  sizeM2?: number | null
+  bedType?: string | null
   hotel: Prisma.HotelCreateNestedOneWithoutRoomsInput
+  inventory?: Prisma.RoomInventoryCreateNestedManyWithoutRoomInput
+  mappings?: Prisma.RoomMappingCreateNestedManyWithoutRoomInput
   bookingItems?: Prisma.BookingItemCreateNestedManyWithoutRoomInput
+  quotes?: Prisma.QuoteCreateNestedManyWithoutRoomInput
 }
 
 export type RoomUncheckedCreateInput = {
   id?: string
-  name: string
   hotelId: string
-  externalRoomCode?: string | null
+  name: string
+  code?: string | null
+  maxAdults?: number
+  maxChildren?: number
+  sizeM2?: number | null
+  bedType?: string | null
+  inventory?: Prisma.RoomInventoryUncheckedCreateNestedManyWithoutRoomInput
+  mappings?: Prisma.RoomMappingUncheckedCreateNestedManyWithoutRoomInput
   bookingItems?: Prisma.BookingItemUncheckedCreateNestedManyWithoutRoomInput
+  quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutRoomInput
 }
 
 export type RoomUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  externalRoomCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maxAdults?: Prisma.IntFieldUpdateOperationsInput | number
+  maxChildren?: Prisma.IntFieldUpdateOperationsInput | number
+  sizeM2?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bedType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hotel?: Prisma.HotelUpdateOneRequiredWithoutRoomsNestedInput
+  inventory?: Prisma.RoomInventoryUpdateManyWithoutRoomNestedInput
+  mappings?: Prisma.RoomMappingUpdateManyWithoutRoomNestedInput
   bookingItems?: Prisma.BookingItemUpdateManyWithoutRoomNestedInput
+  quotes?: Prisma.QuoteUpdateManyWithoutRoomNestedInput
 }
 
 export type RoomUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
   hotelId?: Prisma.StringFieldUpdateOperationsInput | string
-  externalRoomCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maxAdults?: Prisma.IntFieldUpdateOperationsInput | number
+  maxChildren?: Prisma.IntFieldUpdateOperationsInput | number
+  sizeM2?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bedType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inventory?: Prisma.RoomInventoryUncheckedUpdateManyWithoutRoomNestedInput
+  mappings?: Prisma.RoomMappingUncheckedUpdateManyWithoutRoomNestedInput
   bookingItems?: Prisma.BookingItemUncheckedUpdateManyWithoutRoomNestedInput
+  quotes?: Prisma.QuoteUncheckedUpdateManyWithoutRoomNestedInput
 }
 
 export type RoomCreateManyInput = {
   id?: string
-  name: string
   hotelId: string
-  externalRoomCode?: string | null
+  name: string
+  code?: string | null
+  maxAdults?: number
+  maxChildren?: number
+  sizeM2?: number | null
+  bedType?: string | null
 }
 
 export type RoomUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  externalRoomCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maxAdults?: Prisma.IntFieldUpdateOperationsInput | number
+  maxChildren?: Prisma.IntFieldUpdateOperationsInput | number
+  sizeM2?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bedType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type RoomUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
   hotelId?: Prisma.StringFieldUpdateOperationsInput | string
-  externalRoomCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maxAdults?: Prisma.IntFieldUpdateOperationsInput | number
+  maxChildren?: Prisma.IntFieldUpdateOperationsInput | number
+  sizeM2?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bedType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type RoomScalarRelationFilter = {
@@ -286,39 +428,68 @@ export type RoomOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type RoomHotelIdNameCompoundUniqueInput = {
+  hotelId: string
+  name: string
+}
+
 export type RoomCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
   hotelId?: Prisma.SortOrder
-  externalRoomCode?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  code?: Prisma.SortOrder
+  maxAdults?: Prisma.SortOrder
+  maxChildren?: Prisma.SortOrder
+  sizeM2?: Prisma.SortOrder
+  bedType?: Prisma.SortOrder
+}
+
+export type RoomAvgOrderByAggregateInput = {
+  maxAdults?: Prisma.SortOrder
+  maxChildren?: Prisma.SortOrder
+  sizeM2?: Prisma.SortOrder
 }
 
 export type RoomMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
   hotelId?: Prisma.SortOrder
-  externalRoomCode?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  code?: Prisma.SortOrder
+  maxAdults?: Prisma.SortOrder
+  maxChildren?: Prisma.SortOrder
+  sizeM2?: Prisma.SortOrder
+  bedType?: Prisma.SortOrder
 }
 
 export type RoomMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
   hotelId?: Prisma.SortOrder
-  externalRoomCode?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  code?: Prisma.SortOrder
+  maxAdults?: Prisma.SortOrder
+  maxChildren?: Prisma.SortOrder
+  sizeM2?: Prisma.SortOrder
+  bedType?: Prisma.SortOrder
 }
 
-export type RoomCreateNestedOneWithoutBookingItemsInput = {
-  create?: Prisma.XOR<Prisma.RoomCreateWithoutBookingItemsInput, Prisma.RoomUncheckedCreateWithoutBookingItemsInput>
-  connectOrCreate?: Prisma.RoomCreateOrConnectWithoutBookingItemsInput
+export type RoomSumOrderByAggregateInput = {
+  maxAdults?: Prisma.SortOrder
+  maxChildren?: Prisma.SortOrder
+  sizeM2?: Prisma.SortOrder
+}
+
+export type RoomCreateNestedOneWithoutMappingsInput = {
+  create?: Prisma.XOR<Prisma.RoomCreateWithoutMappingsInput, Prisma.RoomUncheckedCreateWithoutMappingsInput>
+  connectOrCreate?: Prisma.RoomCreateOrConnectWithoutMappingsInput
   connect?: Prisma.RoomWhereUniqueInput
 }
 
-export type RoomUpdateOneRequiredWithoutBookingItemsNestedInput = {
-  create?: Prisma.XOR<Prisma.RoomCreateWithoutBookingItemsInput, Prisma.RoomUncheckedCreateWithoutBookingItemsInput>
-  connectOrCreate?: Prisma.RoomCreateOrConnectWithoutBookingItemsInput
-  upsert?: Prisma.RoomUpsertWithoutBookingItemsInput
+export type RoomUpdateOneRequiredWithoutMappingsNestedInput = {
+  create?: Prisma.XOR<Prisma.RoomCreateWithoutMappingsInput, Prisma.RoomUncheckedCreateWithoutMappingsInput>
+  connectOrCreate?: Prisma.RoomCreateOrConnectWithoutMappingsInput
+  upsert?: Prisma.RoomUpsertWithoutMappingsInput
   connect?: Prisma.RoomWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.RoomUpdateToOneWithWhereWithoutBookingItemsInput, Prisma.RoomUpdateWithoutBookingItemsInput>, Prisma.RoomUncheckedUpdateWithoutBookingItemsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.RoomUpdateToOneWithWhereWithoutMappingsInput, Prisma.RoomUpdateWithoutMappingsInput>, Prisma.RoomUncheckedUpdateWithoutMappingsInput>
 }
 
 export type RoomCreateNestedManyWithoutHotelInput = {
@@ -363,62 +534,146 @@ export type RoomUncheckedUpdateManyWithoutHotelNestedInput = {
   deleteMany?: Prisma.RoomScalarWhereInput | Prisma.RoomScalarWhereInput[]
 }
 
-export type RoomCreateWithoutBookingItemsInput = {
+export type RoomCreateNestedOneWithoutInventoryInput = {
+  create?: Prisma.XOR<Prisma.RoomCreateWithoutInventoryInput, Prisma.RoomUncheckedCreateWithoutInventoryInput>
+  connectOrCreate?: Prisma.RoomCreateOrConnectWithoutInventoryInput
+  connect?: Prisma.RoomWhereUniqueInput
+}
+
+export type RoomUpdateOneRequiredWithoutInventoryNestedInput = {
+  create?: Prisma.XOR<Prisma.RoomCreateWithoutInventoryInput, Prisma.RoomUncheckedCreateWithoutInventoryInput>
+  connectOrCreate?: Prisma.RoomCreateOrConnectWithoutInventoryInput
+  upsert?: Prisma.RoomUpsertWithoutInventoryInput
+  connect?: Prisma.RoomWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.RoomUpdateToOneWithWhereWithoutInventoryInput, Prisma.RoomUpdateWithoutInventoryInput>, Prisma.RoomUncheckedUpdateWithoutInventoryInput>
+}
+
+export type RoomCreateNestedOneWithoutQuotesInput = {
+  create?: Prisma.XOR<Prisma.RoomCreateWithoutQuotesInput, Prisma.RoomUncheckedCreateWithoutQuotesInput>
+  connectOrCreate?: Prisma.RoomCreateOrConnectWithoutQuotesInput
+  connect?: Prisma.RoomWhereUniqueInput
+}
+
+export type RoomUpdateOneRequiredWithoutQuotesNestedInput = {
+  create?: Prisma.XOR<Prisma.RoomCreateWithoutQuotesInput, Prisma.RoomUncheckedCreateWithoutQuotesInput>
+  connectOrCreate?: Prisma.RoomCreateOrConnectWithoutQuotesInput
+  upsert?: Prisma.RoomUpsertWithoutQuotesInput
+  connect?: Prisma.RoomWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.RoomUpdateToOneWithWhereWithoutQuotesInput, Prisma.RoomUpdateWithoutQuotesInput>, Prisma.RoomUncheckedUpdateWithoutQuotesInput>
+}
+
+export type RoomCreateNestedOneWithoutBookingItemsInput = {
+  create?: Prisma.XOR<Prisma.RoomCreateWithoutBookingItemsInput, Prisma.RoomUncheckedCreateWithoutBookingItemsInput>
+  connectOrCreate?: Prisma.RoomCreateOrConnectWithoutBookingItemsInput
+  connect?: Prisma.RoomWhereUniqueInput
+}
+
+export type RoomUpdateOneRequiredWithoutBookingItemsNestedInput = {
+  create?: Prisma.XOR<Prisma.RoomCreateWithoutBookingItemsInput, Prisma.RoomUncheckedCreateWithoutBookingItemsInput>
+  connectOrCreate?: Prisma.RoomCreateOrConnectWithoutBookingItemsInput
+  upsert?: Prisma.RoomUpsertWithoutBookingItemsInput
+  connect?: Prisma.RoomWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.RoomUpdateToOneWithWhereWithoutBookingItemsInput, Prisma.RoomUpdateWithoutBookingItemsInput>, Prisma.RoomUncheckedUpdateWithoutBookingItemsInput>
+}
+
+export type RoomCreateWithoutMappingsInput = {
   id?: string
   name: string
-  externalRoomCode?: string | null
+  code?: string | null
+  maxAdults?: number
+  maxChildren?: number
+  sizeM2?: number | null
+  bedType?: string | null
   hotel: Prisma.HotelCreateNestedOneWithoutRoomsInput
+  inventory?: Prisma.RoomInventoryCreateNestedManyWithoutRoomInput
+  bookingItems?: Prisma.BookingItemCreateNestedManyWithoutRoomInput
+  quotes?: Prisma.QuoteCreateNestedManyWithoutRoomInput
 }
 
-export type RoomUncheckedCreateWithoutBookingItemsInput = {
+export type RoomUncheckedCreateWithoutMappingsInput = {
   id?: string
-  name: string
   hotelId: string
-  externalRoomCode?: string | null
+  name: string
+  code?: string | null
+  maxAdults?: number
+  maxChildren?: number
+  sizeM2?: number | null
+  bedType?: string | null
+  inventory?: Prisma.RoomInventoryUncheckedCreateNestedManyWithoutRoomInput
+  bookingItems?: Prisma.BookingItemUncheckedCreateNestedManyWithoutRoomInput
+  quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutRoomInput
 }
 
-export type RoomCreateOrConnectWithoutBookingItemsInput = {
+export type RoomCreateOrConnectWithoutMappingsInput = {
   where: Prisma.RoomWhereUniqueInput
-  create: Prisma.XOR<Prisma.RoomCreateWithoutBookingItemsInput, Prisma.RoomUncheckedCreateWithoutBookingItemsInput>
+  create: Prisma.XOR<Prisma.RoomCreateWithoutMappingsInput, Prisma.RoomUncheckedCreateWithoutMappingsInput>
 }
 
-export type RoomUpsertWithoutBookingItemsInput = {
-  update: Prisma.XOR<Prisma.RoomUpdateWithoutBookingItemsInput, Prisma.RoomUncheckedUpdateWithoutBookingItemsInput>
-  create: Prisma.XOR<Prisma.RoomCreateWithoutBookingItemsInput, Prisma.RoomUncheckedCreateWithoutBookingItemsInput>
+export type RoomUpsertWithoutMappingsInput = {
+  update: Prisma.XOR<Prisma.RoomUpdateWithoutMappingsInput, Prisma.RoomUncheckedUpdateWithoutMappingsInput>
+  create: Prisma.XOR<Prisma.RoomCreateWithoutMappingsInput, Prisma.RoomUncheckedCreateWithoutMappingsInput>
   where?: Prisma.RoomWhereInput
 }
 
-export type RoomUpdateToOneWithWhereWithoutBookingItemsInput = {
+export type RoomUpdateToOneWithWhereWithoutMappingsInput = {
   where?: Prisma.RoomWhereInput
-  data: Prisma.XOR<Prisma.RoomUpdateWithoutBookingItemsInput, Prisma.RoomUncheckedUpdateWithoutBookingItemsInput>
+  data: Prisma.XOR<Prisma.RoomUpdateWithoutMappingsInput, Prisma.RoomUncheckedUpdateWithoutMappingsInput>
 }
 
-export type RoomUpdateWithoutBookingItemsInput = {
+export type RoomUpdateWithoutMappingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  externalRoomCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maxAdults?: Prisma.IntFieldUpdateOperationsInput | number
+  maxChildren?: Prisma.IntFieldUpdateOperationsInput | number
+  sizeM2?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bedType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hotel?: Prisma.HotelUpdateOneRequiredWithoutRoomsNestedInput
+  inventory?: Prisma.RoomInventoryUpdateManyWithoutRoomNestedInput
+  bookingItems?: Prisma.BookingItemUpdateManyWithoutRoomNestedInput
+  quotes?: Prisma.QuoteUpdateManyWithoutRoomNestedInput
 }
 
-export type RoomUncheckedUpdateWithoutBookingItemsInput = {
+export type RoomUncheckedUpdateWithoutMappingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
   hotelId?: Prisma.StringFieldUpdateOperationsInput | string
-  externalRoomCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maxAdults?: Prisma.IntFieldUpdateOperationsInput | number
+  maxChildren?: Prisma.IntFieldUpdateOperationsInput | number
+  sizeM2?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bedType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inventory?: Prisma.RoomInventoryUncheckedUpdateManyWithoutRoomNestedInput
+  bookingItems?: Prisma.BookingItemUncheckedUpdateManyWithoutRoomNestedInput
+  quotes?: Prisma.QuoteUncheckedUpdateManyWithoutRoomNestedInput
 }
 
 export type RoomCreateWithoutHotelInput = {
   id?: string
   name: string
-  externalRoomCode?: string | null
+  code?: string | null
+  maxAdults?: number
+  maxChildren?: number
+  sizeM2?: number | null
+  bedType?: string | null
+  inventory?: Prisma.RoomInventoryCreateNestedManyWithoutRoomInput
+  mappings?: Prisma.RoomMappingCreateNestedManyWithoutRoomInput
   bookingItems?: Prisma.BookingItemCreateNestedManyWithoutRoomInput
+  quotes?: Prisma.QuoteCreateNestedManyWithoutRoomInput
 }
 
 export type RoomUncheckedCreateWithoutHotelInput = {
   id?: string
   name: string
-  externalRoomCode?: string | null
+  code?: string | null
+  maxAdults?: number
+  maxChildren?: number
+  sizeM2?: number | null
+  bedType?: string | null
+  inventory?: Prisma.RoomInventoryUncheckedCreateNestedManyWithoutRoomInput
+  mappings?: Prisma.RoomMappingUncheckedCreateNestedManyWithoutRoomInput
   bookingItems?: Prisma.BookingItemUncheckedCreateNestedManyWithoutRoomInput
+  quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutRoomInput
 }
 
 export type RoomCreateOrConnectWithoutHotelInput = {
@@ -452,35 +707,277 @@ export type RoomScalarWhereInput = {
   OR?: Prisma.RoomScalarWhereInput[]
   NOT?: Prisma.RoomScalarWhereInput | Prisma.RoomScalarWhereInput[]
   id?: Prisma.StringFilter<"Room"> | string
-  name?: Prisma.StringFilter<"Room"> | string
   hotelId?: Prisma.StringFilter<"Room"> | string
-  externalRoomCode?: Prisma.StringNullableFilter<"Room"> | string | null
+  name?: Prisma.StringFilter<"Room"> | string
+  code?: Prisma.StringNullableFilter<"Room"> | string | null
+  maxAdults?: Prisma.IntFilter<"Room"> | number
+  maxChildren?: Prisma.IntFilter<"Room"> | number
+  sizeM2?: Prisma.IntNullableFilter<"Room"> | number | null
+  bedType?: Prisma.StringNullableFilter<"Room"> | string | null
+}
+
+export type RoomCreateWithoutInventoryInput = {
+  id?: string
+  name: string
+  code?: string | null
+  maxAdults?: number
+  maxChildren?: number
+  sizeM2?: number | null
+  bedType?: string | null
+  hotel: Prisma.HotelCreateNestedOneWithoutRoomsInput
+  mappings?: Prisma.RoomMappingCreateNestedManyWithoutRoomInput
+  bookingItems?: Prisma.BookingItemCreateNestedManyWithoutRoomInput
+  quotes?: Prisma.QuoteCreateNestedManyWithoutRoomInput
+}
+
+export type RoomUncheckedCreateWithoutInventoryInput = {
+  id?: string
+  hotelId: string
+  name: string
+  code?: string | null
+  maxAdults?: number
+  maxChildren?: number
+  sizeM2?: number | null
+  bedType?: string | null
+  mappings?: Prisma.RoomMappingUncheckedCreateNestedManyWithoutRoomInput
+  bookingItems?: Prisma.BookingItemUncheckedCreateNestedManyWithoutRoomInput
+  quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutRoomInput
+}
+
+export type RoomCreateOrConnectWithoutInventoryInput = {
+  where: Prisma.RoomWhereUniqueInput
+  create: Prisma.XOR<Prisma.RoomCreateWithoutInventoryInput, Prisma.RoomUncheckedCreateWithoutInventoryInput>
+}
+
+export type RoomUpsertWithoutInventoryInput = {
+  update: Prisma.XOR<Prisma.RoomUpdateWithoutInventoryInput, Prisma.RoomUncheckedUpdateWithoutInventoryInput>
+  create: Prisma.XOR<Prisma.RoomCreateWithoutInventoryInput, Prisma.RoomUncheckedCreateWithoutInventoryInput>
+  where?: Prisma.RoomWhereInput
+}
+
+export type RoomUpdateToOneWithWhereWithoutInventoryInput = {
+  where?: Prisma.RoomWhereInput
+  data: Prisma.XOR<Prisma.RoomUpdateWithoutInventoryInput, Prisma.RoomUncheckedUpdateWithoutInventoryInput>
+}
+
+export type RoomUpdateWithoutInventoryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maxAdults?: Prisma.IntFieldUpdateOperationsInput | number
+  maxChildren?: Prisma.IntFieldUpdateOperationsInput | number
+  sizeM2?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bedType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hotel?: Prisma.HotelUpdateOneRequiredWithoutRoomsNestedInput
+  mappings?: Prisma.RoomMappingUpdateManyWithoutRoomNestedInput
+  bookingItems?: Prisma.BookingItemUpdateManyWithoutRoomNestedInput
+  quotes?: Prisma.QuoteUpdateManyWithoutRoomNestedInput
+}
+
+export type RoomUncheckedUpdateWithoutInventoryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  hotelId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maxAdults?: Prisma.IntFieldUpdateOperationsInput | number
+  maxChildren?: Prisma.IntFieldUpdateOperationsInput | number
+  sizeM2?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bedType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mappings?: Prisma.RoomMappingUncheckedUpdateManyWithoutRoomNestedInput
+  bookingItems?: Prisma.BookingItemUncheckedUpdateManyWithoutRoomNestedInput
+  quotes?: Prisma.QuoteUncheckedUpdateManyWithoutRoomNestedInput
+}
+
+export type RoomCreateWithoutQuotesInput = {
+  id?: string
+  name: string
+  code?: string | null
+  maxAdults?: number
+  maxChildren?: number
+  sizeM2?: number | null
+  bedType?: string | null
+  hotel: Prisma.HotelCreateNestedOneWithoutRoomsInput
+  inventory?: Prisma.RoomInventoryCreateNestedManyWithoutRoomInput
+  mappings?: Prisma.RoomMappingCreateNestedManyWithoutRoomInput
+  bookingItems?: Prisma.BookingItemCreateNestedManyWithoutRoomInput
+}
+
+export type RoomUncheckedCreateWithoutQuotesInput = {
+  id?: string
+  hotelId: string
+  name: string
+  code?: string | null
+  maxAdults?: number
+  maxChildren?: number
+  sizeM2?: number | null
+  bedType?: string | null
+  inventory?: Prisma.RoomInventoryUncheckedCreateNestedManyWithoutRoomInput
+  mappings?: Prisma.RoomMappingUncheckedCreateNestedManyWithoutRoomInput
+  bookingItems?: Prisma.BookingItemUncheckedCreateNestedManyWithoutRoomInput
+}
+
+export type RoomCreateOrConnectWithoutQuotesInput = {
+  where: Prisma.RoomWhereUniqueInput
+  create: Prisma.XOR<Prisma.RoomCreateWithoutQuotesInput, Prisma.RoomUncheckedCreateWithoutQuotesInput>
+}
+
+export type RoomUpsertWithoutQuotesInput = {
+  update: Prisma.XOR<Prisma.RoomUpdateWithoutQuotesInput, Prisma.RoomUncheckedUpdateWithoutQuotesInput>
+  create: Prisma.XOR<Prisma.RoomCreateWithoutQuotesInput, Prisma.RoomUncheckedCreateWithoutQuotesInput>
+  where?: Prisma.RoomWhereInput
+}
+
+export type RoomUpdateToOneWithWhereWithoutQuotesInput = {
+  where?: Prisma.RoomWhereInput
+  data: Prisma.XOR<Prisma.RoomUpdateWithoutQuotesInput, Prisma.RoomUncheckedUpdateWithoutQuotesInput>
+}
+
+export type RoomUpdateWithoutQuotesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maxAdults?: Prisma.IntFieldUpdateOperationsInput | number
+  maxChildren?: Prisma.IntFieldUpdateOperationsInput | number
+  sizeM2?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bedType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hotel?: Prisma.HotelUpdateOneRequiredWithoutRoomsNestedInput
+  inventory?: Prisma.RoomInventoryUpdateManyWithoutRoomNestedInput
+  mappings?: Prisma.RoomMappingUpdateManyWithoutRoomNestedInput
+  bookingItems?: Prisma.BookingItemUpdateManyWithoutRoomNestedInput
+}
+
+export type RoomUncheckedUpdateWithoutQuotesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  hotelId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maxAdults?: Prisma.IntFieldUpdateOperationsInput | number
+  maxChildren?: Prisma.IntFieldUpdateOperationsInput | number
+  sizeM2?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bedType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inventory?: Prisma.RoomInventoryUncheckedUpdateManyWithoutRoomNestedInput
+  mappings?: Prisma.RoomMappingUncheckedUpdateManyWithoutRoomNestedInput
+  bookingItems?: Prisma.BookingItemUncheckedUpdateManyWithoutRoomNestedInput
+}
+
+export type RoomCreateWithoutBookingItemsInput = {
+  id?: string
+  name: string
+  code?: string | null
+  maxAdults?: number
+  maxChildren?: number
+  sizeM2?: number | null
+  bedType?: string | null
+  hotel: Prisma.HotelCreateNestedOneWithoutRoomsInput
+  inventory?: Prisma.RoomInventoryCreateNestedManyWithoutRoomInput
+  mappings?: Prisma.RoomMappingCreateNestedManyWithoutRoomInput
+  quotes?: Prisma.QuoteCreateNestedManyWithoutRoomInput
+}
+
+export type RoomUncheckedCreateWithoutBookingItemsInput = {
+  id?: string
+  hotelId: string
+  name: string
+  code?: string | null
+  maxAdults?: number
+  maxChildren?: number
+  sizeM2?: number | null
+  bedType?: string | null
+  inventory?: Prisma.RoomInventoryUncheckedCreateNestedManyWithoutRoomInput
+  mappings?: Prisma.RoomMappingUncheckedCreateNestedManyWithoutRoomInput
+  quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutRoomInput
+}
+
+export type RoomCreateOrConnectWithoutBookingItemsInput = {
+  where: Prisma.RoomWhereUniqueInput
+  create: Prisma.XOR<Prisma.RoomCreateWithoutBookingItemsInput, Prisma.RoomUncheckedCreateWithoutBookingItemsInput>
+}
+
+export type RoomUpsertWithoutBookingItemsInput = {
+  update: Prisma.XOR<Prisma.RoomUpdateWithoutBookingItemsInput, Prisma.RoomUncheckedUpdateWithoutBookingItemsInput>
+  create: Prisma.XOR<Prisma.RoomCreateWithoutBookingItemsInput, Prisma.RoomUncheckedCreateWithoutBookingItemsInput>
+  where?: Prisma.RoomWhereInput
+}
+
+export type RoomUpdateToOneWithWhereWithoutBookingItemsInput = {
+  where?: Prisma.RoomWhereInput
+  data: Prisma.XOR<Prisma.RoomUpdateWithoutBookingItemsInput, Prisma.RoomUncheckedUpdateWithoutBookingItemsInput>
+}
+
+export type RoomUpdateWithoutBookingItemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maxAdults?: Prisma.IntFieldUpdateOperationsInput | number
+  maxChildren?: Prisma.IntFieldUpdateOperationsInput | number
+  sizeM2?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bedType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hotel?: Prisma.HotelUpdateOneRequiredWithoutRoomsNestedInput
+  inventory?: Prisma.RoomInventoryUpdateManyWithoutRoomNestedInput
+  mappings?: Prisma.RoomMappingUpdateManyWithoutRoomNestedInput
+  quotes?: Prisma.QuoteUpdateManyWithoutRoomNestedInput
+}
+
+export type RoomUncheckedUpdateWithoutBookingItemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  hotelId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maxAdults?: Prisma.IntFieldUpdateOperationsInput | number
+  maxChildren?: Prisma.IntFieldUpdateOperationsInput | number
+  sizeM2?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bedType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inventory?: Prisma.RoomInventoryUncheckedUpdateManyWithoutRoomNestedInput
+  mappings?: Prisma.RoomMappingUncheckedUpdateManyWithoutRoomNestedInput
+  quotes?: Prisma.QuoteUncheckedUpdateManyWithoutRoomNestedInput
 }
 
 export type RoomCreateManyHotelInput = {
   id?: string
   name: string
-  externalRoomCode?: string | null
+  code?: string | null
+  maxAdults?: number
+  maxChildren?: number
+  sizeM2?: number | null
+  bedType?: string | null
 }
 
 export type RoomUpdateWithoutHotelInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  externalRoomCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maxAdults?: Prisma.IntFieldUpdateOperationsInput | number
+  maxChildren?: Prisma.IntFieldUpdateOperationsInput | number
+  sizeM2?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bedType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inventory?: Prisma.RoomInventoryUpdateManyWithoutRoomNestedInput
+  mappings?: Prisma.RoomMappingUpdateManyWithoutRoomNestedInput
   bookingItems?: Prisma.BookingItemUpdateManyWithoutRoomNestedInput
+  quotes?: Prisma.QuoteUpdateManyWithoutRoomNestedInput
 }
 
 export type RoomUncheckedUpdateWithoutHotelInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  externalRoomCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maxAdults?: Prisma.IntFieldUpdateOperationsInput | number
+  maxChildren?: Prisma.IntFieldUpdateOperationsInput | number
+  sizeM2?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bedType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inventory?: Prisma.RoomInventoryUncheckedUpdateManyWithoutRoomNestedInput
+  mappings?: Prisma.RoomMappingUncheckedUpdateManyWithoutRoomNestedInput
   bookingItems?: Prisma.BookingItemUncheckedUpdateManyWithoutRoomNestedInput
+  quotes?: Prisma.QuoteUncheckedUpdateManyWithoutRoomNestedInput
 }
 
 export type RoomUncheckedUpdateManyWithoutHotelInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  externalRoomCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maxAdults?: Prisma.IntFieldUpdateOperationsInput | number
+  maxChildren?: Prisma.IntFieldUpdateOperationsInput | number
+  sizeM2?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bedType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -489,11 +986,17 @@ export type RoomUncheckedUpdateManyWithoutHotelInput = {
  */
 
 export type RoomCountOutputType = {
+  inventory: number
+  mappings: number
   bookingItems: number
+  quotes: number
 }
 
 export type RoomCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  inventory?: boolean | RoomCountOutputTypeCountInventoryArgs
+  mappings?: boolean | RoomCountOutputTypeCountMappingsArgs
   bookingItems?: boolean | RoomCountOutputTypeCountBookingItemsArgs
+  quotes?: boolean | RoomCountOutputTypeCountQuotesArgs
 }
 
 /**
@@ -509,48 +1012,91 @@ export type RoomCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 /**
  * RoomCountOutputType without action
  */
+export type RoomCountOutputTypeCountInventoryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RoomInventoryWhereInput
+}
+
+/**
+ * RoomCountOutputType without action
+ */
+export type RoomCountOutputTypeCountMappingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RoomMappingWhereInput
+}
+
+/**
+ * RoomCountOutputType without action
+ */
 export type RoomCountOutputTypeCountBookingItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.BookingItemWhereInput
+}
+
+/**
+ * RoomCountOutputType without action
+ */
+export type RoomCountOutputTypeCountQuotesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.QuoteWhereInput
 }
 
 
 export type RoomSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  name?: boolean
   hotelId?: boolean
-  externalRoomCode?: boolean
+  name?: boolean
+  code?: boolean
+  maxAdults?: boolean
+  maxChildren?: boolean
+  sizeM2?: boolean
+  bedType?: boolean
   hotel?: boolean | Prisma.HotelDefaultArgs<ExtArgs>
+  inventory?: boolean | Prisma.Room$inventoryArgs<ExtArgs>
+  mappings?: boolean | Prisma.Room$mappingsArgs<ExtArgs>
   bookingItems?: boolean | Prisma.Room$bookingItemsArgs<ExtArgs>
+  quotes?: boolean | Prisma.Room$quotesArgs<ExtArgs>
   _count?: boolean | Prisma.RoomCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["room"]>
 
 export type RoomSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  name?: boolean
   hotelId?: boolean
-  externalRoomCode?: boolean
+  name?: boolean
+  code?: boolean
+  maxAdults?: boolean
+  maxChildren?: boolean
+  sizeM2?: boolean
+  bedType?: boolean
   hotel?: boolean | Prisma.HotelDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["room"]>
 
 export type RoomSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  name?: boolean
   hotelId?: boolean
-  externalRoomCode?: boolean
+  name?: boolean
+  code?: boolean
+  maxAdults?: boolean
+  maxChildren?: boolean
+  sizeM2?: boolean
+  bedType?: boolean
   hotel?: boolean | Prisma.HotelDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["room"]>
 
 export type RoomSelectScalar = {
   id?: boolean
-  name?: boolean
   hotelId?: boolean
-  externalRoomCode?: boolean
+  name?: boolean
+  code?: boolean
+  maxAdults?: boolean
+  maxChildren?: boolean
+  sizeM2?: boolean
+  bedType?: boolean
 }
 
-export type RoomOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "hotelId" | "externalRoomCode", ExtArgs["result"]["room"]>
+export type RoomOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "hotelId" | "name" | "code" | "maxAdults" | "maxChildren" | "sizeM2" | "bedType", ExtArgs["result"]["room"]>
 export type RoomInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   hotel?: boolean | Prisma.HotelDefaultArgs<ExtArgs>
+  inventory?: boolean | Prisma.Room$inventoryArgs<ExtArgs>
+  mappings?: boolean | Prisma.Room$mappingsArgs<ExtArgs>
   bookingItems?: boolean | Prisma.Room$bookingItemsArgs<ExtArgs>
+  quotes?: boolean | Prisma.Room$quotesArgs<ExtArgs>
   _count?: boolean | Prisma.RoomCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type RoomIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -564,13 +1110,20 @@ export type $RoomPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "Room"
   objects: {
     hotel: Prisma.$HotelPayload<ExtArgs>
+    inventory: Prisma.$RoomInventoryPayload<ExtArgs>[]
+    mappings: Prisma.$RoomMappingPayload<ExtArgs>[]
     bookingItems: Prisma.$BookingItemPayload<ExtArgs>[]
+    quotes: Prisma.$QuotePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    name: string
     hotelId: string
-    externalRoomCode: string | null
+    name: string
+    code: string | null
+    maxAdults: number
+    maxChildren: number
+    sizeM2: number | null
+    bedType: string | null
   }, ExtArgs["result"]["room"]>
   composites: {}
 }
@@ -966,7 +1519,10 @@ readonly fields: RoomFieldRefs;
 export interface Prisma__RoomClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   hotel<T extends Prisma.HotelDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.HotelDefaultArgs<ExtArgs>>): Prisma.Prisma__HotelClient<runtime.Types.Result.GetResult<Prisma.$HotelPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  inventory<T extends Prisma.Room$inventoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Room$inventoryArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RoomInventoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  mappings<T extends Prisma.Room$mappingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Room$mappingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RoomMappingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   bookingItems<T extends Prisma.Room$bookingItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Room$bookingItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  quotes<T extends Prisma.Room$quotesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Room$quotesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -997,9 +1553,13 @@ export interface Prisma__RoomClient<T, Null = never, ExtArgs extends runtime.Typ
  */
 export interface RoomFieldRefs {
   readonly id: Prisma.FieldRef<"Room", 'String'>
-  readonly name: Prisma.FieldRef<"Room", 'String'>
   readonly hotelId: Prisma.FieldRef<"Room", 'String'>
-  readonly externalRoomCode: Prisma.FieldRef<"Room", 'String'>
+  readonly name: Prisma.FieldRef<"Room", 'String'>
+  readonly code: Prisma.FieldRef<"Room", 'String'>
+  readonly maxAdults: Prisma.FieldRef<"Room", 'Int'>
+  readonly maxChildren: Prisma.FieldRef<"Room", 'Int'>
+  readonly sizeM2: Prisma.FieldRef<"Room", 'Int'>
+  readonly bedType: Prisma.FieldRef<"Room", 'String'>
 }
     
 
@@ -1401,6 +1961,54 @@ export type RoomDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
+ * Room.inventory
+ */
+export type Room$inventoryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RoomInventory
+   */
+  select?: Prisma.RoomInventorySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RoomInventory
+   */
+  omit?: Prisma.RoomInventoryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RoomInventoryInclude<ExtArgs> | null
+  where?: Prisma.RoomInventoryWhereInput
+  orderBy?: Prisma.RoomInventoryOrderByWithRelationInput | Prisma.RoomInventoryOrderByWithRelationInput[]
+  cursor?: Prisma.RoomInventoryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RoomInventoryScalarFieldEnum | Prisma.RoomInventoryScalarFieldEnum[]
+}
+
+/**
+ * Room.mappings
+ */
+export type Room$mappingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RoomMapping
+   */
+  select?: Prisma.RoomMappingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RoomMapping
+   */
+  omit?: Prisma.RoomMappingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RoomMappingInclude<ExtArgs> | null
+  where?: Prisma.RoomMappingWhereInput
+  orderBy?: Prisma.RoomMappingOrderByWithRelationInput | Prisma.RoomMappingOrderByWithRelationInput[]
+  cursor?: Prisma.RoomMappingWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RoomMappingScalarFieldEnum | Prisma.RoomMappingScalarFieldEnum[]
+}
+
+/**
  * Room.bookingItems
  */
 export type Room$bookingItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1422,6 +2030,30 @@ export type Room$bookingItemsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.BookingItemScalarFieldEnum | Prisma.BookingItemScalarFieldEnum[]
+}
+
+/**
+ * Room.quotes
+ */
+export type Room$quotesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Quote
+   */
+  select?: Prisma.QuoteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Quote
+   */
+  omit?: Prisma.QuoteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.QuoteInclude<ExtArgs> | null
+  where?: Prisma.QuoteWhereInput
+  orderBy?: Prisma.QuoteOrderByWithRelationInput | Prisma.QuoteOrderByWithRelationInput[]
+  cursor?: Prisma.QuoteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.QuoteScalarFieldEnum | Prisma.QuoteScalarFieldEnum[]
 }
 
 /**

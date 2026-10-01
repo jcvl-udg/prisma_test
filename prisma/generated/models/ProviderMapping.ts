@@ -26,46 +26,52 @@ export type AggregateProviderMapping = {
 
 export type ProviderMappingMinAggregateOutputType = {
   id: string | null
-  providerName: string | null
-  externalId: string | null
+  providerId: string | null
   hotelId: string | null
+  externalId: string | null
+  lastSyncedAt: Date | null
 }
 
 export type ProviderMappingMaxAggregateOutputType = {
   id: string | null
-  providerName: string | null
-  externalId: string | null
+  providerId: string | null
   hotelId: string | null
+  externalId: string | null
+  lastSyncedAt: Date | null
 }
 
 export type ProviderMappingCountAggregateOutputType = {
   id: number
-  providerName: number
-  externalId: number
+  providerId: number
   hotelId: number
+  externalId: number
+  lastSyncedAt: number
   _all: number
 }
 
 
 export type ProviderMappingMinAggregateInputType = {
   id?: true
-  providerName?: true
-  externalId?: true
+  providerId?: true
   hotelId?: true
+  externalId?: true
+  lastSyncedAt?: true
 }
 
 export type ProviderMappingMaxAggregateInputType = {
   id?: true
-  providerName?: true
-  externalId?: true
+  providerId?: true
   hotelId?: true
+  externalId?: true
+  lastSyncedAt?: true
 }
 
 export type ProviderMappingCountAggregateInputType = {
   id?: true
-  providerName?: true
-  externalId?: true
+  providerId?: true
   hotelId?: true
+  externalId?: true
+  lastSyncedAt?: true
   _all?: true
 }
 
@@ -143,9 +149,10 @@ export type ProviderMappingGroupByArgs<ExtArgs extends runtime.Types.Extensions.
 
 export type ProviderMappingGroupByOutputType = {
   id: string
-  providerName: string
-  externalId: string
+  providerId: string
   hotelId: string
+  externalId: string
+  lastSyncedAt: Date | null
   _count: ProviderMappingCountAggregateOutputType | null
   _min: ProviderMappingMinAggregateOutputType | null
   _max: ProviderMappingMaxAggregateOutputType | null
@@ -171,37 +178,45 @@ export type ProviderMappingWhereInput = {
   OR?: Prisma.ProviderMappingWhereInput[]
   NOT?: Prisma.ProviderMappingWhereInput | Prisma.ProviderMappingWhereInput[]
   id?: Prisma.StringFilter<"ProviderMapping"> | string
-  providerName?: Prisma.StringFilter<"ProviderMapping"> | string
-  externalId?: Prisma.StringFilter<"ProviderMapping"> | string
+  providerId?: Prisma.StringFilter<"ProviderMapping"> | string
   hotelId?: Prisma.StringFilter<"ProviderMapping"> | string
+  externalId?: Prisma.StringFilter<"ProviderMapping"> | string
+  lastSyncedAt?: Prisma.DateTimeNullableFilter<"ProviderMapping"> | Date | string | null
+  provider?: Prisma.XOR<Prisma.ProviderScalarRelationFilter, Prisma.ProviderWhereInput>
   hotel?: Prisma.XOR<Prisma.HotelScalarRelationFilter, Prisma.HotelWhereInput>
 }
 
 export type ProviderMappingOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  providerName?: Prisma.SortOrder
-  externalId?: Prisma.SortOrder
+  providerId?: Prisma.SortOrder
   hotelId?: Prisma.SortOrder
+  externalId?: Prisma.SortOrder
+  lastSyncedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  provider?: Prisma.ProviderOrderByWithRelationInput
   hotel?: Prisma.HotelOrderByWithRelationInput
 }
 
 export type ProviderMappingWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  providerName_externalId?: Prisma.ProviderMappingProviderNameExternalIdCompoundUniqueInput
+  providerId_externalId?: Prisma.ProviderMappingProviderIdExternalIdCompoundUniqueInput
+  hotelId_providerId?: Prisma.ProviderMappingHotelIdProviderIdCompoundUniqueInput
   AND?: Prisma.ProviderMappingWhereInput | Prisma.ProviderMappingWhereInput[]
   OR?: Prisma.ProviderMappingWhereInput[]
   NOT?: Prisma.ProviderMappingWhereInput | Prisma.ProviderMappingWhereInput[]
-  providerName?: Prisma.StringFilter<"ProviderMapping"> | string
-  externalId?: Prisma.StringFilter<"ProviderMapping"> | string
+  providerId?: Prisma.StringFilter<"ProviderMapping"> | string
   hotelId?: Prisma.StringFilter<"ProviderMapping"> | string
+  externalId?: Prisma.StringFilter<"ProviderMapping"> | string
+  lastSyncedAt?: Prisma.DateTimeNullableFilter<"ProviderMapping"> | Date | string | null
+  provider?: Prisma.XOR<Prisma.ProviderScalarRelationFilter, Prisma.ProviderWhereInput>
   hotel?: Prisma.XOR<Prisma.HotelScalarRelationFilter, Prisma.HotelWhereInput>
-}, "id" | "providerName_externalId">
+}, "id" | "providerId_externalId" | "hotelId_providerId">
 
 export type ProviderMappingOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  providerName?: Prisma.SortOrder
-  externalId?: Prisma.SortOrder
+  providerId?: Prisma.SortOrder
   hotelId?: Prisma.SortOrder
+  externalId?: Prisma.SortOrder
+  lastSyncedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ProviderMappingCountOrderByAggregateInput
   _max?: Prisma.ProviderMappingMaxOrderByAggregateInput
   _min?: Prisma.ProviderMappingMinOrderByAggregateInput
@@ -212,57 +227,64 @@ export type ProviderMappingScalarWhereWithAggregatesInput = {
   OR?: Prisma.ProviderMappingScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ProviderMappingScalarWhereWithAggregatesInput | Prisma.ProviderMappingScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"ProviderMapping"> | string
-  providerName?: Prisma.StringWithAggregatesFilter<"ProviderMapping"> | string
-  externalId?: Prisma.StringWithAggregatesFilter<"ProviderMapping"> | string
+  providerId?: Prisma.StringWithAggregatesFilter<"ProviderMapping"> | string
   hotelId?: Prisma.StringWithAggregatesFilter<"ProviderMapping"> | string
+  externalId?: Prisma.StringWithAggregatesFilter<"ProviderMapping"> | string
+  lastSyncedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ProviderMapping"> | Date | string | null
 }
 
 export type ProviderMappingCreateInput = {
   id?: string
-  providerName: string
   externalId: string
+  lastSyncedAt?: Date | string | null
+  provider: Prisma.ProviderCreateNestedOneWithoutHotelMappingsInput
   hotel: Prisma.HotelCreateNestedOneWithoutProviderMappingsInput
 }
 
 export type ProviderMappingUncheckedCreateInput = {
   id?: string
-  providerName: string
-  externalId: string
+  providerId: string
   hotelId: string
+  externalId: string
+  lastSyncedAt?: Date | string | null
 }
 
 export type ProviderMappingUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  providerName?: Prisma.StringFieldUpdateOperationsInput | string
   externalId?: Prisma.StringFieldUpdateOperationsInput | string
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  provider?: Prisma.ProviderUpdateOneRequiredWithoutHotelMappingsNestedInput
   hotel?: Prisma.HotelUpdateOneRequiredWithoutProviderMappingsNestedInput
 }
 
 export type ProviderMappingUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  providerName?: Prisma.StringFieldUpdateOperationsInput | string
-  externalId?: Prisma.StringFieldUpdateOperationsInput | string
+  providerId?: Prisma.StringFieldUpdateOperationsInput | string
   hotelId?: Prisma.StringFieldUpdateOperationsInput | string
+  externalId?: Prisma.StringFieldUpdateOperationsInput | string
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ProviderMappingCreateManyInput = {
   id?: string
-  providerName: string
-  externalId: string
+  providerId: string
   hotelId: string
+  externalId: string
+  lastSyncedAt?: Date | string | null
 }
 
 export type ProviderMappingUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  providerName?: Prisma.StringFieldUpdateOperationsInput | string
   externalId?: Prisma.StringFieldUpdateOperationsInput | string
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ProviderMappingUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  providerName?: Prisma.StringFieldUpdateOperationsInput | string
-  externalId?: Prisma.StringFieldUpdateOperationsInput | string
+  providerId?: Prisma.StringFieldUpdateOperationsInput | string
   hotelId?: Prisma.StringFieldUpdateOperationsInput | string
+  externalId?: Prisma.StringFieldUpdateOperationsInput | string
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ProviderMappingListRelationFilter = {
@@ -275,30 +297,80 @@ export type ProviderMappingOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type ProviderMappingProviderNameExternalIdCompoundUniqueInput = {
-  providerName: string
+export type ProviderMappingProviderIdExternalIdCompoundUniqueInput = {
+  providerId: string
   externalId: string
+}
+
+export type ProviderMappingHotelIdProviderIdCompoundUniqueInput = {
+  hotelId: string
+  providerId: string
 }
 
 export type ProviderMappingCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  providerName?: Prisma.SortOrder
-  externalId?: Prisma.SortOrder
+  providerId?: Prisma.SortOrder
   hotelId?: Prisma.SortOrder
+  externalId?: Prisma.SortOrder
+  lastSyncedAt?: Prisma.SortOrder
 }
 
 export type ProviderMappingMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  providerName?: Prisma.SortOrder
-  externalId?: Prisma.SortOrder
+  providerId?: Prisma.SortOrder
   hotelId?: Prisma.SortOrder
+  externalId?: Prisma.SortOrder
+  lastSyncedAt?: Prisma.SortOrder
 }
 
 export type ProviderMappingMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  providerName?: Prisma.SortOrder
-  externalId?: Prisma.SortOrder
+  providerId?: Prisma.SortOrder
   hotelId?: Prisma.SortOrder
+  externalId?: Prisma.SortOrder
+  lastSyncedAt?: Prisma.SortOrder
+}
+
+export type ProviderMappingCreateNestedManyWithoutProviderInput = {
+  create?: Prisma.XOR<Prisma.ProviderMappingCreateWithoutProviderInput, Prisma.ProviderMappingUncheckedCreateWithoutProviderInput> | Prisma.ProviderMappingCreateWithoutProviderInput[] | Prisma.ProviderMappingUncheckedCreateWithoutProviderInput[]
+  connectOrCreate?: Prisma.ProviderMappingCreateOrConnectWithoutProviderInput | Prisma.ProviderMappingCreateOrConnectWithoutProviderInput[]
+  createMany?: Prisma.ProviderMappingCreateManyProviderInputEnvelope
+  connect?: Prisma.ProviderMappingWhereUniqueInput | Prisma.ProviderMappingWhereUniqueInput[]
+}
+
+export type ProviderMappingUncheckedCreateNestedManyWithoutProviderInput = {
+  create?: Prisma.XOR<Prisma.ProviderMappingCreateWithoutProviderInput, Prisma.ProviderMappingUncheckedCreateWithoutProviderInput> | Prisma.ProviderMappingCreateWithoutProviderInput[] | Prisma.ProviderMappingUncheckedCreateWithoutProviderInput[]
+  connectOrCreate?: Prisma.ProviderMappingCreateOrConnectWithoutProviderInput | Prisma.ProviderMappingCreateOrConnectWithoutProviderInput[]
+  createMany?: Prisma.ProviderMappingCreateManyProviderInputEnvelope
+  connect?: Prisma.ProviderMappingWhereUniqueInput | Prisma.ProviderMappingWhereUniqueInput[]
+}
+
+export type ProviderMappingUpdateManyWithoutProviderNestedInput = {
+  create?: Prisma.XOR<Prisma.ProviderMappingCreateWithoutProviderInput, Prisma.ProviderMappingUncheckedCreateWithoutProviderInput> | Prisma.ProviderMappingCreateWithoutProviderInput[] | Prisma.ProviderMappingUncheckedCreateWithoutProviderInput[]
+  connectOrCreate?: Prisma.ProviderMappingCreateOrConnectWithoutProviderInput | Prisma.ProviderMappingCreateOrConnectWithoutProviderInput[]
+  upsert?: Prisma.ProviderMappingUpsertWithWhereUniqueWithoutProviderInput | Prisma.ProviderMappingUpsertWithWhereUniqueWithoutProviderInput[]
+  createMany?: Prisma.ProviderMappingCreateManyProviderInputEnvelope
+  set?: Prisma.ProviderMappingWhereUniqueInput | Prisma.ProviderMappingWhereUniqueInput[]
+  disconnect?: Prisma.ProviderMappingWhereUniqueInput | Prisma.ProviderMappingWhereUniqueInput[]
+  delete?: Prisma.ProviderMappingWhereUniqueInput | Prisma.ProviderMappingWhereUniqueInput[]
+  connect?: Prisma.ProviderMappingWhereUniqueInput | Prisma.ProviderMappingWhereUniqueInput[]
+  update?: Prisma.ProviderMappingUpdateWithWhereUniqueWithoutProviderInput | Prisma.ProviderMappingUpdateWithWhereUniqueWithoutProviderInput[]
+  updateMany?: Prisma.ProviderMappingUpdateManyWithWhereWithoutProviderInput | Prisma.ProviderMappingUpdateManyWithWhereWithoutProviderInput[]
+  deleteMany?: Prisma.ProviderMappingScalarWhereInput | Prisma.ProviderMappingScalarWhereInput[]
+}
+
+export type ProviderMappingUncheckedUpdateManyWithoutProviderNestedInput = {
+  create?: Prisma.XOR<Prisma.ProviderMappingCreateWithoutProviderInput, Prisma.ProviderMappingUncheckedCreateWithoutProviderInput> | Prisma.ProviderMappingCreateWithoutProviderInput[] | Prisma.ProviderMappingUncheckedCreateWithoutProviderInput[]
+  connectOrCreate?: Prisma.ProviderMappingCreateOrConnectWithoutProviderInput | Prisma.ProviderMappingCreateOrConnectWithoutProviderInput[]
+  upsert?: Prisma.ProviderMappingUpsertWithWhereUniqueWithoutProviderInput | Prisma.ProviderMappingUpsertWithWhereUniqueWithoutProviderInput[]
+  createMany?: Prisma.ProviderMappingCreateManyProviderInputEnvelope
+  set?: Prisma.ProviderMappingWhereUniqueInput | Prisma.ProviderMappingWhereUniqueInput[]
+  disconnect?: Prisma.ProviderMappingWhereUniqueInput | Prisma.ProviderMappingWhereUniqueInput[]
+  delete?: Prisma.ProviderMappingWhereUniqueInput | Prisma.ProviderMappingWhereUniqueInput[]
+  connect?: Prisma.ProviderMappingWhereUniqueInput | Prisma.ProviderMappingWhereUniqueInput[]
+  update?: Prisma.ProviderMappingUpdateWithWhereUniqueWithoutProviderInput | Prisma.ProviderMappingUpdateWithWhereUniqueWithoutProviderInput[]
+  updateMany?: Prisma.ProviderMappingUpdateManyWithWhereWithoutProviderInput | Prisma.ProviderMappingUpdateManyWithWhereWithoutProviderInput[]
+  deleteMany?: Prisma.ProviderMappingScalarWhereInput | Prisma.ProviderMappingScalarWhereInput[]
 }
 
 export type ProviderMappingCreateNestedManyWithoutHotelInput = {
@@ -343,16 +415,69 @@ export type ProviderMappingUncheckedUpdateManyWithoutHotelNestedInput = {
   deleteMany?: Prisma.ProviderMappingScalarWhereInput | Prisma.ProviderMappingScalarWhereInput[]
 }
 
+export type ProviderMappingCreateWithoutProviderInput = {
+  id?: string
+  externalId: string
+  lastSyncedAt?: Date | string | null
+  hotel: Prisma.HotelCreateNestedOneWithoutProviderMappingsInput
+}
+
+export type ProviderMappingUncheckedCreateWithoutProviderInput = {
+  id?: string
+  hotelId: string
+  externalId: string
+  lastSyncedAt?: Date | string | null
+}
+
+export type ProviderMappingCreateOrConnectWithoutProviderInput = {
+  where: Prisma.ProviderMappingWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProviderMappingCreateWithoutProviderInput, Prisma.ProviderMappingUncheckedCreateWithoutProviderInput>
+}
+
+export type ProviderMappingCreateManyProviderInputEnvelope = {
+  data: Prisma.ProviderMappingCreateManyProviderInput | Prisma.ProviderMappingCreateManyProviderInput[]
+  skipDuplicates?: boolean
+}
+
+export type ProviderMappingUpsertWithWhereUniqueWithoutProviderInput = {
+  where: Prisma.ProviderMappingWhereUniqueInput
+  update: Prisma.XOR<Prisma.ProviderMappingUpdateWithoutProviderInput, Prisma.ProviderMappingUncheckedUpdateWithoutProviderInput>
+  create: Prisma.XOR<Prisma.ProviderMappingCreateWithoutProviderInput, Prisma.ProviderMappingUncheckedCreateWithoutProviderInput>
+}
+
+export type ProviderMappingUpdateWithWhereUniqueWithoutProviderInput = {
+  where: Prisma.ProviderMappingWhereUniqueInput
+  data: Prisma.XOR<Prisma.ProviderMappingUpdateWithoutProviderInput, Prisma.ProviderMappingUncheckedUpdateWithoutProviderInput>
+}
+
+export type ProviderMappingUpdateManyWithWhereWithoutProviderInput = {
+  where: Prisma.ProviderMappingScalarWhereInput
+  data: Prisma.XOR<Prisma.ProviderMappingUpdateManyMutationInput, Prisma.ProviderMappingUncheckedUpdateManyWithoutProviderInput>
+}
+
+export type ProviderMappingScalarWhereInput = {
+  AND?: Prisma.ProviderMappingScalarWhereInput | Prisma.ProviderMappingScalarWhereInput[]
+  OR?: Prisma.ProviderMappingScalarWhereInput[]
+  NOT?: Prisma.ProviderMappingScalarWhereInput | Prisma.ProviderMappingScalarWhereInput[]
+  id?: Prisma.StringFilter<"ProviderMapping"> | string
+  providerId?: Prisma.StringFilter<"ProviderMapping"> | string
+  hotelId?: Prisma.StringFilter<"ProviderMapping"> | string
+  externalId?: Prisma.StringFilter<"ProviderMapping"> | string
+  lastSyncedAt?: Prisma.DateTimeNullableFilter<"ProviderMapping"> | Date | string | null
+}
+
 export type ProviderMappingCreateWithoutHotelInput = {
   id?: string
-  providerName: string
   externalId: string
+  lastSyncedAt?: Date | string | null
+  provider: Prisma.ProviderCreateNestedOneWithoutHotelMappingsInput
 }
 
 export type ProviderMappingUncheckedCreateWithoutHotelInput = {
   id?: string
-  providerName: string
+  providerId: string
   externalId: string
+  lastSyncedAt?: Date | string | null
 }
 
 export type ProviderMappingCreateOrConnectWithoutHotelInput = {
@@ -381,94 +506,128 @@ export type ProviderMappingUpdateManyWithWhereWithoutHotelInput = {
   data: Prisma.XOR<Prisma.ProviderMappingUpdateManyMutationInput, Prisma.ProviderMappingUncheckedUpdateManyWithoutHotelInput>
 }
 
-export type ProviderMappingScalarWhereInput = {
-  AND?: Prisma.ProviderMappingScalarWhereInput | Prisma.ProviderMappingScalarWhereInput[]
-  OR?: Prisma.ProviderMappingScalarWhereInput[]
-  NOT?: Prisma.ProviderMappingScalarWhereInput | Prisma.ProviderMappingScalarWhereInput[]
-  id?: Prisma.StringFilter<"ProviderMapping"> | string
-  providerName?: Prisma.StringFilter<"ProviderMapping"> | string
-  externalId?: Prisma.StringFilter<"ProviderMapping"> | string
-  hotelId?: Prisma.StringFilter<"ProviderMapping"> | string
+export type ProviderMappingCreateManyProviderInput = {
+  id?: string
+  hotelId: string
+  externalId: string
+  lastSyncedAt?: Date | string | null
+}
+
+export type ProviderMappingUpdateWithoutProviderInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  externalId?: Prisma.StringFieldUpdateOperationsInput | string
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  hotel?: Prisma.HotelUpdateOneRequiredWithoutProviderMappingsNestedInput
+}
+
+export type ProviderMappingUncheckedUpdateWithoutProviderInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  hotelId?: Prisma.StringFieldUpdateOperationsInput | string
+  externalId?: Prisma.StringFieldUpdateOperationsInput | string
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type ProviderMappingUncheckedUpdateManyWithoutProviderInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  hotelId?: Prisma.StringFieldUpdateOperationsInput | string
+  externalId?: Prisma.StringFieldUpdateOperationsInput | string
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ProviderMappingCreateManyHotelInput = {
   id?: string
-  providerName: string
+  providerId: string
   externalId: string
+  lastSyncedAt?: Date | string | null
 }
 
 export type ProviderMappingUpdateWithoutHotelInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  providerName?: Prisma.StringFieldUpdateOperationsInput | string
   externalId?: Prisma.StringFieldUpdateOperationsInput | string
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  provider?: Prisma.ProviderUpdateOneRequiredWithoutHotelMappingsNestedInput
 }
 
 export type ProviderMappingUncheckedUpdateWithoutHotelInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  providerName?: Prisma.StringFieldUpdateOperationsInput | string
+  providerId?: Prisma.StringFieldUpdateOperationsInput | string
   externalId?: Prisma.StringFieldUpdateOperationsInput | string
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ProviderMappingUncheckedUpdateManyWithoutHotelInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  providerName?: Prisma.StringFieldUpdateOperationsInput | string
+  providerId?: Prisma.StringFieldUpdateOperationsInput | string
   externalId?: Prisma.StringFieldUpdateOperationsInput | string
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
 
 export type ProviderMappingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  providerName?: boolean
-  externalId?: boolean
+  providerId?: boolean
   hotelId?: boolean
+  externalId?: boolean
+  lastSyncedAt?: boolean
+  provider?: boolean | Prisma.ProviderDefaultArgs<ExtArgs>
   hotel?: boolean | Prisma.HotelDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["providerMapping"]>
 
 export type ProviderMappingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  providerName?: boolean
-  externalId?: boolean
+  providerId?: boolean
   hotelId?: boolean
+  externalId?: boolean
+  lastSyncedAt?: boolean
+  provider?: boolean | Prisma.ProviderDefaultArgs<ExtArgs>
   hotel?: boolean | Prisma.HotelDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["providerMapping"]>
 
 export type ProviderMappingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  providerName?: boolean
-  externalId?: boolean
+  providerId?: boolean
   hotelId?: boolean
+  externalId?: boolean
+  lastSyncedAt?: boolean
+  provider?: boolean | Prisma.ProviderDefaultArgs<ExtArgs>
   hotel?: boolean | Prisma.HotelDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["providerMapping"]>
 
 export type ProviderMappingSelectScalar = {
   id?: boolean
-  providerName?: boolean
-  externalId?: boolean
+  providerId?: boolean
   hotelId?: boolean
+  externalId?: boolean
+  lastSyncedAt?: boolean
 }
 
-export type ProviderMappingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "providerName" | "externalId" | "hotelId", ExtArgs["result"]["providerMapping"]>
+export type ProviderMappingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "providerId" | "hotelId" | "externalId" | "lastSyncedAt", ExtArgs["result"]["providerMapping"]>
 export type ProviderMappingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  provider?: boolean | Prisma.ProviderDefaultArgs<ExtArgs>
   hotel?: boolean | Prisma.HotelDefaultArgs<ExtArgs>
 }
 export type ProviderMappingIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  provider?: boolean | Prisma.ProviderDefaultArgs<ExtArgs>
   hotel?: boolean | Prisma.HotelDefaultArgs<ExtArgs>
 }
 export type ProviderMappingIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  provider?: boolean | Prisma.ProviderDefaultArgs<ExtArgs>
   hotel?: boolean | Prisma.HotelDefaultArgs<ExtArgs>
 }
 
 export type $ProviderMappingPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ProviderMapping"
   objects: {
+    provider: Prisma.$ProviderPayload<ExtArgs>
     hotel: Prisma.$HotelPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    providerName: string
-    externalId: string
+    providerId: string
     hotelId: string
+    externalId: string
+    lastSyncedAt: Date | null
   }, ExtArgs["result"]["providerMapping"]>
   composites: {}
 }
@@ -863,6 +1022,7 @@ readonly fields: ProviderMappingFieldRefs;
  */
 export interface Prisma__ProviderMappingClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  provider<T extends Prisma.ProviderDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProviderDefaultArgs<ExtArgs>>): Prisma.Prisma__ProviderClient<runtime.Types.Result.GetResult<Prisma.$ProviderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   hotel<T extends Prisma.HotelDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.HotelDefaultArgs<ExtArgs>>): Prisma.Prisma__HotelClient<runtime.Types.Result.GetResult<Prisma.$HotelPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -894,9 +1054,10 @@ export interface Prisma__ProviderMappingClient<T, Null = never, ExtArgs extends 
  */
 export interface ProviderMappingFieldRefs {
   readonly id: Prisma.FieldRef<"ProviderMapping", 'String'>
-  readonly providerName: Prisma.FieldRef<"ProviderMapping", 'String'>
-  readonly externalId: Prisma.FieldRef<"ProviderMapping", 'String'>
+  readonly providerId: Prisma.FieldRef<"ProviderMapping", 'String'>
   readonly hotelId: Prisma.FieldRef<"ProviderMapping", 'String'>
+  readonly externalId: Prisma.FieldRef<"ProviderMapping", 'String'>
+  readonly lastSyncedAt: Prisma.FieldRef<"ProviderMapping", 'DateTime'>
 }
     
 

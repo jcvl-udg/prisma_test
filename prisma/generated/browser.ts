@@ -23,20 +23,40 @@ export * from './enums.ts';
  */
 export type User = Prisma.UserModel
 /**
- * Model Booking
- * 
- */
-export type Booking = Prisma.BookingModel
-/**
- * Model BookingItem
- * 
- */
-export type BookingItem = Prisma.BookingItemModel
-/**
  * Model Profile
  * 
  */
 export type Profile = Prisma.ProfileModel
+/**
+ * Model Account
+ * 
+ */
+export type Account = Prisma.AccountModel
+/**
+ * Model Session
+ * 
+ */
+export type Session = Prisma.SessionModel
+/**
+ * Model VerificationToken
+ * 
+ */
+export type VerificationToken = Prisma.VerificationTokenModel
+/**
+ * Model Provider
+ * 
+ */
+export type Provider = Prisma.ProviderModel
+/**
+ * Model ProviderMapping
+ * 
+ */
+export type ProviderMapping = Prisma.ProviderMappingModel
+/**
+ * Model RoomMapping
+ * 
+ */
+export type RoomMapping = Prisma.RoomMappingModel
 /**
  * Model Destination
  * 
@@ -48,12 +68,57 @@ export type Destination = Prisma.DestinationModel
  */
 export type Hotel = Prisma.HotelModel
 /**
+ * Model HotelImage
+ * 
+ */
+export type HotelImage = Prisma.HotelImageModel
+/**
+ * Model Amenity
+ * 
+ */
+export type Amenity = Prisma.AmenityModel
+/**
+ * Model HotelAmenity
+ * 
+ */
+export type HotelAmenity = Prisma.HotelAmenityModel
+/**
  * Model Room
  * 
  */
 export type Room = Prisma.RoomModel
 /**
- * Model ProviderMapping
+ * Model RoomInventory
  * 
  */
-export type ProviderMapping = Prisma.ProviderMappingModel
+export type RoomInventory = Prisma.RoomInventoryModel
+/**
+ * Model Quote
+ * 
+ */
+export type Quote = Prisma.QuoteModel
+/**
+ * Model Booking
+ * 
+ */
+export type Booking = Prisma.BookingModel
+/**
+ * Model BookingItem
+ * 
+ */
+export type BookingItem = Prisma.BookingItemModel
+/**
+ * Model BookingEvent
+ * 
+ */
+export type BookingEvent = Prisma.BookingEventModel
+/**
+ * Model Favorite
+ * 
+ */
+export type Favorite = Prisma.FavoriteModel
+/**
+ * Model UserEvent
+ * 
+ */
+export type UserEvent = Prisma.UserEventModel

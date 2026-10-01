@@ -8,6 +8,9 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 import prisma from '../../lib/prisma'
 
+import { normalize, slugify } from '../../lib/text';
+import { randomUUID } from 'crypto';
+
 const builder = new SchemaBuilder<{
   PrismaTypes: PrismaTypes;
 }>({
@@ -183,62 +186,41 @@ builder.mutationField('createManualHotel', (t) =>
       title: t.arg.string({ required: true }),
       categoryStars: t.arg.int({ required: true }),
       destinationName: t.arg.string({ required: true }),
-      destinationCode: t.arg.string({ required: false }), // <--- Nuevo argumento opcional
+      destinationCode: t.arg.string({ required: false }),
+      // Nuevo: el schema v2 exige país en el destino
+      countryCode: t.arg.string({ required: true, description: 'ISO 3166-1 alpha-2, ej. MX' }),
     },
-    resolve: async (query, _parent, args, _info) => {
-      // 1. Buscamos si el destino ya existe (ignorando mayúsculas/minúsculas)
-      let destination = await prisma.destination.findFirst({
-        where: { name: { equals: args.destinationName, mode: 'insensitive' } }
-      })
-
-      // 2. Si no existe, lo creamos guardando su código
-      if (!destination) {
-        destination = await prisma.destination.create({
-          data: {
-            name: args.destinationName,
-            code: args.destinationCode ? args.destinationCode.toUpperCase() : args.destinationName.substring(0, 3).toUpperCase(),
-          }
-        })
-      }
-
-      // 3. Creamos el hotel y lo vinculamos al ID real del destino
+    resolve: async (query, _parent, args) => {
+      const destSlug = slugify(args.destinationName);
+      const code = (args.destinationCode ?? args.destinationName.slice(0, 3)).toUpperCase();
+ 
+      // upsert por slug: atómico, evita destinos duplicados si dos peticiones coinciden
+      const destination = await prisma.destination.upsert({
+        where: { slug: destSlug },
+        update: {},
+        create: {
+          slug: destSlug,
+          name: args.destinationName,
+          code,
+          countryCode: args.countryCode.toUpperCase(),
+          searchKey: normalize(`${args.destinationName} ${code}`),
+        },
+      });
+ 
       return prisma.hotel.create({
         ...query,
         data: {
+          slug: `${destSlug}-${slugify(args.title)}`, // si ya existe, Prisma lanza error de unicidad
           title: args.title,
           categoryStars: args.categoryStars,
+          searchKey: normalize(`${args.title} ${args.destinationName} ${code}`),
           destinationId: destination.id,
           providerMappings: {
             create: {
-              providerName: 'LOCAL',
-              externalId: `local-${Date.now()}`
-            }
-          }
-        }
-      })
-    }
-  })
-)
-
-builder.mutationField('createBooking', (t) =>
-  t.prismaField({
-    type: 'Booking',
-    args: {
-      items: t.arg({ type: [BookingItemInput], required: true }),
-      userId: t.arg.int({ required: false }), 
-    },
-    resolve: async (query, root, args) => {
-      // Prisma maneja la transacción implícita para crear el Booking y sus Items
-      return prisma.booking.create({
-        ...query,
-        data: {
-          status: 'CONFIRMED', // En producción pasaría a PENDING hasta validar pago/provider
-          userId: args.userId ?? undefined,
-          items: {
-            create: args.items.map((item) => ({
-              hotelId: item.hotelId,
-              roomId: item.roomId,
-            })),
+              externalId: `local-${randomUUID()}`,
+              // El proveedor LOCAL ya existe gracias al seed
+              provider: { connect: { code: 'LOCAL' } },
+            },
           },
         },
       });
