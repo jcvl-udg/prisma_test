@@ -1,6 +1,6 @@
 // pages/create.tsx
 import React, { useState } from "react"
-import Layout from "../components/Layout"
+import Layout from "../components/layout/Layout"
 import Router from "next/router"
 import { gql } from "@apollo/client/core"
 import { useMutation } from "@apollo/client/react"
@@ -11,12 +11,14 @@ const CreateManualHotelMutation = gql`
     $categoryStars: Int!
     $destinationName: String!
     $destinationCode: String
+    $countryCode: String!
   ) {
     createManualHotel(
       title: $title
       categoryStars: $categoryStars
       destinationName: $destinationName
       destinationCode: $destinationCode
+      countryCode: $countryCode
     ) {
       id
       title
@@ -36,6 +38,8 @@ export default function CreateHotel() {
   const [destinationName, setDestinationName] = useState("")
   const [destinationCode, setDestinationCode] = useState("")
 
+  const [countryCode, setCountryCode] = useState("MX")
+
   const [createHotel, { loading }] = useMutation(CreateManualHotelMutation)
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -47,6 +51,7 @@ export default function CreateHotel() {
           categoryStars: Number(categoryStars),
           destinationName,
           destinationCode,
+          countryCode: countryCode.toUpperCase(),
         },
       })
       Router.push("/")
@@ -56,7 +61,8 @@ export default function CreateHotel() {
     }
   }
 
-  const isFormValid = title.trim() && destinationName.trim() && categoryStars > 0 && categoryStars <= 5
+  // const isFormValid = title.trim() && destinationName.trim() && categoryStars > 0 && categoryStars <= 5
+  const isFormValid = title.trim() && destinationName.trim() && countryCode.length === 2 && categoryStars > 0 && categoryStars <= 5
 
   return (
     <Layout>
@@ -88,6 +94,15 @@ export default function CreateHotel() {
             type="text"
             maxLength={5}
             value={destinationCode}
+          />
+
+          <label>País (código ISO, 2 letras)</label>
+          <input
+            onChange={(e) => setCountryCode(e.target.value)}
+            type="text"
+            maxLength={2}
+            placeholder="MX"
+            value={countryCode}
           />
 
           <label>Categoría (Estrellas: 1-5)</label>

@@ -1,0 +1,143 @@
+type Amenity {
+  category: String!
+  code: String!
+  id: ID!
+  name: String!
+}
+
+type Booking {
+  createdAt: DateTime!
+  currency: String!
+  expiresAt: DateTime
+  id: ID!
+  items: [BookingItem!]!
+  reference: String!
+  status: String!
+  totalAmount: String!
+}
+
+type BookingItem {
+  adults: Int!
+  checkIn: Date!
+  checkOut: Date!
+  childrenAges: [Int!]!
+  currency: String!
+  hotel: Hotel!
+  id: ID!
+  priceAmount: String!
+  room: Room!
+  status: String!
+}
+
+"""
+A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar Date
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
+type Destination {
+  code: String
+  countryCode: String!
+  description: String
+  id: ID!
+  imageUrl: String
+  isFeatured: Boolean!
+  latitude: Float
+  longitude: Float
+  name: String!
+  popularityScore: Int!
+  slug: String!
+  themes: [String!]!
+}
+
+type Hotel {
+  address: String
+  amenities: [HotelAmenity!]!
+  categoryStars: Int!
+  description: String
+  destination: Destination!
+  id: ID!
+  images: [HotelImage!]!
+  latitude: Float
+  longitude: Float
+  mainImageUrl: String
+  popularityScore: Int!
+  priceCurrency: String!
+  priceFrom: String
+  ratingAvg: Float
+  reviewCount: Int!
+  rooms: [Room!]!
+  slug: String!
+  themes: [String!]!
+  title: String!
+}
+
+type HotelAmenity {
+  amenity: Amenity!
+}
+
+type HotelImage {
+  alt: String
+  id: ID!
+  position: Int!
+  url: String!
+}
+
+type Mutation {
+  createManualHotel(
+    categoryStars: Int!
+
+    """ISO 3166-1 alpha-2, ej. MX"""
+    countryCode: String!
+    destinationCode: String
+    destinationName: String!
+    title: String!
+  ): Hotel!
+  createProfile(bio: String!, userEmail: String!): Profile!
+  signupUser(email: String!, name: String): User!
+}
+
+type Profile {
+  bio: String
+  country: String
+  currency: String!
+  id: ID!
+  locale: String!
+  phone: String
+}
+
+type Query {
+  destinations(featuredOnly: Boolean = false, take: Int = 12): [Destination!]!
+  searchHotels(
+    destinationId: String
+    minStars: Int
+
+    """Texto libre: hotel, destino o código"""
+    query: String
+    skip: Int = 0
+    take: Int = 10
+  ): [Hotel!]!
+}
+
+type Room {
+  bedType: String
+  code: String
+  id: ID!
+  maxAdults: Int!
+  maxChildren: Int!
+  name: String!
+  sizeM2: Int
+}
+
+type User {
+  email: String!
+  id: ID!
+  image: String
+  name: String
+  profile: Profile
+  role: String!
+}

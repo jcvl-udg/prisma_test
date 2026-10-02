@@ -162,7 +162,7 @@ builder.mutationField('createManualHotel', (t) =>
     },
     resolve: async (query, _root, args, ctx) => {
       const destSlug = slugify(args.destinationName);
-      const code = (args.destinationCode ?? args.destinationName.slice(0, 3)).toUpperCase();
+      const code = (args.destinationCode?.trim() || args.destinationName.slice(0, 3)).toUpperCase();
 
       // upsert por slug: atómico, evita destinos duplicados con peticiones simultáneas
       const destination = await ctx.prisma.destination.upsert({

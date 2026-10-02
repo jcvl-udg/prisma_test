@@ -9,7 +9,11 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "seed": "prisma db seed"
+    "seed": "prisma db seed",
+    "graphql:export": "tsx scripts/export-schema.ts",
+    "graphql:codegen": "graphql-codegen --config codegen.ts",
+    "graphql:sync": "npm run graphql:export && npm run graphql:codegen",
+    "graphql:watch": "graphql-codegen --config codegen.ts --watch"
   },
   "prisma": {
     "seed": "ts-node --transpile-only prisma/seed.ts"
@@ -33,6 +37,8 @@
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^7.4.3",
+    "@graphql-codegen/client-preset": "^6.2.0",
     "@types/node": "25.5.0",
     "@types/pg": "^8.20.0",
     "@types/react": "19.2.14",

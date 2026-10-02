@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import Layout from "../components/Layout"
+import Layout from "../components/layout/Layout"
 import Router from "next/router"
 import { gql } from "@apollo/client/core"
 import { useMutation } from "@apollo/client/react"

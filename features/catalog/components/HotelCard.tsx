@@ -1,4 +1,4 @@
-import { useCart } from '../context/CartContext';
+import { useCart } from '../../booking/CartContext';
 
 interface Room {
   id: string;
@@ -10,7 +10,7 @@ interface HotelProps {
     id: string;
     title: string;
     categoryStars: number;
-    destination: { name: string; code: string | null };
+    destination: { name: string; code?: string | null };
     rooms: Room[];
   };
 }

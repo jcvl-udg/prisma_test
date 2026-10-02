@@ -13,6 +13,7 @@ import type { Context } from './context';
 // Aquí se declaran: tipos de Prisma, tipo del contexto y scalars.
 // ─────────────────────────────────────────────────────────────
 export const builder = new SchemaBuilder<{
+  DefaultFieldNullability: false;
   PrismaTypes: PrismaTypes;
   Context: Context;
   Scalars: {
@@ -21,6 +22,7 @@ export const builder = new SchemaBuilder<{
     Date: { Input: Date; Output: Date };
   };
 }>({
+  defaultFieldNullability: false,
   plugins: [PrismaPlugin],
   prisma: {
     client: prisma,

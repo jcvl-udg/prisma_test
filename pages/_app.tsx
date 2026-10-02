@@ -2,7 +2,7 @@ import { ApolloProvider } from "@apollo/client/react";
 import { createApolloClient } from "../lib/apollo-client";
 import type { AppProps } from "next/app";
 
-import { CartProvider } from "../context/CartContext"
+import { CartProvider } from "../features/booking/CartContext"
 import '../globals.css'; // Tailwind CSS
 
 function MyApp({ Component, pageProps }: AppProps) {

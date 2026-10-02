@@ -1,63 +1,14 @@
-import { useState } from 'react';
 import Head from 'next/head';
-import { SearchBar } from '../components/SearchBar';
-import { HotelCard } from '../components/HotelCard';
-import { useCart } from '../context/CartContext';
+import { SearchBar } from '../features/search/components/SearchBar';
+import { HotelCard } from '../features/catalog/components/HotelCard';
+import { useCart } from '../features/booking/CartContext';
 
-import { gql } from "@apollo/client";
-import { useMutation, useLazyQuery } from "@apollo/client/react";
+// import { gql } from "@apollo/client";
+import { graphql } from '../gql';
+import { useLazyQuery } from "@apollo/client/react";
 
-// Tipos
-interface Room {
-  id: string;
-  name: string;
-}
-
-interface Hotel {
-  id: string;
-  title: string;
-  categoryStars: number;
-  destination: { id: string; name: string; code: string | null };
-  rooms: Room[];
-}
-
-interface BookingItemInput {
-  hotelId: string;
-  roomId: string;
-}
-
-interface CreateBookingVars {
-  items: BookingItemInput[];
-}
-
-interface CreateBookingData {
-  createBooking: {
-    id: string;
-    status: string;
-  };
-}
-
-// Var's & Data 4 Search
-interface SearchHotelsVars {
-  query: string | null;
-  take: number;
-}
-
-interface SearchHotelsData {
-  searchHotels: Hotel[];
-}
-
-// mutations Use
-const CREATE_BOOKING_MUTATION = gql`
-  mutation CreateBooking($items: [BookingItemInput!]!) {
-    createBooking(items: $items) {
-      id
-      status
-    }
-  }
-`;
-
-const FULL_SEARCH_QUERY = gql`
+// query Use
+const FULL_SEARCH_QUERY = graphql(`
   query FullSearch($query: String, $take: Int) {
     searchHotels(query: $query, take: $take) {
       id
@@ -67,24 +18,17 @@ const FULL_SEARCH_QUERY = gql`
       rooms { id name }
     }
   }
-`;
+`);
 
 export default function SearchPage() {
 // Objcts
-    const { items: cartItems, removeFromCart, clearCart } = useCart();
+  const { items: cartItems, removeFromCart, clearCart } = useCart();
 
 // Apollo Client Hooks (Reemplazan los useState locales)
-  const [executeSearch, { data: searchData, loading: isSearching }] = useLazyQuery<
-    SearchHotelsData,
-    SearchHotelsVars
-  >(FULL_SEARCH_QUERY, {
-    fetchPolicy: 'network-only', // Garantiza disponibilidad en tiempo real
-  });
-
-  const [createBooking, { loading: isBooking }] = useMutation<
-    CreateBookingData,
-    CreateBookingVars
-  >(CREATE_BOOKING_MUTATION);
+  const [executeSearch, { data: searchData, loading: isSearching }] = useLazyQuery(
+    FULL_SEARCH_QUERY,
+    { fetchPolicy: 'network-only' } // conserva el comportamiento que tenías
+  );
 
 // --- Handlers ---
   const handleSearch = (query: string) => {
@@ -94,29 +38,6 @@ export default function SearchPage() {
         take: 20 
       },
     });
-  };
-
-  const handleCheckout = async () => {
-    if (cartItems.length === 0) return;
-
-    try {
-      const { data } = await createBooking({
-        variables: {
-          items: cartItems.map(item => ({
-            hotelId: item.hotelId,
-            roomId: item.roomId
-          }))
-        }
-      });
-
-      if (data?.createBooking) {
-        alert(`¡Reserva confirmada! ID: ${data.createBooking.id} | Status: ${data.createBooking.status}`);
-        clearCart();
-      }
-    } catch (error) {
-      console.error('Error procesando checkout:', error);
-      alert('Error al crear la reserva.');
-    }
   };
 
   const hotels = searchData?.searchHotels || [];
@@ -187,12 +108,11 @@ export default function SearchPage() {
                 ))}
                 
                 <div className="pt-4 border-t border-slate-100 mt-4 space-y-2">
-                  <button 
-                    onClick={handleCheckout}
-                    disabled={isBooking}
-                    className="w-full rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white shadow hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  <button
+                    disabled
+                    className="w-full rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white opacity-50 cursor-not-allowed"
                   >
-                    {isBooking ? 'Procesando...' : 'Proceder al Checkout'}
+                    Checkout (próximamente)
                   </button>
                 </div>
               </div>

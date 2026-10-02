@@ -1,5 +1,5 @@
 // pages/index.tsx (Reemplaza a tu antiguo Blog)
-import Layout from "../components/Layout"
+import Layout from "../components/layout/Layout"
 import { gql } from "@apollo/client/core"
 
 import { createApolloClient } from "../lib/apollo-client";
@@ -74,7 +74,7 @@ const HotelesHome: React.FC<{ data: { searchHotels: HotelProps[] } }> = (props) 
 // Hacemos la consulta GraphQL a tu nueva API
 export async function getServerSideProps() {
   const client = createApolloClient();
-  
+
   const { data } = await client.query({
     query: gql`
       query SearchHotels {
