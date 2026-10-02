@@ -5,6 +5,8 @@ import { graphql } from '../gql';
 
 import { createApolloClient } from "../lib/apollo-client";
 
+import { prisma } from "../lib/prisma";
+
 // Definimos los tipos basados en tu nuevo esquema
 type HotelProps = {
   id: string
@@ -72,45 +74,59 @@ const HotelesHome: React.FC<{ data: { searchHotels: HotelProps[] } }> = (props) 
   )
 }
 
-// Hacemos la consulta GraphQL a tu nueva API
 export async function getServerSideProps() {
   const client = createApolloClient();
-
   try {
-    const { data } = await client.query({
-      query: graphql(`
-        query SearchHotels {
-          searchHotels {
-            id
-            title
-            categoryStars
-            destination {
-              name
-            }
-            rooms {
-              id
-              name
-            }
-          }
-        }
-      `),
+    // Vas directo a la BD sin pasar por GraphQL/HTTP
+    const hotels = await prisma.hotel.findMany({
+      include: { destination: true, rooms: true }
     });
-
-    return {
-      props: { data },
-    };
-  } catch (error: any) {
-    // 1. Imprime el error real en tu terminal de servidor
-    console.error("🔥 Error en getServerSideProps (Index):", error.message || error);
-
-    // 2. Retorna un estado vacío para que la página cargue sin dar 500
-    return {
-      props: {
-        data: { searchHotels: [] },
-        error: "No se pudieron cargar los hoteles. Revisa la consola del servidor."
-      },
-    };
+    console.log(client);
+    return { props: { data: { searchHotels: JSON.parse(JSON.stringify(hotels)) } } };
+  } catch (error) {
+    return { props: { data: { searchHotels: [] }, error: "Falló" } };
   }
 }
+
+// Hacemos la consulta GraphQL a tu nueva API
+// export async function getServerSideProps() {
+//   const client = createApolloClient();
+
+//   try {
+//     const { data } = await client.query({
+//       query: graphql(`
+//         query SearchHotels {
+//           searchHotels {
+//             id
+//             title
+//             categoryStars
+//             destination {
+//               name
+//             }
+//             rooms {
+//               id
+//               name
+//             }
+//           }
+//         }
+//       `),
+//     });
+
+//     return {
+//       props: { data },
+//     };
+//   } catch (error: any) {
+//     // 1. Imprime el error real en tu terminal de servidor
+//     console.error("🔥 Error en getServerSideProps (Index):", error.message || error);
+
+//     // 2. Retorna un estado vacío para que la página cargue sin dar 500
+//     return {
+//       props: {
+//         data: { searchHotels: [] },
+//         error: "No se pudieron cargar los hoteles. Revisa la consola del servidor."
+//       },
+//     };
+//   }
+// }
 
 export default HotelesHome;
