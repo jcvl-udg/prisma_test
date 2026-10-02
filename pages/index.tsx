@@ -1,6 +1,7 @@
 // pages/index.tsx (Reemplaza a tu antiguo Blog)
 import Layout from "../components/layout/Layout"
-import { gql } from "@apollo/client/core"
+// import { gql } from "@apollo/client/core"
+import { graphql } from '../gql';
 
 import { createApolloClient } from "../lib/apollo-client";
 
@@ -77,7 +78,7 @@ export async function getServerSideProps() {
 
   try {
     const { data } = await client.query({
-      query: gql`
+      query: graphql(`
         query SearchHotels {
           searchHotels {
             id
@@ -92,7 +93,7 @@ export async function getServerSideProps() {
             }
           }
         }
-      `,
+      `),
     });
 
     return {

@@ -15,13 +15,13 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
  */
 type Documents = {
     "\n  mutation CreateManualHotel(\n    $title: String!\n    $categoryStars: Int!\n    $destinationName: String!\n    $destinationCode: String\n    $countryCode: String!\n  ) {\n    createManualHotel(\n      title: $title\n      categoryStars: $categoryStars\n      destinationName: $destinationName\n      destinationCode: $destinationCode\n      countryCode: $countryCode\n    ) {\n      id\n      title\n      categoryStars\n      destination {\n        id\n        name\n        code\n      }\n    }\n  }\n": typeof types.CreateManualHotelDocument,
-    "\n      query SearchHotels {\n        searchHotels {\n          id\n          title\n          categoryStars\n          destination {\n            name\n          }\n          rooms {\n            id\n            name\n          }\n        }\n      }\n    ": typeof types.SearchHotelsDocument,
+    "\n        query SearchHotels {\n          searchHotels {\n            id\n            title\n            categoryStars\n            destination {\n              name\n            }\n            rooms {\n              id\n              name\n            }\n          }\n        }\n      ": typeof types.SearchHotelsDocument,
     "\n  query FullSearch($query: String, $take: Int) {\n    searchHotels(query: $query, take: $take) {\n      id\n      title\n      categoryStars\n      destination { id name code }\n      rooms { id name }\n    }\n  }\n": typeof types.FullSearchDocument,
     "\n  mutation SignupMutation($name: String, $email: String!) {\n    signupUser(name: $name, email: $email) {\n      id\n      name\n      email\n    }\n  }\n": typeof types.SignupMutationDocument,
 };
 const documents: Documents = {
     "\n  mutation CreateManualHotel(\n    $title: String!\n    $categoryStars: Int!\n    $destinationName: String!\n    $destinationCode: String\n    $countryCode: String!\n  ) {\n    createManualHotel(\n      title: $title\n      categoryStars: $categoryStars\n      destinationName: $destinationName\n      destinationCode: $destinationCode\n      countryCode: $countryCode\n    ) {\n      id\n      title\n      categoryStars\n      destination {\n        id\n        name\n        code\n      }\n    }\n  }\n": types.CreateManualHotelDocument,
-    "\n      query SearchHotels {\n        searchHotels {\n          id\n          title\n          categoryStars\n          destination {\n            name\n          }\n          rooms {\n            id\n            name\n          }\n        }\n      }\n    ": types.SearchHotelsDocument,
+    "\n        query SearchHotels {\n          searchHotels {\n            id\n            title\n            categoryStars\n            destination {\n              name\n            }\n            rooms {\n              id\n              name\n            }\n          }\n        }\n      ": types.SearchHotelsDocument,
     "\n  query FullSearch($query: String, $take: Int) {\n    searchHotels(query: $query, take: $take) {\n      id\n      title\n      categoryStars\n      destination { id name code }\n      rooms { id name }\n    }\n  }\n": types.FullSearchDocument,
     "\n  mutation SignupMutation($name: String, $email: String!) {\n    signupUser(name: $name, email: $email) {\n      id\n      name\n      email\n    }\n  }\n": types.SignupMutationDocument,
 };
@@ -47,7 +47,7 @@ export function graphql(source: "\n  mutation CreateManualHotel(\n    $title: St
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n      query SearchHotels {\n        searchHotels {\n          id\n          title\n          categoryStars\n          destination {\n            name\n          }\n          rooms {\n            id\n            name\n          }\n        }\n      }\n    "): (typeof documents)["\n      query SearchHotels {\n        searchHotels {\n          id\n          title\n          categoryStars\n          destination {\n            name\n          }\n          rooms {\n            id\n            name\n          }\n        }\n      }\n    "];
+export function graphql(source: "\n        query SearchHotels {\n          searchHotels {\n            id\n            title\n            categoryStars\n            destination {\n              name\n            }\n            rooms {\n              id\n              name\n            }\n          }\n        }\n      "): (typeof documents)["\n        query SearchHotels {\n          searchHotels {\n            id\n            title\n            categoryStars\n            destination {\n              name\n            }\n            rooms {\n              id\n              name\n            }\n          }\n        }\n      "];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
