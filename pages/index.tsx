@@ -75,13 +75,13 @@ const HotelesHome: React.FC<{ data: { searchHotels: HotelProps[] } }> = (props) 
 }
 
 export async function getServerSideProps() {
-  const client = createApolloClient();
+  // const client = createApolloClient();
   try {
     // Vas directo a la BD sin pasar por GraphQL/HTTP
     const hotels = await prisma.hotel.findMany({
       include: { destination: true, rooms: true }
     });
-    console.log(client);
+    // console.log(client);
     return { props: { data: { searchHotels: JSON.parse(JSON.stringify(hotels)) } } };
   } catch (error) {
     return { props: { data: { searchHotels: [] }, error: "Falló" } };

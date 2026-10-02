@@ -20,6 +20,14 @@ const FULL_SEARCH_QUERY = graphql(`
   }
 `);
 
+// 1. Define la interfaz de lo que recibes del SearchBar
+interface SearchFilters {
+  query: string;
+  destinationId?: string;
+  checkIn: string;
+  checkOut: string;
+}
+
 export default function SearchPage() {
 // Objcts
   const { items: cartItems, removeFromCart, clearCart } = useCart();
@@ -30,15 +38,40 @@ export default function SearchPage() {
     { fetchPolicy: 'network-only' } // conserva el comportamiento que tenías
   );
 
-// --- Handlers ---
-  const handleSearch = (query: string) => {
-    executeSearch({
-      variables: { 
-        query: query.trim() !== '' ? query.trim() : null, 
-        take: 20 
-      },
-    });
-  };
+  // --- Handlers ---
+  // 2. Handler para el botón de "Buscar" (recibe el objeto)
+const handleSearchSubmit = (filters: SearchFilters) => {
+  executeSearch({
+    variables: { 
+      query: filters.query, // O el destinationId si tu backend lo requiere
+      take: 20 
+    },
+  });
+  
+  // Opcional: Puedes guardar filters.checkIn y filters.checkOut 
+  // en un estado si los necesitas para la reserva/carrito más adelante.
+};
+
+// 3. Handler para cuando seleccionan una sugerencia del Autocomplete
+const handleSelect = (id: string, type: string) => {
+  // Si seleccionan un hotel directamente, puedes buscar ese hotel en específico
+  // Si es un destino, puedes disparar la búsqueda general
+  executeSearch({
+    variables: {
+      query: id, // Ajusta esto según lo que espere tu GraphQL (id vs texto)
+      take: 20
+    }
+  });
+};
+
+  // const handleSearch = (query: string) => {
+  //   executeSearch({
+  //     variables: { 
+  //       query: query, 
+  //       take: 20 
+  //     },
+  //   });
+  // };
 
   const hotels = searchData?.searchHotels || [];
 
@@ -58,8 +91,8 @@ export default function SearchPage() {
           </div>
 
           <SearchBar 
-            onSearchSubmit={handleSearch}
-            onSelect={handleSearch} 
+            onSearchSubmit={handleSearchSubmit}
+            onSelect={handleSelect} 
           />
 
           <div className="space-y-4 mt-8">
