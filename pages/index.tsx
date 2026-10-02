@@ -75,30 +75,41 @@ const HotelesHome: React.FC<{ data: { searchHotels: HotelProps[] } }> = (props) 
 export async function getServerSideProps() {
   const client = createApolloClient();
 
-  const { data } = await client.query({
-    query: gql`
-      query SearchHotels {
-        searchHotels {
-          id
-          title
-          categoryStars
-          destination {
-            name
-          }
-          rooms {
+  try {
+    const { data } = await client.query({
+      query: gql`
+        query SearchHotels {
+          searchHotels {
             id
-            name
+            title
+            categoryStars
+            destination {
+              name
+            }
+            rooms {
+              id
+              name
+            }
           }
         }
-      }
-    `,
-  });
+      `,
+    });
 
-  return {
-    props: {
-      data
-    },
-  };
+    return {
+      props: { data },
+    };
+  } catch (error: any) {
+    // 1. Imprime el error real en tu terminal de servidor
+    console.error("🔥 Error en getServerSideProps (Index):", error.message || error);
+
+    // 2. Retorna un estado vacío para que la página cargue sin dar 500
+    return {
+      props: {
+        data: { searchHotels: [] },
+        error: "No se pudieron cargar los hoteles. Revisa la consola del servidor."
+      },
+    };
+  }
 }
 
-export default HotelesHome
+export default HotelesHome;
