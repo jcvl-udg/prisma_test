@@ -54,6 +54,14 @@ type Destination {
   themes: [String!]!
 }
 
+type DestinationSuggestion {
+  code: String
+  countryCode: String!
+  id: ID!
+  name: String!
+  slug: String!
+}
+
 type Hotel {
   address: String
   amenities: [HotelAmenity!]!
@@ -80,11 +88,58 @@ type HotelAmenity {
   amenity: Amenity!
 }
 
+input HotelFilter {
+  """Por defecto 2 (solo aplica con fechas)"""
+  adults: Int
+
+  """Códigos; el hotel debe tener TODAS (POOL, SPA...)"""
+  amenities: [String!]
+  checkIn: Date
+  checkOut: Date
+
+  """Por defecto 0 (solo aplica con fechas)"""
+  children: Int
+  destinationId: String
+
+  """Precio "desde" por noche, máximo"""
+  maxPrice: Float
+  maxStars: Int
+
+  """Precio "desde" por noche, mínimo"""
+  minPrice: Float
+
+  """Calificación mínima (0-10)"""
+  minRating: Float
+  minStars: Int
+
+  """Texto libre: hotel, destino o código"""
+  query: String
+
+  """Cualquiera de estos temas (beach, family...)"""
+  themes: [String!]
+}
+
 type HotelImage {
   alt: String
   id: ID!
   position: Int!
   url: String!
+}
+
+enum HotelSort {
+  POPULAR
+  PRICE_ASC
+  PRICE_DESC
+  RATING
+  STARS
+}
+
+type HotelSuggestion {
+  categoryStars: Int!
+  destinationName: String!
+  id: ID!
+  slug: String!
+  title: String!
 }
 
 type Mutation {
@@ -98,7 +153,15 @@ type Mutation {
     title: String!
   ): Hotel!
   createProfile(bio: String!, userEmail: String!): Profile!
+  createQuote(adults: Int!, checkIn: Date!, checkOut: Date!, childrenAges: [Int!]!, hotelId: String!, roomId: String!): Quote!
   signupUser(email: String!, name: String): User!
+}
+
+type PageInfo {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
 }
 
 type Profile {
@@ -111,16 +174,41 @@ type Profile {
 }
 
 type Query {
+  amenities: [Amenity!]!
+  destinationBySlug(slug: String!): Destination
   destinations(featuredOnly: Boolean = false, take: Int = 12): [Destination!]!
-  searchHotels(
-    destinationId: String
-    minStars: Int
+  hotelBySlug(slug: String!): Hotel
+  hotels(after: String, before: String, filter: HotelFilter, first: Int, last: Int, sort: HotelSort = POPULAR): QueryHotelsConnection!
+  hotelsCount(filter: HotelFilter): Int!
+  searchHotels(destinationId: String, minStars: Int, query: String, skip: Int = 0, take: Int = 10): [Hotel!]! @deprecated(reason: "Usa hotels(filter, sort, first, after) y suggestions(query)")
+  suggestions(query: String!, take: Int = 5): Suggestions!
+}
 
-    """Texto libre: hotel, destino o código"""
-    query: String
-    skip: Int = 0
-    take: Int = 10
-  ): [Hotel!]!
+type QueryHotelsConnection {
+  edges: [QueryHotelsConnectionEdge!]!
+  pageInfo: PageInfo!
+}
+
+type QueryHotelsConnectionEdge {
+  cursor: String!
+  node: Hotel!
+}
+
+type Quote {
+  adults: Int!
+  checkIn: Date!
+  checkOut: Date!
+  childrenAges: [Int!]!
+  createdAt: DateTime!
+  currency: String!
+  expiresAt: DateTime!
+  hotel: Hotel!
+  hotelId: ID!
+  id: ID!
+  priceAmount: String!
+  providerRateKey: String
+  room: Room!
+  roomId: ID!
 }
 
 type Room {
@@ -131,6 +219,11 @@ type Room {
   maxChildren: Int!
   name: String!
   sizeM2: Int
+}
+
+type Suggestions {
+  destinations: [DestinationSuggestion!]!
+  hotels: [HotelSuggestion!]!
 }
 
 type User {
