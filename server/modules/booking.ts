@@ -172,3 +172,123 @@ builder.mutationField('createQuote', (t) =>
     },
   }),
 );
+
+// ─────────────────────────────────────────────────────────────
+// CONSTANTES DE RESERVA
+// ─────────────────────────────────────────────────────────────
+const BOOKING_TTL_MS = 15 * 60_000;
+const REF_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+
+function generateBookingReference(): string {
+  let out = 'AG-';
+  for (let i = 0; i < 6; i++) {
+    out += REF_ALPHABET[Math.floor(Math.random() * REF_ALPHABET.length)];
+  }
+  return out;
+}
+
+function eachNightUTC(checkIn: Date, checkOut: Date): Date[] {
+  const out: Date[] = [];
+  for (let d = new Date(checkIn); d < checkOut; d = new Date(d.getTime() + 86_400_000)) {
+    out.push(new Date(d));
+  }
+  return out;
+}
+
+builder.mutationField('createBooking', (t) =>
+  t.prismaField({
+    type: 'Booking',
+    args: {
+      quoteId: t.arg.string({ required: true }),
+      idempotencyKey: t.arg.string({ required: true }),
+      guestName: t.arg.string({ required: true }),
+      guestEmail: t.arg.string({ required: true }),
+      guestPhone: t.arg.string({ required: false }),
+    },
+    resolve: async (query, _root, args, ctx) => {
+      // 1. Idempotencia
+      const existing = await ctx.prisma.booking.findUnique({
+        where: { idempotencyKey: args.idempotencyKey },
+        ...query,
+      });
+      if (existing) return existing;
+
+      // 2. Quote vigente
+      const quote = await ctx.prisma.quote.findUniqueOrThrow({
+        where: { id: args.quoteId },
+      });
+      if (quote.expiresAt <= new Date()) {
+        badInput('La cotización expiró, vuelve a buscar disponibilidad');
+      }
+
+      const nights = eachNightUTC(quote.checkIn, quote.checkOut);
+
+      // 3. Transacción atómica
+      const bookingId = await ctx.prisma.$transaction(async (tx) => {
+        let created: { id: string } | null = null;
+        for (let attempt = 0; attempt < 5 && !created; attempt++) {
+          try {
+            created = await tx.booking.create({
+              data: {
+                reference: generateBookingReference(),
+                userId: ctx.user?.id ?? quote.userId ?? null,
+                guestName: args.guestName,
+                guestEmail: args.guestEmail.toLowerCase().trim(),
+                guestPhone: args.guestPhone ?? null,
+                status: 'PENDING',
+                totalAmount: quote.priceAmount,
+                currency: quote.currency,
+                idempotencyKey: args.idempotencyKey,
+                expiresAt: new Date(Date.now() + BOOKING_TTL_MS),
+                items: {
+                  create: {
+                    hotelId: quote.hotelId,
+                    roomId: quote.roomId,
+                    providerId: quote.providerId,
+                    checkIn: quote.checkIn,
+                    checkOut: quote.checkOut,
+                    adults: quote.adults,
+                    childrenAges: quote.childrenAges,
+                    priceAmount: quote.priceAmount,
+                    currency: quote.currency,
+                    status: 'PENDING',
+                    providerRateKey: quote.providerRateKey,
+                  },
+                },
+                events: {
+                  create: {
+                    type: 'CREATED',
+                    payload: { quoteId: quote.id },
+                  },
+                },
+              },
+              select: { id: true },
+            });
+          } catch (err: any) {
+            if (err?.code !== 'P2002') throw err;
+          }
+        }
+        if (!created) {
+          badInput('No se pudo generar una referencia única, reintenta');
+        }
+
+        for (const date of nights) {
+          const row = await tx.roomInventory.update({
+            where: { roomId_date: { roomId: quote.roomId, date } },
+            data: { available: { decrement: 1 } },
+          });
+          if (row.available < 0) {
+            badInput('Inventario insuficiente, la reserva no se pudo crear');
+          }
+        }
+
+        return created.id;
+      });
+
+      return ctx.prisma.booking.findUniqueOrThrow({
+        where: { id: bookingId },
+        ...query,
+      });
+    },
+  }),
+);

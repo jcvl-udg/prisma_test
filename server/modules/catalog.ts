@@ -491,6 +491,24 @@ builder.mutationField('createManualHotel', (t) =>
               provider: { connect: { code: 'LOCAL' } }, // existe gracias al seed
             },
           },
+          rooms: {
+            create: [
+              {
+                name: 'Standard',
+                code: 'STD',
+                maxAdults: 2,
+                maxChildren: 1,
+                mappings: {
+                  create: {
+                    providerId: (
+                      await ctx.prisma.provider.findUniqueOrThrow({ where: { code: 'LOCAL' } })
+                    ).id,
+                    externalCode: `LOCAL-STD-${randomUUID().slice(0, 8)}`,
+                  },
+                },
+              },
+            ],
+          },        
         },
       });
     },

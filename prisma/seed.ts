@@ -3,10 +3,19 @@ import { randomUUID } from 'node:crypto';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient, Prisma } from './generated/client';
 import { normalize, slugify } from '../lib/text';
+import { Pool } from 'pg';
 
-const prisma = new PrismaClient({
-  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL! }),
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL!,
+  max: 1,                            // 1 sola conexión: elimina el warning de "already executing"
+  idleTimeoutMillis: 0,              // nunca cerrar por idle
+  connectionTimeoutMillis: 30_000,   // 30s para conectar
+  statement_timeout: 0,              // sin timeout de statement
+  query_timeout: 0,                  // sin timeout de query
 });
+
+const prisma = new PrismaClient({ adapter: new PrismaPg(pool) });
 
 // ─────────────────────────────────────────────────────────────
 // CONFIGURACIÓN (ajustable por variables de entorno)
@@ -16,7 +25,7 @@ const prisma = new PrismaClient({
 // ─────────────────────────────────────────────────────────────
 const DAYS = Number(process.env.SEED_DAYS ?? 90);
 const HOTEL_SCALE = Number(process.env.SEED_SCALE ?? 1);
-const CHUNK = 3_000;
+const CHUNK = 500;
 
 // ─────────────────────────────────────────────────────────────
 // Generador pseudoaleatorio CON SEMILLA (mulberry32).
@@ -220,7 +229,72 @@ async function main() {
   let hbCounter = 0;
   let obCounter = 0;
 
-  DESTINATIONS.forEach((d, di) => {
+    // ── Contadores de lo realmente insertado (los arrays se vacían con splice) ──
+    let hotelsBuilt = 0;
+    let roomsBuilt = 0;
+    let inventoryBuilt = 0;
+  
+    // ── Datos ligeros que sobreviven al flush (para reservas/eventos de la sección 6+) ──
+    const hotelsLite: { id: string; popularityScore: number; destinationId: string }[] = [];
+  
+    // ── Tamaño de batch: cuántos hoteles acumulamos antes de vaciar a la DB ──
+    const HOTEL_BATCH_SIZE = 20;
+    let hotelsInBatch = 0;
+  
+    // ── Flush: respeta el orden de dependencias FK ──
+    async function withRetry<T>(
+      label: string,
+      fn: () => Promise<T>,
+      attempts = 3,
+    ): Promise<T> {
+      let lastErr: unknown;
+      for (let i = 0; i < attempts; i++) {
+        try {
+          return await fn();
+        } catch (e: any) {
+          lastErr = e;
+          const code = e?.code ?? e?.meta?.driverAdapterError?.code;
+          console.warn(`   [retry ${i + 1}/${attempts}] ${label} falló (code=${code})`);
+          await new Promise((r) => setTimeout(r, 500 * (i + 1)));
+        }
+      }
+      throw lastErr;
+    }
+    
+    async function flushBatch() {
+      if (hotels.length) {
+        const batch = hotels.splice(0);
+        await withRetry('hotels', () => inChunks(batch, (c) => prisma.hotel.createMany({ data: c })));
+      }
+      if (images.length) {
+        const batch = images.splice(0);
+        await withRetry('images', () => inChunks(batch, (c) => prisma.hotelImage.createMany({ data: c })));
+      }
+      if (hotelAmenities.length) {
+        const batch = hotelAmenities.splice(0);
+        await withRetry('hotelAmenities', () => inChunks(batch, (c) => prisma.hotelAmenity.createMany({ data: c })));
+      }
+      if (mappings.length) {
+        const batch = mappings.splice(0);
+        await withRetry('mappings', () => inChunks(batch, (c) => prisma.providerMapping.createMany({ data: c })));
+      }
+      if (rooms.length) {
+        const batch = rooms.splice(0);
+        roomsBuilt += batch.length;
+        await withRetry('rooms', () => inChunks(batch, (c) => prisma.room.createMany({ data: c })));
+      }
+      if (inventory.length) {
+        const batch = inventory.splice(0);
+        inventoryBuilt += batch.length;
+        await withRetry('inventory', () => inChunks(batch, (c) => prisma.roomInventory.createMany({ data: c })));
+      }
+      if (roomMappings.length) {
+        const batch = roomMappings.splice(0);
+        await withRetry('roomMappings', () => inChunks(batch, (c) => prisma.roomMapping.createMany({ data: c })));
+      }
+    }
+
+  for (const [di, d] of DESTINATIONS.entries()) {
     const dest = destRows[di];
     const count = Math.max(3, Math.round((14 + d.pop / 4) * HOTEL_SCALE));
 
@@ -318,30 +392,36 @@ async function main() {
         images.push({ hotelId, url: `https://picsum.photos/seed/${slug}-${n}/1200/800`, alt: `${title} - foto ${n + 1}`, position: n });
       }
 
+      const popularityScore = Math.round(d.pop * 0.3 + stars * 8 + ratingAvg * 4 + rand() * 20);
+
       hotels.push({
         id: hotelId, slug, title, categoryStars: stars, status: 'ACTIVE',
         description: `${title}, ${stars} estrellas en ${d.name}.`,
         latitude: d.lat + (rand() - 0.5) * 0.1,
         longitude: d.lng + (rand() - 0.5) * 0.1,
         ratingAvg, reviewCount: int(15, 3500),
-        popularityScore: Math.round(d.pop * 0.3 + stars * 8 + ratingAvg * 4 + rand() * 20),
+        popularityScore: popularityScore,
         priceFrom: minPrice, priceCurrency: 'USD', priceUpdatedAt: new Date(),
         themes: [...themes],
         mainImageUrl: `https://picsum.photos/seed/${slug}-0/1200/800`,
         searchKey: normalize(`${title} ${d.name} ${d.code}`),
         destinationId: String(dest.id),
       });
+      hotelsLite.push({ id: hotelId, popularityScore, destinationId: String(dest.id) });
+      // Trigger de flush cada HOTEL_BATCH_SIZE hoteles
+      hotelsInBatch++;
+      if (hotelsInBatch >= HOTEL_BATCH_SIZE) {
+        await flushBatch();
+        hotelsInBatch = 0;
+        if (hotelsLite.length % 500 === 0) {
+          console.log(`   ... ${hotelsLite.length} hoteles`);
+        }
+      }
     }
-  });
-
-  console.log(`   Insertando ${hotels.length} hoteles, ${rooms.length} habitaciones, ${inventory.length} noches de inventario...`);
-  await inChunks(hotels, (c) => prisma.hotel.createMany({ data: c }));
-  await inChunks(images, (c) => prisma.hotelImage.createMany({ data: c }));
-  await inChunks(hotelAmenities, (c) => prisma.hotelAmenity.createMany({ data: c }));
-  await inChunks(rooms, (c) => prisma.room.createMany({ data: c }));
-  await inChunks(inventory, (c) => prisma.roomInventory.createMany({ data: c }));
-  await inChunks(mappings, (c) => prisma.providerMapping.createMany({ data: c }));
-  await inChunks(roomMappings, (c) => prisma.roomMapping.createMany({ data: c }));
+  };
+  // Cerrar el último batch parcial
+  await flushBatch();
+  console.log(`   ${hotelsLite.length} hoteles, ${roomsBuilt} habitaciones, ${inventoryBuilt} noches insertadas`);
 
   // 6) Usuarios: 1 admin, 1 agente y 60 clientes con perfil
   const users: Prisma.UserCreateManyInput[] = [
@@ -436,9 +516,9 @@ async function main() {
 
   // 8) Señales de comportamiento (recomendaciones) y favoritos
   // Los hoteles populares reciben más tráfico: índice = rand² => sesgo hacia el inicio
-  const hotelsByPop = [...hotels].sort((a, b) => (b.popularityScore ?? 0) - (a.popularityScore ?? 0));
+  const hotelsByPop = [...hotelsLite].sort((a, b) => b.popularityScore - a.popularityScore);
   const popularHotel = () => hotelsByPop[Math.floor(rand() * rand() * hotelsByPop.length)];
-  const destByHotel = new Map(hotels.map((h) => [h.id as string, h.destinationId]));
+  const destByHotel = new Map(hotelsLite.map((h) => [h.id, h.destinationId]));
 
   const events: Prisma.UserEventCreateManyInput[] = [];
   for (let i = 0; i < 4000; i++) {
@@ -470,12 +550,30 @@ async function main() {
   // 9) Resumen
   const secs = ((Date.now() - t0) / 1000).toFixed(1);
   console.log(
-    `✅ Listo en ${secs}s · ${destRows.length} destinos · ${hotels.length} hoteles · ${rooms.length} habitaciones · ` +
-      `${inventory.length} noches · ${users.length} usuarios · ${bookings.length} reservas · ${events.length} eventos`,
+    `✅ Listo en ${secs}s · ${destRows.length} destinos · ${hotelsLite.length} hoteles · ` +
+      `${roomsBuilt} habitaciones · ${inventoryBuilt} noches · ${users.length} usuarios · ` +
+      `${bookings.length} reservas · ${events.length} eventos`,
   );
+
+  if (process.env.SEED_BENCHMARK === '1') {
+    console.log('\n📊 Benchmark de búsquedas:');
+    const cases = [
+      { label: 'Destino + estrellas', q: `SELECT id FROM "Hotel" WHERE "destinationId" = $1 AND "status" = 'ACTIVE' AND "categoryStars" >= 4 LIMIT 20`, params: [destRows[0].id] },
+      { label: 'Precio ordenado', q: `SELECT id FROM "Hotel" WHERE "status" = 'ACTIVE' ORDER BY "priceFrom" ASC NULLS LAST LIMIT 20`, params: [] },
+      { label: 'Trigram searchKey', q: `SELECT id FROM "Hotel" WHERE "searchKey" LIKE $1 LIMIT 20`, params: ['%cancun%'] },
+      { label: 'Popularidad descendente', q: `SELECT id FROM "Hotel" WHERE "status" = 'ACTIVE' ORDER BY "popularityScore" DESC, id ASC LIMIT 20`, params: [] },
+    ];
+    for (const c of cases) {
+      const t = Date.now();
+      const r = await prisma.$queryRawUnsafe(c.q, ...c.params) as unknown[];
+      console.log(`   ${c.label.padEnd(28)} ${Date.now() - t}ms  (${r.length} filas)`);
+    }
+    console.log('\n   Corré EXPLAIN ANALYZE para ver el plan de ejecución.');
+  }
+  
 }
 
-main()
+main().then()
   .catch((e) => {
     console.error(e);
     process.exit(1);

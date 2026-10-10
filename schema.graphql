@@ -143,6 +143,7 @@ type HotelSuggestion {
 }
 
 type Mutation {
+  createBooking(guestEmail: String!, guestName: String!, guestPhone: String, idempotencyKey: String!, quoteId: String!): Booking!
   createManualHotel(
     categoryStars: Int!
 
