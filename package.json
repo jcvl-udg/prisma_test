@@ -29,6 +29,7 @@
     "@prisma/adapter-pg": "^7.10.0",
     "@prisma/client": "^7.5.0",
     "@tailwindcss/postcss": "^4.3.3",
+    "bcryptjs": "^3.0.3",
     "graphql": "^16.13.1",
     "graphql-scalars": "1.25.0",
     "graphql-yoga": "^5.18.1",

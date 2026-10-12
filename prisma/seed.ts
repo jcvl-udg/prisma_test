@@ -5,6 +5,7 @@ import { PrismaClient, Prisma } from './generated/client';
 import { normalize, slugify } from '../lib/text';
 import { Pool } from 'pg';
 
+import bcrypt from 'bcryptjs';
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL!,
@@ -173,6 +174,8 @@ async function main() {
   if (process.env.NODE_ENV === 'production') {
     throw new Error('El seed destruye datos: no se ejecuta con NODE_ENV=production');
   }
+  const SEED_PASSWORD_HASH = await bcrypt.hash('password123', 10);
+
   const t0 = Date.now();
   console.log(`🌱 Seed iniciado · ${DAYS} días de inventario · escala x${HOTEL_SCALE}`);
 
@@ -425,8 +428,8 @@ async function main() {
 
   // 6) Usuarios: 1 admin, 1 agente y 60 clientes con perfil
   const users: Prisma.UserCreateManyInput[] = [
-    { id: randomUUID(), email: 'admin@agencia.test', name: 'Admin Agencia', role: 'ADMIN', emailVerified: new Date() },
-    { id: randomUUID(), email: 'agente@agencia.test', name: 'Agente Demo', role: 'AGENT', emailVerified: new Date() },
+    { id: randomUUID(), email: 'admin@agencia.test', name: 'Admin Agencia', role: 'ADMIN', emailVerified: new Date(), password: SEED_PASSWORD_HASH },
+    { id: randomUUID(), email: 'agente@agencia.test', name: 'Agente Demo', role: 'AGENT', emailVerified: new Date() , password: SEED_PASSWORD_HASH },
   ];
   for (let i = 0; i < 60; i++) {
     const first = pick(FIRST_NAMES);
@@ -437,6 +440,7 @@ async function main() {
       name: `${first} ${last}`,
       role: 'CUSTOMER',
       emailVerified: rand() < 0.8 ? new Date() : null,
+      password: SEED_PASSWORD_HASH,
     });
   }
   await prisma.user.createMany({ data: users });
