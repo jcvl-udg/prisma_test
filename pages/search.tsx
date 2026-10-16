@@ -7,10 +7,23 @@ import { HotelCard } from '../features/catalog/components/HotelCard';
 import { useBooking } from '../features/booking/BookingContext';
 import { graphql } from '../gql';
 import { useLazyQuery } from '@apollo/client/react';
+import { getDefaultStayDates, isValidStayDates, type StayDates } from '../lib/stay-dates';
 
 const FULL_SEARCH_QUERY = graphql(`
-  query FullSearch($query: String, $destinationId: String, $take: Int) {
-    searchHotels(query: $query, destinationId: $destinationId, take: $take) {
+  query FullSearch(
+    $query: String
+    $destinationId: String
+    $checkIn: Date
+    $checkOut: Date
+    $take: Int
+  ) {
+    searchHotels(
+      query: $query
+      destinationId: $destinationId
+      checkIn: $checkIn
+      checkOut: $checkOut
+      take: $take
+    ) {
       id
       title
       categoryStars
@@ -21,8 +34,8 @@ const FULL_SEARCH_QUERY = graphql(`
 `);
 
 const HOTEL_BY_SLUG_QUERY = graphql(`
-  query LandingHotelBySlug($slug: String!) {
-    hotelBySlug(slug: $slug) {
+  query LandingHotelBySlug($slug: String!, $checkIn: Date, $checkOut: Date) {
+    hotelBySlug(slug: $slug, checkIn: $checkIn, checkOut: $checkOut) {
       id
       title
       categoryStars
@@ -36,6 +49,7 @@ export default function SearchPage() {
   const router = useRouter();
   const { selection, clear, setDates } = useBooking();
   const [isHotelSlugSearch, setIsHotelSlugSearch] = useState(false);
+  const [searchDates, setSearchDates] = useState<StayDates | null>(null);
 
   const [executeSearch, { data: searchData, loading: isSearchLoading }] =
     useLazyQuery(FULL_SEARCH_QUERY, { fetchPolicy: 'network-only' });
@@ -43,14 +57,12 @@ export default function SearchPage() {
     useLazyQuery(HOTEL_BY_SLUG_QUERY, { fetchPolicy: 'network-only' });
 
   const handleSearchSubmit = (filters: SearchFilters) => {
-    setIsHotelSlugSearch(false);
-    executeSearch({
-      variables: {
-        query: filters.query || null,
-        destinationId: filters.destinationId ?? null,
-        take: 20,
-      },
-    });
+    const params = new URLSearchParams();
+    if (filters.query) params.set('query', filters.query);
+    if (filters.destinationId) params.set('destinationId', filters.destinationId);
+    params.set('checkIn', filters.checkIn);
+    params.set('checkOut', filters.checkOut);
+    void router.push(`/search?${params.toString()}`);
   };
 
   useEffect(() => {
@@ -63,18 +75,31 @@ export default function SearchPage() {
     const query = queryValue(router.query.query);
     const checkIn = queryValue(router.query.checkIn);
     const checkOut = queryValue(router.query.checkOut);
+    const stayDates =
+      checkIn && checkOut && isValidStayDates(checkIn, checkOut)
+        ? { checkIn, checkOut }
+        : getDefaultStayDates();
 
-    if (checkIn || checkOut) {
-      setDates(
-        checkIn && checkOut && checkOut > checkIn
-          ? { checkIn, checkOut }
-          : null,
+    setSearchDates(stayDates);
+    setDates(stayDates);
+
+    if (!isValidStayDates(checkIn, checkOut)) {
+      void router.replace(
+        {
+          pathname: router.pathname,
+          query: { ...router.query, ...stayDates },
+        },
+        undefined,
+        { shallow: true },
       );
+      return;
     }
 
     if (hotelSlug) {
       setIsHotelSlugSearch(true);
-      executeHotelBySlug({ variables: { slug: hotelSlug } });
+      executeHotelBySlug({
+        variables: { slug: hotelSlug, ...stayDates },
+      });
       return;
     }
 
@@ -82,7 +107,12 @@ export default function SearchPage() {
     if (!destinationId && !query) return;
 
     executeSearch({
-      variables: { query: query ?? null, destinationId: destinationId ?? null, take: 20 },
+      variables: {
+        query: query ?? null,
+        destinationId: destinationId ?? null,
+        ...stayDates,
+        take: 20,
+      },
     });
   }, [
     executeSearch,
@@ -124,8 +154,9 @@ export default function SearchPage() {
           </div>
 
           <SearchBar
+            initialDates={searchDates}
             onSearchSubmit={handleSearchSubmit}
-            onDatesChange={(d) => setDates(d.checkIn && d.checkOut ? d : null)}
+            onDatesChange={(dates) => setDates(dates)}
           />
 
           <div className="space-y-4 mt-8">

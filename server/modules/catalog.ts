@@ -288,9 +288,21 @@ builder.queryField('hotelBySlug', (t) =>
   t.prismaField({
     type: 'Hotel',
     nullable: true,
-    args: { slug: t.arg.string({ required: true }) },
-    resolve: (query, _root, args, ctx) =>
-      ctx.prisma.hotel.findFirst({ ...query, where: { slug: args.slug, status: 'ACTIVE' } }),
+    args: {
+      slug: t.arg.string({ required: true }),
+      checkIn: t.arg({ type: 'Date', required: false }),
+      checkOut: t.arg({ type: 'Date', required: false }),
+    },
+    resolve: async (query, _root, args, ctx) => {
+      const where = await buildHotelWhere(ctx, {
+        checkIn: args.checkIn,
+        checkOut: args.checkOut,
+      });
+      return ctx.prisma.hotel.findFirst({
+        ...query,
+        where: { AND: [where, { slug: args.slug }] },
+      });
+    },
   }),
 );
 
@@ -427,6 +439,8 @@ builder.queryField('searchHotels', (t) =>
       query: t.arg.string({ required: false }),
       destinationId: t.arg.string({ required: false }),
       minStars: t.arg.int({ required: false }),
+      checkIn: t.arg({ type: 'Date', required: false }),
+      checkOut: t.arg({ type: 'Date', required: false }),
       skip: t.arg.int({ required: false, defaultValue: 0 }),
       take: t.arg.int({ required: false, defaultValue: 10 }),
     },
@@ -437,6 +451,8 @@ builder.queryField('searchHotels', (t) =>
           query: args.query,
           destinationId: args.destinationId,
           minStars: args.minStars,
+          checkIn: args.checkIn,
+          checkOut: args.checkOut,
         }),
         skip: Math.max(args.skip ?? 0, 0),
         take: Math.min(Math.max(args.take ?? 10, 1), MAX_TAKE),

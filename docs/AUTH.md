@@ -53,7 +53,7 @@ flowchart TD
   PageGuard -->|rol insuficiente| Home["/"]
 ```
 
-La UI añade un guard cliente para evitar mostrar contenido durante la navegación, pero la decisión de seguridad se vuelve a tomar en el servidor. `createManualHotel` exige `ADMIN`; `adminBookings` permite `AGENT` y `ADMIN`; `myBookings` requiere sesión y siempre filtra por la identidad confiable del contexto. La reserva de invitado (`createBooking`) sigue disponible.
+La UI añade un guard cliente para evitar mostrar contenido durante la navegación, pero la decisión de seguridad se vuelve a tomar en el servidor. `createManualHotel` exige `ADMIN`; `adminBookings` permite `AGENT` y `ADMIN`, y ofrece filtros con paginación cursorada; `myBookings` requiere sesión y siempre filtra por la identidad confiable del contexto. La reserva de invitado (`createBooking`) sigue disponible.
 
 ## Credenciales de datos semilla
 

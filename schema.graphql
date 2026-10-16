@@ -1,3 +1,79 @@
+type AdminBookingDetails {
+  cancelledAt: DateTime
+  confirmedAt: DateTime
+  createdAt: DateTime!
+  currency: String!
+  events: [AdminBookingEvent!]!
+  expiresAt: DateTime
+  guestEmail: String!
+  guestName: String!
+  guestPhone: String
+  id: ID!
+  items: [AdminBookingItem!]!
+  reference: String!
+  status: String!
+  totalAmount: String!
+}
+
+type AdminBookingEvent {
+  createdAt: DateTime!
+  id: ID!
+  payload: String
+  type: String!
+}
+
+type AdminBookingHotel {
+  categoryStars: Int!
+  id: ID!
+  slug: String!
+  title: String!
+}
+
+type AdminBookingItem {
+  adults: Int!
+  checkIn: Date!
+  checkOut: Date!
+  childrenAges: [Int!]!
+  currency: String!
+  hotel: AdminBookingHotel!
+  id: ID!
+  priceAmount: String!
+  provider: AdminBookingProvider!
+  providerBookingRef: String
+  room: AdminBookingRoom!
+  status: String!
+}
+
+type AdminBookingProvider {
+  code: String!
+  name: String!
+}
+
+type AdminBookingRoom {
+  id: ID!
+  name: String!
+}
+
+enum AdminBookingSort {
+  CREATED_ASC
+  CREATED_DESC
+  TOTAL_ASC
+  TOTAL_DESC
+}
+
+enum AdminBookingStatus {
+  CANCELLED
+  CONFIRMED
+  EXPIRED
+  FAILED
+  PENDING
+}
+
+enum AdminBookingTransition {
+  CANCEL
+  CONFIRM
+}
+
 type Amenity {
   category: String!
   code: String!
@@ -155,6 +231,7 @@ type Mutation {
   ): Hotel!
   createQuote(adults: Int!, checkIn: Date!, checkOut: Date!, childrenAges: [Int!]!, hotelId: String!, roomId: String!): Quote!
   signupUser(email: String!, name: String, password: String!): User!
+  transitionAdminBooking(id: String!, reason: String, transition: AdminBookingTransition!): AdminBookingDetails!
 }
 
 type PageInfo {
@@ -174,17 +251,28 @@ type Profile {
 }
 
 type Query {
-  adminBookings(first: Int = 20, skip: Int = 0): [Booking!]!
+  adminBookingById(id: String!): AdminBookingDetails
+  adminBookings(after: String, before: String, first: Int, fromDate: Date, guestEmail: String, last: Int, providerCode: String, sort: AdminBookingSort = CREATED_DESC, status: AdminBookingStatus, toDate: Date): QueryAdminBookingsConnection!
   amenities: [Amenity!]!
   destinationBySlug(slug: String!): Destination
   destinations(featuredOnly: Boolean = false, take: Int = 12): [Destination!]!
-  hotelBySlug(slug: String!): Hotel
+  hotelBySlug(checkIn: Date, checkOut: Date, slug: String!): Hotel
   hotels(after: String, before: String, filter: HotelFilter, first: Int, last: Int, sort: HotelSort = POPULAR): QueryHotelsConnection!
   hotelsCount(filter: HotelFilter): Int!
   me: User
   myBookings(first: Int = 20, skip: Int = 0): [Booking!]!
-  searchHotels(destinationId: String, minStars: Int, query: String, skip: Int = 0, take: Int = 10): [Hotel!]! @deprecated(reason: "Usa hotels(filter, sort, first, after) y suggestions(query)")
+  searchHotels(checkIn: Date, checkOut: Date, destinationId: String, minStars: Int, query: String, skip: Int = 0, take: Int = 10): [Hotel!]! @deprecated(reason: "Usa hotels(filter, sort, first, after) y suggestions(query)")
   suggestions(query: String!, take: Int = 5): Suggestions!
+}
+
+type QueryAdminBookingsConnection {
+  edges: [QueryAdminBookingsConnectionEdge!]!
+  pageInfo: PageInfo!
+}
+
+type QueryAdminBookingsConnectionEdge {
+  cursor: String!
+  node: Booking!
 }
 
 type QueryHotelsConnection {

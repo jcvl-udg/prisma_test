@@ -54,8 +54,10 @@ const MY_BOOKINGS = /* GraphQL */ `
 `;
 
 const ADMIN_BOOKINGS = /* GraphQL */ `
-  query AdminBookings($first: Int, $skip: Int) {
-    adminBookings(first: $first, skip: $skip) { ${BOOKING_FIELDS} }
+  query AdminBookings($first: Int, $after: String) {
+    adminBookings(first: $first, after: $after) {
+      edges { node { ${BOOKING_FIELDS} } }
+    }
   }
 `;
 
@@ -143,16 +145,17 @@ describe('autorización de reservas', () => {
 
     try {
       currentUser = { id: customer.id, role: 'CUSTOMER' };
-      const forbidden = await gql(ADMIN_BOOKINGS, { first: 1, skip: 0 });
+      const forbidden = await gql(ADMIN_BOOKINGS, { first: 1 });
       expect(forbidden.errors?.[0].extensions?.code).toBe('FORBIDDEN');
 
       currentUser = { id: staff.id, role: 'AGENT' };
-      const permitted = await gql<{ adminBookings: unknown[] }>(ADMIN_BOOKINGS, {
+      const permitted = await gql<{
+        adminBookings: { edges: Array<{ node: unknown }> };
+      }>(ADMIN_BOOKINGS, {
         first: 1,
-        skip: 0,
       });
       expect(permitted.errors).toBeUndefined();
-      expect(permitted.data?.adminBookings).toHaveLength(1);
+      expect(permitted.data?.adminBookings.edges).toHaveLength(1);
     } finally {
       currentUser = null;
       await testPrisma.booking.delete({ where: { id: staffBooking.id } });

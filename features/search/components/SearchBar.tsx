@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { getDefaultStayDates, type StayDates } from '../../../lib/stay-dates';
 
 interface Destination {
   id: string;
@@ -22,10 +23,15 @@ export interface SearchFilters {
 
 interface SearchBarProps {
   onSearchSubmit: (filters: SearchFilters) => void;
-  onDatesChange?: (d: { checkIn: string; checkOut: string }) => void;
+  onDatesChange?: (dates: StayDates | null) => void;
+  initialDates?: StayDates | null;
 }
 
-export function SearchBar({ onSearchSubmit, onDatesChange }: SearchBarProps) {
+export function SearchBar({
+  onSearchSubmit,
+  onDatesChange,
+  initialDates,
+}: SearchBarProps) {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -39,6 +45,10 @@ export function SearchBar({ onSearchSubmit, onDatesChange }: SearchBarProps) {
   const debounceRef = useRef<NodeJS.Timeout | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const skipNextFetchRef = useRef(false);
+
+  useEffect(() => {
+    if (initialDates) setDates(initialDates);
+  }, [initialDates?.checkIn, initialDates?.checkOut]);
 
   // Click fuera → cerrar dropdown
   useEffect(() => {
@@ -120,8 +130,7 @@ export function SearchBar({ onSearchSubmit, onDatesChange }: SearchBarProps) {
   const updateDates = (patch: Partial<typeof dates>) => {
     const next = { ...dates, ...patch };
     setDates(next);
-    // Avisamos al padre SOLO si ambas fechas están completas
-    onDatesChange?.(next.checkIn && next.checkOut ? next : null as any);
+    onDatesChange?.(next.checkIn && next.checkOut ? next : null);
   };
 
   const clearDest = () => {
@@ -144,13 +153,20 @@ export function SearchBar({ onSearchSubmit, onDatesChange }: SearchBarProps) {
       showError('Elegí un destino o escribí al menos 2 letras');
       return;
     }
+    let stayDates = dates;
+    if (!dates.checkIn && !dates.checkOut) {
+      stayDates = getDefaultStayDates();
+      setDates(stayDates);
+      onDatesChange?.(stayDates);
+    }
+
     // 2. Si una fecha está, la otra también
-    if (!!dates.checkIn !== !!dates.checkOut) {
+    if (!!stayDates.checkIn !== !!stayDates.checkOut) {
       showError('Completá ambas fechas o dejá las dos vacías');
       return;
     }
     // 3. Salida posterior a entrada
-    if (dates.checkIn && dates.checkOut && dates.checkOut <= dates.checkIn) {
+    if (stayDates.checkIn && stayDates.checkOut && stayDates.checkOut <= stayDates.checkIn) {
       showError('La fecha de salida debe ser posterior a la de entrada');
       return;
     }
@@ -158,8 +174,8 @@ export function SearchBar({ onSearchSubmit, onDatesChange }: SearchBarProps) {
     onSearchSubmit({
       query: selectedDest ? '' : trimmed,
       destinationId: selectedDest?.id,
-      checkIn: dates.checkIn,
-      checkOut: dates.checkOut,
+      checkIn: stayDates.checkIn,
+      checkOut: stayDates.checkOut,
     });
   };
 
@@ -184,11 +200,18 @@ export function SearchBar({ onSearchSubmit, onDatesChange }: SearchBarProps) {
       setQuery(s.label);
     }
 
+    const stayDates =
+      dates.checkIn && dates.checkOut ? dates : getDefaultStayDates();
+    if (!dates.checkIn || !dates.checkOut) {
+      setDates(stayDates);
+      onDatesChange?.(stayDates);
+    }
+
     onSearchSubmit({
       query: s.type === 'HOTEL' ? s.label : '',
       destinationId: s.type === 'DESTINATION' ? s.id : undefined,
-      checkIn: dates.checkIn,
-      checkOut: dates.checkOut,
+      checkIn: stayDates.checkIn,
+      checkOut: stayDates.checkOut,
     });
   };
 

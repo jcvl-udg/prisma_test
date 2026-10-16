@@ -91,25 +91,6 @@ builder.queryField('myBookings', (t) =>
   }),
 );
 
-builder.queryField('adminBookings', (t) =>
-  t.prismaField({
-    type: ['Booking'],
-    args: {
-      first: t.arg.int({ required: false, defaultValue: 20 }),
-      skip: t.arg.int({ required: false, defaultValue: 0 }),
-    },
-    resolve: (query, _root, args, ctx) => {
-      requireRole(ctx, ['AGENT', 'ADMIN']);
-      return ctx.prisma.booking.findMany({
-        ...query,
-        orderBy: { createdAt: 'desc' },
-        take: Math.min(Math.max(args.first ?? 20, 1), MAX_BOOKING_PAGE_SIZE),
-        skip: Math.max(args.skip ?? 0, 0),
-      });
-    },
-  }),
-);
-
 // ─────────────────────────────────────────────────────────────
 // MUTATIONS
 // ─────────────────────────────────────────────────────────────
