@@ -10,7 +10,9 @@
 | 3.C — Lista de reservas | ✅ Completa | Filtros persistidos en URL y paginación anterior/siguiente |
 | 3.D — Detalle de reserva | ✅ Completa | Datos protegidos, alojamientos e historial cronológico |
 | 3.E — Transiciones de reserva | ✅ Completa | Confirmación, cancelación y auditoría |
-| 3.F–3.H | Pendientes | Gestión de hoteles, métricas y vista cliente |
+| 3.F — Gestión de hoteles | ✅ Completa | Búsqueda, edición y publicación controlada |
+| 3.G — Métricas | ✅ Completa | Estados y montos confirmados por moneda y fechas |
+| 3.H — Vista del cliente | ✅ Completa | Historial privado con paginación exacta |
 
 ## 3.0 — Implementación
 
@@ -32,7 +34,7 @@
 
 ## 3.A + 3.B — Administración y reservas
 
-- `AdminLayout` aporta navegación lateral responsiva, estado activo, salida de sesión y guard frontend para `ADMIN`/`AGENT`. Los enlaces de Hoteles y Métricas se muestran deshabilitados hasta implementar sus páginas, evitando rutas 404.
+- `AdminLayout` aporta navegación lateral responsiva, estado activo, salida de sesión y guard frontend para `ADMIN`/`AGENT`.
 - `/admin` mantiene su resumen SSR protegido por rol y consume la conexión Relay de reservas.
 - `adminBookings` requiere `ADMIN` o `AGENT` en el resolver y admite `status`, `fromDate`, `toDate`, `guestEmail`, `providerCode` y `sort`.
 - `fromDate` y `toDate` filtran por fecha de creación de la reserva; `toDate` incluye todo el día UTC. El email se busca sin distinguir mayúsculas y el código de proveedor filtra reservas con al menos un ítem de ese proveedor.
@@ -57,6 +59,25 @@
 - En el detalle administrativo se muestran acciones acordes al estado: confirmar una pendiente o cancelar una confirmada, con confirmación del navegador y motivo opcional.
 - Las pruebas verifican autorización por rol, transición de estados e ítems, rechazo de confirmación duplicada, auditoría y devolución exacta de disponibilidad.
 
+## 3.F — Gestión de hoteles
+
+- `/admin/hoteles` ofrece listado paginado, búsqueda por hotel/destino, filtro por estado y orden por nombre o fecha de creación. `AGENT` y `ADMIN` pueden consultar; solo `ADMIN` puede crear o editar.
+- La edición permite cambiar nombre, categoría, descripción y estado `DRAFT`/`ACTIVE`/`INACTIVE`. Se conserva el slug para no romper enlaces publicados y se sincroniza `searchKey` si cambia el nombre.
+- No se elimina físicamente un hotel: el estado permite retirarlo del catálogo sin romper reservas ni referencias históricas.
+- La creación manual valida nombre, destino, país y estrellas en el resolver, además de validar en cliente.
+
+## 3.G — Métricas administrativas
+
+- `/admin/metricas` resume reservas creadas en un rango de fechas inclusivo, con total y conteos por estado.
+- Los importes confirmados se agregan por moneda, nunca se suman monedas diferentes en una cifra engañosa.
+- El resolver usa un solo `groupBy` de Postgres sobre estado/moneda; está disponible únicamente a `AGENT` y `ADMIN`.
+
+## 3.H — Vista de reservas del cliente
+
+- `/mis-reservas` muestra los viajes asociados al usuario autenticado y conserva la autorización SSR, de cliente y de resolver; los roles de operación pueden consultar solo sus propias reservas al visitar esta pantalla.
+- La consulta solicita una fila adicional a las 20 visibles para determinar con precisión si existe otra página, evitando el enlace a una página vacía cuando el total es múltiplo de 20.
+- Se mantienen enlaces a la confirmación pública y a la búsqueda de hoteles; las reservas de invitado no se mezclan en el historial de una cuenta.
+
 ## Medición y validación
 
 Medición local de build de producción:
@@ -78,7 +99,7 @@ Verificaciones realizadas:
 - `npm run graphql:sync`
 - `npx tsc --noEmit`
 - Tests focalizados para default de siete noches, inputs, disponibilidad de cada noche, permisos administrativos, filtros y páginas cursor sin solapamiento.
-- `npm test` — 41 pruebas en 12 archivos
+- `npm test` — 46 pruebas en 13 archivos
 - `npm run build` — home prerenderizada como SSG con revalidación de un minuto
 - Navegador: seis tarjetas de destino y doce de hotel; CTA de destino devuelve hoteles de ese destino y CTA de hotel devuelve el hotel solicitado.
 - `git diff --check`
@@ -87,4 +108,4 @@ Verificaciones realizadas:
 
 - La regeneración ISR necesita que la base de datos esté disponible; si una regeneración falla, Next.js conserva la última página generada y registra el error.
 - TTFB, carga de imágenes y tamaño transferido deben medirse también en el entorno de despliegue.
-- El siguiente bloque del dashboard es **3.F**: gestión de hoteles.
+- El siguiente bloque, según el prompt adjunto, es **B1a: extensión del schema y seeder v2**. Debe trabajarse como entrega independiente antes de B1b.

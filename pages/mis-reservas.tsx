@@ -33,36 +33,46 @@ const PAGE_SIZE = 20;
 function MyBookingsPage() {
   const [skip, setSkip] = useState(0);
   const { data, loading, error } = useQuery(MY_BOOKINGS_QUERY, {
-    variables: { first: PAGE_SIZE, skip },
+    variables: { first: PAGE_SIZE + 1, skip },
     fetchPolicy: 'cache-and-network',
   });
-  const bookings = data?.myBookings ?? [];
+  const results = data?.myBookings ?? [];
+  const bookings = results.slice(0, PAGE_SIZE);
+  const hasNextPage = results.length > PAGE_SIZE;
 
   return (
     <>
       <Head><title>Mis reservas — Aleca Travel</title></Head>
-      <main className="mx-auto max-w-4xl space-y-6 p-6">
-        <header>
-          <h1 className="text-2xl font-semibold">Mis reservas</h1>
-          <p className="mt-1 text-sm text-slate-600">Consulta el estado y los detalles de tus viajes.</p>
+      <main className="mx-auto max-w-4xl space-y-6 p-5 md:p-8">
+        <header className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <p className="text-sm font-medium uppercase tracking-wide text-sky-700">Mi cuenta</p>
+            <h1 className="mt-1 text-2xl font-semibold">Mis reservas</h1>
+            <p className="mt-1 text-sm text-slate-600">Consulta el estado y los detalles de tus viajes.</p>
+          </div>
+          <Link className="text-sm font-medium text-sky-700 hover:underline" href="/search">Buscar hoteles</Link>
         </header>
         {loading && <p role="status">Cargando reservas…</p>}
         {error && <p role="alert" className="text-red-700">No se pudieron cargar tus reservas. Inténtalo de nuevo.</p>}
         {!loading && !error && bookings.length === 0 && (
           <section className="rounded border bg-white p-6 text-center">
             <p>Aún no tienes reservas asociadas a tu cuenta.</p>
-            <Link className="mt-3 inline-block underline" href="/search">Buscar hoteles</Link>
+            <Link className="mt-3 inline-block font-medium text-sky-700 underline" href="/search">Encontrar alojamiento</Link>
           </section>
         )}
         <ul className="space-y-4">
           {bookings.map((booking) => (
-            <li key={booking.id} className="rounded border bg-white p-5">
+            <li key={booking.id} className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
                   <Link className="font-semibold underline" href={`/reservas/${booking.reference}`}>
                     Reserva {booking.reference}
                   </Link>
-                  <p className="text-sm text-slate-600">{booking.status}</p>
+                  <p className="mt-1">
+                    <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700">
+                      {booking.status}
+                    </span>
+                  </p>
                 </div>
                 <p className="font-semibold">
                   {new Intl.NumberFormat('es-MX', {
@@ -85,7 +95,8 @@ function MyBookingsPage() {
           <button disabled={skip === 0 || loading} onClick={() => setSkip(Math.max(skip - PAGE_SIZE, 0))} className="rounded border px-3 py-2 disabled:opacity-40">
             Anterior
           </button>
-          <button disabled={loading || bookings.length < PAGE_SIZE} onClick={() => setSkip(skip + PAGE_SIZE)} className="rounded border px-3 py-2 disabled:opacity-40">
+          <span className="self-center text-xs text-slate-500">Hasta {PAGE_SIZE} reservas por página</span>
+          <button disabled={loading || !hasNextPage} onClick={() => setSkip(skip + PAGE_SIZE)} className="rounded border px-3 py-2 disabled:opacity-40">
             Siguiente
           </button>
         </nav>

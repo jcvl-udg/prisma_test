@@ -2,6 +2,7 @@ import { GraphQLError } from 'graphql';
 import { Prisma } from '../../prisma/generated/client';
 import { builder } from '../builder';
 import { requireRole } from '../auth-guards';
+import { normalize } from '../../lib/text';
 
 const MAX_BOOKING_PAGE_SIZE = 50;
 const DAY_MS = 86_400_000;
@@ -16,6 +17,14 @@ const AdminBookingSort = builder.enumType('AdminBookingSort', {
 
 const AdminBookingTransition = builder.enumType('AdminBookingTransition', {
   values: ['CONFIRM', 'CANCEL'] as const,
+});
+
+const AdminHotelStatus = builder.enumType('AdminHotelStatus', {
+  values: ['DRAFT', 'ACTIVE', 'INACTIVE'] as const,
+});
+
+const AdminHotelSort = builder.enumType('AdminHotelSort', {
+  values: ['TITLE_ASC', 'TITLE_DESC', 'NEWEST'] as const,
 });
 
 type AdminBookingDetail = Prisma.BookingGetPayload<{
@@ -345,6 +354,147 @@ builder.mutationField('transitionAdminBooking', (t) =>
           },
         });
       });
+    },
+  }),
+);
+
+builder.queryField('adminHotels', (t) =>
+  t.prismaConnection({
+    type: 'Hotel',
+    cursor: 'id',
+    defaultSize: 20,
+    maxSize: MAX_BOOKING_PAGE_SIZE,
+    args: {
+      query: t.arg.string({ required: false }),
+      status: t.arg({ type: AdminHotelStatus, required: false }),
+      sort: t.arg({
+        type: AdminHotelSort,
+        required: false,
+        defaultValue: 'TITLE_ASC',
+      }),
+    },
+    resolve: (query, _root, args, ctx) => {
+      requireRole(ctx, ['AGENT', 'ADMIN']);
+      const term = args.query?.trim();
+      if (term && term.length > 120) {
+        badInput('La búsqueda no puede superar los 120 caracteres');
+      }
+      return ctx.prisma.hotel.findMany({
+        ...query,
+        where: {
+          ...(args.status ? { status: args.status } : {}),
+          ...(term
+            ? {
+                OR: [
+                  { searchKey: { contains: normalize(term) } },
+                  {
+                    destination: {
+                      searchKey: { contains: normalize(term) },
+                    },
+                  },
+                ],
+              }
+            : {}),
+        },
+        orderBy:
+          args.sort === 'TITLE_DESC'
+            ? [{ title: 'desc' }, { id: 'desc' }]
+            : args.sort === 'NEWEST'
+              ? [{ createdAt: 'desc' }, { id: 'desc' }]
+              : [{ title: 'asc' }, { id: 'asc' }],
+      });
+    },
+  }),
+);
+
+const AdminCurrencyMetric = builder.objectRef<{
+  currency: string;
+  amount: string;
+}>('AdminCurrencyMetric');
+AdminCurrencyMetric.implement({
+  fields: (t) => ({
+    currency: t.exposeString('currency'),
+    amount: t.exposeString('amount'),
+  }),
+});
+
+const AdminBookingMetrics = builder.objectRef<{
+  totalBookings: number;
+  pendingBookings: number;
+  confirmedBookings: number;
+  cancelledBookings: number;
+  failedBookings: number;
+  expiredBookings: number;
+  confirmedTotals: Array<{ currency: string; amount: string }>;
+}>('AdminBookingMetrics');
+AdminBookingMetrics.implement({
+  fields: (t) => ({
+    totalBookings: t.exposeInt('totalBookings'),
+    pendingBookings: t.exposeInt('pendingBookings'),
+    confirmedBookings: t.exposeInt('confirmedBookings'),
+    cancelledBookings: t.exposeInt('cancelledBookings'),
+    failedBookings: t.exposeInt('failedBookings'),
+    expiredBookings: t.exposeInt('expiredBookings'),
+    confirmedTotals: t.field({
+      type: [AdminCurrencyMetric],
+      resolve: (metrics) => metrics.confirmedTotals,
+    }),
+  }),
+});
+
+builder.queryField('adminBookingMetrics', (t) =>
+  t.field({
+    type: AdminBookingMetrics,
+    args: {
+      fromDate: t.arg({ type: 'Date', required: false }),
+      toDate: t.arg({ type: 'Date', required: false }),
+    },
+    resolve: async (_root, args, ctx) => {
+      requireRole(ctx, ['AGENT', 'ADMIN']);
+      if (args.fromDate && args.toDate && args.fromDate > args.toDate) {
+        badInput('La fecha inicial no puede ser posterior a la fecha final');
+      }
+
+      const where: Prisma.BookingWhereInput = {
+        ...(args.fromDate || args.toDate
+          ? {
+              createdAt: {
+                ...(args.fromDate ? { gte: args.fromDate } : {}),
+                ...(args.toDate
+                  ? { lt: new Date(args.toDate.getTime() + DAY_MS) }
+                  : {}),
+              },
+            }
+          : {}),
+      };
+      const groups = await ctx.prisma.booking.groupBy({
+        by: ['status', 'currency'],
+        where,
+        _count: { _all: true },
+        _sum: { totalAmount: true },
+      });
+
+      const counts: Record<string, number> = {};
+      const confirmedTotals = new Map<string, Prisma.Decimal>();
+      for (const group of groups) {
+        counts[group.status] = (counts[group.status] ?? 0) + group._count._all;
+        if (group.status === 'CONFIRMED' && group._sum.totalAmount) {
+          confirmedTotals.set(group.currency, group._sum.totalAmount);
+        }
+      }
+
+      return {
+        totalBookings: Object.values(counts).reduce((total, count) => total + count, 0),
+        pendingBookings: counts.PENDING ?? 0,
+        confirmedBookings: counts.CONFIRMED ?? 0,
+        cancelledBookings: counts.CANCELLED ?? 0,
+        failedBookings: counts.FAILED ?? 0,
+        expiredBookings: counts.EXPIRED ?? 0,
+        confirmedTotals: Array.from(confirmedTotals, ([currency, amount]) => ({
+          currency,
+          amount: amount.toString(),
+        })).sort((left, right) => left.currency.localeCompare(right.currency)),
+      };
     },
   }),
 );

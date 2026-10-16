@@ -47,18 +47,22 @@ function AdminContent({ children }: { children: ReactNode }) {
                 Reservas
               </Link>
             </li>
-            {['Hoteles', 'Métricas'].map((item) => (
-              <li key={item}>
-                <span
-                  aria-disabled="true"
-                  title={`${item}: disponible en una siguiente entrega`}
-                  className="flex cursor-not-allowed items-center gap-2 rounded-lg px-3 py-2 text-sm text-slate-400"
+            {[
+              { href: '/admin/hoteles', label: 'Hoteles' },
+              { href: '/admin/metricas', label: 'Métricas' },
+            ].map(({ href, label }) => (
+              <li key={href}>
+                <Link
+                  href={href}
+                  aria-current={isActive(href) ? 'page' : undefined}
+                  className={`block rounded-lg px-3 py-2 text-sm font-medium ${
+                    isActive(href)
+                      ? 'bg-slate-900 text-white'
+                      : 'text-slate-700 hover:bg-slate-100'
+                  }`}
                 >
-                  {item}
-                  <span className="text-[10px] uppercase tracking-wide">
-                    Próximamente
-                  </span>
-                </span>
+                  {label}
+                </Link>
               </li>
             ))}
           </ul>

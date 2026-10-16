@@ -43,6 +43,7 @@ builder.prismaObject('Hotel', {
     id: t.exposeID('id'),
     slug: t.exposeString('slug'),
     title: t.exposeString('title'),
+    status: t.string({ resolve: (hotel) => hotel.status }),
     description: t.exposeString('description', { nullable: true }),
     categoryStars: t.exposeInt('categoryStars'),
     address: t.exposeString('address', { nullable: true }),
@@ -106,6 +107,10 @@ builder.prismaObject('HotelAmenity', {
 
 const HotelSort = builder.enumType('HotelSort', {
   values: ['POPULAR', 'PRICE_ASC', 'PRICE_DESC', 'RATING', 'STARS'] as const,
+});
+
+const HotelStatus = builder.enumType('HotelStatus', {
+  values: ['DRAFT', 'ACTIVE', 'INACTIVE'] as const,
 });
 
 // Un solo objeto `filter` en vez de 12 argumentos sueltos: la UI lo arma desde
@@ -465,7 +470,6 @@ builder.queryField('searchHotels', (t) =>
 // 4. MUTATIONS
 // ═════════════════════════════════════════════════════════════
 
-// TODO(Tarea 3): restringir a rol ADMIN con scope-auth. Hoy sigue pública.
 builder.mutationField('createManualHotel', (t) =>
   t.prismaField({
     type: 'Hotel',
@@ -478,9 +482,30 @@ builder.mutationField('createManualHotel', (t) =>
     },
     resolve: async (query, _root, args, ctx) => {
       requireRole(ctx, ['ADMIN']);
-      const destSlug = slugify(args.destinationName);
+      const title = args.title.trim();
+      const destinationName = args.destinationName.trim();
+      const countryCode = args.countryCode.trim().toUpperCase();
+      if (!title || title.length > 160) {
+        badInput('El nombre del hotel debe tener entre 1 y 160 caracteres');
+      }
+      if (!destinationName || destinationName.length > 120) {
+        badInput('El destino debe tener entre 1 y 120 caracteres');
+      }
+      if (!/^[A-Z]{2}$/.test(countryCode)) {
+        badInput('El país debe ser un código ISO de dos letras');
+      }
+      if (args.categoryStars < 1 || args.categoryStars > 5) {
+        badInput('La categoría debe estar entre 1 y 5 estrellas');
+      }
+      const titleSlug = slugify(title);
+      if (!titleSlug) badInput('El nombre debe contener letras o números');
+      const destSlug = slugify(destinationName);
       // `||` (no `??`): una cadena vacía también debe caer al valor por defecto
-      const code = (args.destinationCode?.trim() || args.destinationName.slice(0, 3)).toUpperCase();
+      const destinationCode = args.destinationCode?.trim().toUpperCase();
+      if (destinationCode && !/^[A-Z0-9]{2,5}$/.test(destinationCode)) {
+        badInput('El código de destino debe tener entre 2 y 5 caracteres alfanuméricos');
+      }
+      const code = destinationCode || destinationName.slice(0, 3).toUpperCase();
 
       // upsert por slug: atómico, evita destinos duplicados con peticiones simultáneas
       const destination = await ctx.prisma.destination.upsert({
@@ -488,20 +513,20 @@ builder.mutationField('createManualHotel', (t) =>
         update: {},
         create: {
           slug: destSlug,
-          name: args.destinationName,
+          name: destinationName,
           code,
-          countryCode: args.countryCode.toUpperCase(),
-          searchKey: normalize(`${args.destinationName} ${code}`),
+          countryCode,
+          searchKey: normalize(`${destinationName} ${code}`),
         },
       });
 
       return ctx.prisma.hotel.create({
         ...query,
         data: {
-          slug: `${destSlug}-${slugify(args.title)}`, // choque de slug => error de unicidad
-          title: args.title,
+          slug: `${destSlug}-${titleSlug}`, // choque de slug => error de unicidad
+          title,
           categoryStars: args.categoryStars,
-          searchKey: normalize(`${args.title} ${args.destinationName} ${code}`),
+          searchKey: normalize(`${title} ${destinationName} ${code}`),
           destinationId: destination.id,
           providerMappings: {
             create: {
@@ -527,6 +552,79 @@ builder.mutationField('createManualHotel', (t) =>
               },
             ],
           },        
+        },
+      });
+    },
+  }),
+);
+
+builder.mutationField('adminUpdateHotel', (t) =>
+  t.prismaField({
+    type: 'Hotel',
+    args: {
+      id: t.arg.string({ required: true }),
+      title: t.arg.string({ required: false }),
+      categoryStars: t.arg.int({ required: false }),
+      status: t.arg({ type: HotelStatus, required: false }),
+      description: t.arg.string({ required: false }),
+    },
+    resolve: async (query, _root, args, ctx) => {
+      requireRole(ctx, ['ADMIN']);
+      const title = args.title?.trim();
+      if (args.title !== undefined && (!title || title.length > 160)) {
+        badInput('El nombre del hotel debe tener entre 1 y 160 caracteres');
+      }
+      if (
+        args.categoryStars != null &&
+        (args.categoryStars < 1 || args.categoryStars > 5)
+      ) {
+        badInput('La categoría debe estar entre 1 y 5 estrellas');
+      }
+      if (
+        args.description != null &&
+        args.description.length > 5000
+      ) {
+        badInput('La descripción no puede superar los 5000 caracteres');
+      }
+      if (
+        title === undefined &&
+        args.categoryStars == null &&
+        args.status == null &&
+        args.description === undefined
+      ) {
+        badInput('Indica al menos un campo para actualizar');
+      }
+
+      const current = await ctx.prisma.hotel.findUnique({
+        where: { id: args.id },
+        select: {
+          destination: { select: { name: true, code: true } },
+        },
+      });
+      if (!current) {
+        throw new GraphQLError('No se encontró el hotel', {
+          extensions: { code: 'NOT_FOUND' },
+        });
+      }
+      return ctx.prisma.hotel.update({
+        ...query,
+        where: { id: args.id },
+        data: {
+          ...(title !== undefined ? { title } : {}),
+          ...(args.categoryStars != null
+            ? { categoryStars: args.categoryStars }
+            : {}),
+          ...(args.status != null ? { status: args.status } : {}),
+          ...(args.description !== undefined
+            ? { description: args.description?.trim() || null }
+            : {}),
+          ...(title !== undefined
+            ? {
+                searchKey: normalize(
+                  `${title} ${current.destination.name} ${current.destination.code ?? ''}`,
+                ),
+              }
+            : {}),
         },
       });
     },

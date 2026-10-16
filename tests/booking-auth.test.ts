@@ -122,6 +122,44 @@ describe('autorización de reservas', () => {
     }
   });
 
+  it('permite recuperar una fila adicional para saber si hay otra página', async () => {
+    const user = await testPrisma.user.create({
+      data: { email: `pagination.${randomUUID()}@example.test`, role: 'CUSTOMER' },
+    });
+    const bookings = await Promise.all(
+      [1, 2, 3].map((day) =>
+        testPrisma.booking.create({
+          data: {
+            userId: user.id,
+            reference: `AG-${randomUUID().replaceAll('-', '').slice(0, 6).toUpperCase()}`,
+            guestName: 'Pagination fixture',
+            guestEmail: user.email,
+            status: 'CONFIRMED',
+            totalAmount: '75.00',
+            currency: 'USD',
+            idempotencyKey: randomUUID(),
+            createdAt: new Date(`2099-03-0${day}T00:00:00.000Z`),
+          },
+        }),
+      ),
+    );
+
+    try {
+      currentUser = { id: user.id, role: 'CUSTOMER' };
+      const result = await gql<{
+        myBookings: Array<{ id: string }>;
+      }>(MY_BOOKINGS, { first: 3, skip: 0 });
+      expect(result.errors).toBeUndefined();
+      expect(result.data?.myBookings).toHaveLength(3);
+    } finally {
+      currentUser = null;
+      await testPrisma.booking.deleteMany({
+        where: { id: { in: bookings.map(({ id }) => id) } },
+      });
+      await testPrisma.user.delete({ where: { id: user.id } });
+    }
+  });
+
   it('rechaza adminBookings a CUSTOMER y admite AGENT/ADMIN', async () => {
     const customer = await testPrisma.user.create({
       data: { email: `customer.${randomUUID()}@example.test`, role: 'CUSTOMER' },

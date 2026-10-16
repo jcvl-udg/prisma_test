@@ -44,6 +44,16 @@ type AdminBookingItem {
   status: String!
 }
 
+type AdminBookingMetrics {
+  cancelledBookings: Int!
+  confirmedBookings: Int!
+  confirmedTotals: [AdminCurrencyMetric!]!
+  expiredBookings: Int!
+  failedBookings: Int!
+  pendingBookings: Int!
+  totalBookings: Int!
+}
+
 type AdminBookingProvider {
   code: String!
   name: String!
@@ -72,6 +82,23 @@ enum AdminBookingStatus {
 enum AdminBookingTransition {
   CANCEL
   CONFIRM
+}
+
+type AdminCurrencyMetric {
+  amount: String!
+  currency: String!
+}
+
+enum AdminHotelSort {
+  NEWEST
+  TITLE_ASC
+  TITLE_DESC
+}
+
+enum AdminHotelStatus {
+  ACTIVE
+  DRAFT
+  INACTIVE
 }
 
 type Amenity {
@@ -156,6 +183,7 @@ type Hotel {
   reviewCount: Int!
   rooms: [Room!]!
   slug: String!
+  status: String!
   themes: [String!]!
   title: String!
 }
@@ -210,6 +238,12 @@ enum HotelSort {
   STARS
 }
 
+enum HotelStatus {
+  ACTIVE
+  DRAFT
+  INACTIVE
+}
+
 type HotelSuggestion {
   categoryStars: Int!
   destinationName: String!
@@ -219,6 +253,7 @@ type HotelSuggestion {
 }
 
 type Mutation {
+  adminUpdateHotel(categoryStars: Int, description: String, id: String!, status: HotelStatus, title: String): Hotel!
   createBooking(guestEmail: String!, guestName: String!, guestPhone: String, idempotencyKey: String!, quoteId: String!): Booking!
   createManualHotel(
     categoryStars: Int!
@@ -252,7 +287,9 @@ type Profile {
 
 type Query {
   adminBookingById(id: String!): AdminBookingDetails
+  adminBookingMetrics(fromDate: Date, toDate: Date): AdminBookingMetrics!
   adminBookings(after: String, before: String, first: Int, fromDate: Date, guestEmail: String, last: Int, providerCode: String, sort: AdminBookingSort = CREATED_DESC, status: AdminBookingStatus, toDate: Date): QueryAdminBookingsConnection!
+  adminHotels(after: String, before: String, first: Int, last: Int, query: String, sort: AdminHotelSort = TITLE_ASC, status: AdminHotelStatus): QueryAdminHotelsConnection!
   amenities: [Amenity!]!
   destinationBySlug(slug: String!): Destination
   destinations(featuredOnly: Boolean = false, take: Int = 12): [Destination!]!
@@ -273,6 +310,16 @@ type QueryAdminBookingsConnection {
 type QueryAdminBookingsConnectionEdge {
   cursor: String!
   node: Booking!
+}
+
+type QueryAdminHotelsConnection {
+  edges: [QueryAdminHotelsConnectionEdge!]!
+  pageInfo: PageInfo!
+}
+
+type QueryAdminHotelsConnectionEdge {
+  cursor: String!
+  node: Hotel!
 }
 
 type QueryHotelsConnection {
