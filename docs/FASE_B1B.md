@@ -1,6 +1,6 @@
 # Fase B1b — Búsqueda y facets del catálogo
 
-**Estado:** backend implementado y validado en desarrollo; UI pendiente.
+**Estado:** implementada y validada en desarrollo.
 **Alcance:** búsqueda GraphQL del catálogo, facets de resultados y verificación de consultas/índices. B1c y B2 quedan fuera de esta entrega.
 
 ## Búsqueda y facets
@@ -34,11 +34,15 @@ La query `hotelsCount` sigue disponible cuando el cliente solo necesita el total
 
 ## Criterios de consulta e índices
 
-- Los filtros de estado, destino, estrellas, precio y texto usan los predicados de `buildHotelWhere`; no se aplica a resultados el endpoint de sugerencias.
+- Los filtros de estado, destino, estrellas, calificación, precio, tipo de alojamiento, temas, amenidades, plan de alimentos y cancelación usan los predicados compartidos de `buildHotelWhere`; no se aplica a resultados el endpoint de sugerencias.
 - La disponibilidad valida que cada habitación tenga una fila libre para cada noche solicitada. Entrada/salida parciales, fechas pasadas y estancias superiores a 30 noches se rechazan.
 - La búsqueda usa orden determinista con `id` como desempate y límite de 50 resultados por página.
+- `/search` consume la conexión cursor `hotels` y las facets en GraphQL tipado. Los filtros facetados incluyen tipo de alojamiento, temas, amenidades, planes de alimentos, cancelación, estrellas, calificación y rango de precio; además ofrece ordenamiento y paginación anterior/siguiente.
+- Filtros, orden y cursores se reflejan en la URL. Cambiar filtros u orden elimina cursores obsoletos; los chips activos se pueden quitar individualmente y hay una acción para limpiar los refinamientos.
+- La lista de resultados muestra atributos de hotel como badges y usa el total de `hotelFacets`; la consulta de facets se omite al paginar o cambiar orden si los criterios de filtro no cambian.
+- La UI existente por slug de hotel se conserva y sigue usando el enlace exacto de la landing.
 - Los índices no se consideran útiles solo por existir en el schema. Medir con datos representativos y comprobar `EXPLAIN (ANALYZE, BUFFERS)` para los filtros y ordenamientos reales; contrastar latencia y filas leídas, no exigir `Index Scan` si el planificador elige correctamente un scan secuencial para una tabla pequeña.
-- El alcance original de B1b también pide el panel de filtros, chips activos, badges de hotel y estado de filtros en la URL. Esas piezas de UI siguen pendientes; la query `hotelFacets` sí está lista para consumirlas. El endpoint legacy no se elimina en B1b.
+- El endpoint legacy `searchHotels` no se elimina en B1b para no romper clientes existentes.
 
 Consulta de referencia para explicar y ajustar a un destino real:
 
@@ -65,8 +69,9 @@ No ejecutar benchmarks de carga contra producción.
 
 ## Verificación realizada
 
-- Tests GraphQL de facets y disponibilidad — 3 correctos.
-- `npm test` — 61 pruebas en 15 archivos correctas.
+- Tests GraphQL validan agregaciones, filtros combinados y rechazo de valores de enum inválidos. Tests de UI verifican opciones/counts, selección, clear y reset de cursores; tests de URL cubren serialización/restauración de valores repetidos y chips. También se verifica que las tarjetas muestren tipo de alojamiento, temas y calificación.
+- `tests/search-availability.test.ts` se conserva para validar disponibilidad.
+- `npm test` — 81 pruebas en 21 archivos; `npm run build`, `npx tsc --noEmit --pretty false` y `git diff --check` — correctos al cierre de esta entrega. El build incluye la comprobación de TypeScript.
 - `npm run build` — correcto, incluyó la comprobación de TypeScript.
 - `npm run graphql:sync` — exportó el schema y regeneró tipos de cliente.
 - `git diff --check` sobre los archivos editados a mano — correcto.
@@ -80,6 +85,5 @@ No ejecutar benchmarks de carga contra producción.
 
 ## No incluido
 
-- UI de filtros/facets (pendiente respecto al prompt original).
 - Retirada de `searchHotels`.
 - Cambios en providers, recomendación o indexación de B1c/B2.

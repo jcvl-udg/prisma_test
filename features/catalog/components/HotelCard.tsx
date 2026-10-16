@@ -10,6 +10,10 @@ interface HotelProps {
     id: string;
     title: string;
     categoryStars: number;
+    propertyType?: string;
+    themes?: string[];
+    ratingAvg?: number | null;
+    reviewCount?: number;
     destination: { name: string; code?: string | null };
     rooms: Room[];
   };
@@ -37,6 +41,10 @@ export function HotelCard({ hotel }: HotelProps) {
   };
 
   const { selection } = useBooking();
+  const badges = [
+    hotel.propertyType?.replaceAll('_', ' ').toLowerCase(),
+    ...(hotel.themes ?? []).slice(0, 2).map((theme) => theme.replaceAll('_', ' ').toLowerCase()),
+  ].filter((badge): badge is string => Boolean(badge));
 
   return (
     <div className="rounded-lg border border-slate-200 bg-white text-slate-950 shadow-sm transition-all hover:shadow-md">
@@ -51,6 +59,24 @@ export function HotelCard({ hotel }: HotelProps) {
           📍 {hotel.destination.name}{' '}
           {hotel.destination.code ? `(${hotel.destination.code})` : ''}
         </p>
+        {(badges.length > 0 || hotel.ratingAvg != null) && (
+          <div aria-label={`Atributos de ${hotel.title}`} className="flex flex-wrap gap-2 pt-2">
+            {hotel.ratingAvg != null && (
+              <span className="rounded-full bg-amber-50 px-2 py-1 text-xs font-medium text-amber-800">
+                {hotel.ratingAvg.toFixed(1)} / 10
+                {hotel.reviewCount ? ` · ${hotel.reviewCount} reseñas` : ''}
+              </span>
+            )}
+            {badges.map((badge) => (
+              <span
+                key={badge}
+                className="rounded-full bg-blue-50 px-2 py-1 text-xs font-medium capitalize text-blue-800"
+              >
+                {badge}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="p-6 pt-0">

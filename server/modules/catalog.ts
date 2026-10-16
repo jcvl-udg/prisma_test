@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { GraphQLError } from 'graphql';
-import { Prisma } from '../../prisma/generated/client';
+import { BoardType, CancellationType, Prisma, PropertyType } from '../../prisma/generated/client';
 import { builder } from '../builder';
 import type { Context } from '../context';
 import { requireRole } from '../auth-guards';
@@ -46,6 +46,7 @@ builder.prismaObject('Hotel', {
     status: t.string({ resolve: (hotel) => hotel.status }),
     description: t.exposeString('description', { nullable: true }),
     categoryStars: t.exposeInt('categoryStars'),
+    propertyType: t.string({ resolve: (hotel) => hotel.propertyType }),
     address: t.exposeString('address', { nullable: true }),
     latitude: t.exposeFloat('latitude', { nullable: true }),
     longitude: t.exposeFloat('longitude', { nullable: true }),
@@ -124,8 +125,11 @@ const HotelFilter = builder.inputType('HotelFilter', {
     minRating: t.float({ required: false, description: 'Calificación mínima (0-10)' }),
     minPrice: t.float({ required: false, description: 'Precio "desde" por noche, mínimo' }),
     maxPrice: t.float({ required: false, description: 'Precio "desde" por noche, máximo' }),
+    propertyTypes: t.stringList({ required: false, description: 'Tipos de alojamiento' }),
     themes: t.stringList({ required: false, description: 'Cualquiera de estos temas (beach, family...)' }),
     amenities: t.stringList({ required: false, description: 'Códigos; el hotel debe tener TODAS (POOL, SPA...)' }),
+    boardTypes: t.stringList({ required: false, description: 'Planes de alimentos' }),
+    cancellationTypes: t.stringList({ required: false, description: 'Políticas de cancelación' }),
     checkIn: t.field({ type: 'Date', required: false }),
     checkOut: t.field({ type: 'Date', required: false }),
     adults: t.int({ required: false, description: 'Por defecto 2 (solo aplica con fechas)' }),
@@ -176,6 +180,17 @@ HotelFacets.implement({
 
 function badInput(message: string): never {
   throw new GraphQLError(message, { extensions: { code: 'BAD_USER_INPUT' } });
+}
+
+function validateEnumValues<T extends string>(
+  values: string[],
+  allowedValues: readonly T[],
+  label: string,
+): T[] {
+  if (!values.every((value) => allowedValues.includes(value as T))) {
+    badInput(`Uno o más valores de ${label} no son válidos`);
+  }
+  return values as T[];
 }
 
 const toDay = (d: Date) => d.toISOString().slice(0, 10); // 'YYYY-MM-DD'
@@ -262,9 +277,45 @@ async function buildHotelWhere(
     });
   }
 
+  if (f.propertyTypes?.length) {
+    and.push({
+      propertyType: {
+        in: validateEnumValues(
+          f.propertyTypes.slice(0, MAX_LIST_FILTER),
+          Object.values(PropertyType),
+          'tipo de alojamiento',
+        ),
+      },
+    });
+  }
+
   // Temas: "cualquiera de" (descubrimiento). Usa el índice GIN de themes.
   if (f.themes?.length) {
     and.push({ themes: { hasSome: f.themes.slice(0, MAX_LIST_FILTER).map((x) => x.toLowerCase()) } });
+  }
+
+  if (f.boardTypes?.length) {
+    and.push({
+      boardTypes: {
+        hasSome: validateEnumValues(
+          f.boardTypes.slice(0, MAX_LIST_FILTER),
+          Object.values(BoardType),
+          'plan de alimentos',
+        ),
+      },
+    });
+  }
+
+  if (f.cancellationTypes?.length) {
+    and.push({
+      cancellationType: {
+        in: validateEnumValues(
+          f.cancellationTypes.slice(0, MAX_LIST_FILTER),
+          Object.values(CancellationType),
+          'política de cancelación',
+        ),
+      },
+    });
   }
 
   // Amenidades: "todas". Usa la proyección indexada para evitar un JOIN por código.

@@ -33,6 +33,14 @@ const HOTEL_FACETS_QUERY = /* GraphQL */ `
   }
 `;
 
+const FILTERED_HOTELS_QUERY = /* GraphQL */ `
+  query FilteredHotels($filter: HotelFilter, $first: Int) {
+    hotels(filter: $filter, first: $first) {
+      edges { node { id propertyType } }
+    }
+  }
+`;
+
 async function gql(query: string, variables: Record<string, unknown>) {
   const response = await yoga.fetch('http://test/api/graphql', {
     method: 'POST',
@@ -123,6 +131,25 @@ describe('hotel search facets', () => {
       });
       expect(filteredByAmenity.errors).toBeUndefined();
       expect(filteredByAmenity.data.hotelFacets.total).toBe(1);
+
+      const filteredByFacets = await gql(FILTERED_HOTELS_QUERY, {
+        filter: {
+          destinationId: fx.destinationId,
+          propertyTypes: ['HOTEL'],
+          boardTypes: ['BREAKFAST'],
+          cancellationTypes: ['PARTIAL'],
+        },
+        first: 20,
+      });
+      expect(filteredByFacets.errors).toBeUndefined();
+      expect(filteredByFacets.data.hotels.edges).toHaveLength(1);
+      expect(filteredByFacets.data.hotels.edges[0].node.propertyType).toBe('HOTEL');
+
+      const invalidFacet = await gql(FILTERED_HOTELS_QUERY, {
+        filter: { destinationId: fx.destinationId, propertyTypes: ['NOT_A_PROPERTY'] },
+        first: 20,
+      });
+      expect(invalidFacet.errors?.[0].message).toMatch(/tipo de alojamiento/i);
     } finally {
       if (secondHotelId) {
         await testPrisma.hotel.delete({ where: { id: secondHotelId } });

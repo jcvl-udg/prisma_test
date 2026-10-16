@@ -58,19 +58,31 @@ function jobId(name: ProviderJobName, providerCode: string, idempotencyKey: stri
 export async function enqueueProviderJob<Name extends ProviderJobName>(
   name: Name,
   payload: ProviderJobPayload[Name],
-  queue = createProviderQueue(),
+  queue?: Queue<ProviderJobPayload[ProviderJobName], void, ProviderJobName>,
 ) {
-  return queue.add(name, payload, {
-    ...RETRY_OPTIONS,
-    jobId: jobId(name, payload.providerCode, payload.idempotencyKey),
-  });
+  if (queue) {
+    return queue.add(name, payload, {
+      ...RETRY_OPTIONS,
+      jobId: jobId(name, payload.providerCode, payload.idempotencyKey),
+    });
+  }
+  const defaultQueue = createProviderQueue();
+  try {
+    return await defaultQueue.add(name, payload, {
+      ...RETRY_OPTIONS,
+      jobId: jobId(name, payload.providerCode, payload.idempotencyKey),
+    });
+  } finally {
+    await defaultQueue.close();
+  }
 }
 
 export function createProviderQueue(
   connection: ConnectionOptions | Redis = getRedisClient(),
+  queueName = PROVIDER_QUEUE_NAME,
 ): Queue<ProviderJobPayload[ProviderJobName], void, ProviderJobName> {
   return new Queue<ProviderJobPayload[ProviderJobName], void, ProviderJobName>(
-    PROVIDER_QUEUE_NAME,
+    queueName,
     { connection },
   );
 }

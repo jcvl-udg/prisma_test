@@ -64,9 +64,10 @@ export async function dispatchProviderJob(
 export function createProviderWorker(
   handlers: ProviderJobHandlers,
   connection: ConnectionOptions | Redis = getRedisClient(),
+  queueName = PROVIDER_QUEUE_NAME,
 ): Worker<ProviderJobPayload[ProviderJobName], void, ProviderJobName> {
   return new Worker<ProviderJobPayload[ProviderJobName], void, ProviderJobName>(
-    PROVIDER_QUEUE_NAME,
+    queueName,
     (job) => dispatchProviderJob(job.name, job.data, handlers),
     { connection },
   );

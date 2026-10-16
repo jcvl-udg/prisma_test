@@ -25,12 +25,14 @@ interface SearchBarProps {
   onSearchSubmit: (filters: SearchFilters) => void;
   onDatesChange?: (dates: StayDates | null) => void;
   initialDates?: StayDates | null;
+  initialQuery?: string;
 }
 
 export function SearchBar({
   onSearchSubmit,
   onDatesChange,
   initialDates,
+  initialQuery,
 }: SearchBarProps) {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
@@ -49,6 +51,10 @@ export function SearchBar({
   useEffect(() => {
     if (initialDates) setDates(initialDates);
   }, [initialDates?.checkIn, initialDates?.checkOut]);
+
+  useEffect(() => {
+    if (initialQuery !== undefined) setQuery(initialQuery);
+  }, [initialQuery]);
 
   // Click fuera → cerrar dropdown
   useEffect(() => {

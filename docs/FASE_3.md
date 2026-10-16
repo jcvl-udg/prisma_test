@@ -109,7 +109,8 @@ Verificaciones realizadas:
 - La regeneración ISR necesita que la base de datos esté disponible; si una regeneración falla, Next.js conserva la última página generada y registra el error.
 - TTFB, carga de imágenes y tamaño transferido deben medirse también en el entorno de despliegue.
 - **B1a: schema extendido y seeder v2** está implementado y validado en [`docs/FASE_B1A.md`](./FASE_B1A.md); migración, seed dev y reanudación se comprobaron en la base de desarrollo/pruebas.
-- **B1b: búsqueda y facets del catálogo** tiene backend validado en [`docs/FASE_B1B.md`](./FASE_B1B.md); el panel facetado, chips activos, badges y sincronización completa de filtros en URL siguen pendientes del prompt original.
+- **B1b: búsqueda y facets del catálogo** quedó completa en [`docs/FASE_B1B.md`](./FASE_B1B.md): panel facetado, filtros aplicados al backend, chips, badges de atributos, ordenamiento, cursor y estado restaurable desde URL.
 - **B1c: batching de relaciones y eliminación de N+1** está medida y validada en [`docs/FASE_B1C.md`](./FASE_B1C.md): la consulta objetivo resolvió 20 hoteles y sus relaciones en 6 consultas SQL.
-- **B2: arquitectura de providers** está implementada localmente en [`docs/FASE_B2.md`](./FASE_B2.md). La reserva/cotización local usa el router, y se añadieron la infraestructura BullMQ y el receptor genérico de webhooks; faltan Redis/Valkey real, clientes externos y handlers de producción.
-- B1a y el backend de B1b están en `main` remoto; B1c y B2 permanecen como cambios locales sin commit. No se ejecutó el seed durante estas fases.
+- **B2: arquitectura de providers** está implementada y validada con Upstash por TCP/TLS en [`docs/FASE_B2.md`](./FASE_B2.md): cache, circuit breaker, rate limit y ciclo BullMQ con retry. Clientes externos y handlers de producción quedan fuera hasta elegir un proveedor.
+- **Fase B (B1a–B2):** pruebas de integración y UI completas; `npm test` — 81 tests en 21 archivos; `npm run graphql:sync`, TypeScript, build y `git diff --check` verificados.
+- Los cambios de B1b UI, B1c y B2 son locales y no están commiteados/pusheados; no se ejecutó el seed durante estas fases.

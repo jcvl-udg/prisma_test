@@ -5,6 +5,10 @@ import { providerJobId } from '../server/providers/jobs';
 import { ProviderRegistry } from '../server/providers/registry';
 import { MemoryProviderRateLimiter } from '../server/providers/rate-limiter';
 import {
+  MemoryProviderExecutionPolicy,
+} from '../server/providers/execution-policy';
+import { ProviderRouter } from '../server/providers/router';
+import {
   ProviderCircuitOpenError,
   ProviderOperationError,
   ProviderRateLimitError,
@@ -77,6 +81,63 @@ describe('provider infrastructure', () => {
     await new Promise((resolve) => setTimeout(resolve, 1_010));
     await expect(cache.getOrLoad('rate:1', 1, load)).resolves.toBe(2);
     expect(loads).toBe(2);
+  });
+
+  it('caches remote availability through the router but always reads local inventory', async () => {
+    const cache = new MemoryProviderCache();
+    const registry = new ProviderRegistry();
+    let remoteLoads = 0;
+    let localLoads = 0;
+    const checkIn = new Date('2030-06-15T00:00:00.000Z');
+    const checkOut = new Date('2030-06-17T00:00:00.000Z');
+    const rate = {
+      roomId: 'room-1',
+      hotelId: 'hotel-1',
+      providerId: 'provider-1',
+      checkIn,
+      checkOut,
+      priceAmount: '200.00',
+      currency: 'USD',
+      providerRateKey: 'rate-1',
+    };
+    const remote = {
+      ...client('REMOTE'),
+      getAvailability: async () => {
+        remoteLoads++;
+        return [rate];
+      },
+    };
+    const local = {
+      ...client('LOCAL'),
+      getAvailability: async () => {
+        localLoads++;
+        return [rate];
+      },
+    };
+    registry.register(remote);
+    registry.register(local);
+    const router = new ProviderRouter(
+      registry,
+      new MemoryProviderExecutionPolicy(),
+      cache,
+    );
+    const params = {
+      hotelId: 'hotel-1',
+      checkIn,
+      checkOut,
+      adults: 2,
+      childrenAges: [],
+    };
+
+    const remoteFirst = await router.getAvailability('REMOTE', params);
+    const remoteCached = await router.getAvailability('REMOTE', params);
+    expect(remoteFirst[0].checkIn).toBeInstanceOf(Date);
+    expect(remoteCached[0].checkOut).toBeInstanceOf(Date);
+    expect(remoteLoads).toBe(1);
+
+    await router.getAvailability('LOCAL', params);
+    await router.getAvailability('LOCAL', params);
+    expect(localLoads).toBe(2);
   });
 
   it('normalizes provider codes and rejects duplicate registration', () => {

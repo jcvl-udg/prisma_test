@@ -179,6 +179,7 @@ type Hotel {
   popularityScore: Int!
   priceCurrency: String!
   priceFrom: String
+  propertyType: String!
   ratingAvg: Float
   reviewCount: Int!
   rooms: [Room!]!
@@ -214,6 +215,12 @@ input HotelFilter {
 
   """Códigos; el hotel debe tener TODAS (POOL, SPA...)"""
   amenities: [String!]
+
+  """Planes de alimentos"""
+  boardTypes: [String!]
+
+  """Políticas de cancelación"""
+  cancellationTypes: [String!]
   checkIn: Date
   checkOut: Date
 
@@ -231,6 +238,9 @@ input HotelFilter {
   """Calificación mínima (0-10)"""
   minRating: Float
   minStars: Int
+
+  """Tipos de alojamiento"""
+  propertyTypes: [String!]
 
   """Texto libre: hotel, destino o código"""
   query: String

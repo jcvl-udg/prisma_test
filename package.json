@@ -15,6 +15,7 @@
     "graphql:sync": "npm run graphql:export && npm run graphql:codegen",
     "graphql:watch": "graphql-codegen --config codegen.ts --watch",
     "test": "vitest run",
+    "providers:redis-check": "tsx scripts/providers-redis-check.ts",
     "test:watch": "vitest",
     "test:ui": "vitest --ui"
   },
