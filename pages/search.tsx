@@ -1,5 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import { SearchBar, type SearchFilters } from '../features/search/components/SearchBar';
 import { HotelCard } from '../features/catalog/components/HotelCard';
 import { useBooking } from '../features/booking/BookingContext';
@@ -18,15 +20,30 @@ const FULL_SEARCH_QUERY = graphql(`
   }
 `);
 
-export default function SearchPage() {
-  const { selection, clear, setDates } = useBooking();
+const HOTEL_BY_SLUG_QUERY = graphql(`
+  query LandingHotelBySlug($slug: String!) {
+    hotelBySlug(slug: $slug) {
+      id
+      title
+      categoryStars
+      destination { id name code }
+      rooms { id name }
+    }
+  }
+`);
 
-  const [executeSearch, { data: searchData, loading: isSearching }] = useLazyQuery(
-    FULL_SEARCH_QUERY,
-    { fetchPolicy: 'network-only' },
-  );
+export default function SearchPage() {
+  const router = useRouter();
+  const { selection, clear, setDates } = useBooking();
+  const [isHotelSlugSearch, setIsHotelSlugSearch] = useState(false);
+
+  const [executeSearch, { data: searchData, loading: isSearchLoading }] =
+    useLazyQuery(FULL_SEARCH_QUERY, { fetchPolicy: 'network-only' });
+  const [executeHotelBySlug, { data: hotelSearchData, loading: isHotelLoading }] =
+    useLazyQuery(HOTEL_BY_SLUG_QUERY, { fetchPolicy: 'network-only' });
 
   const handleSearchSubmit = (filters: SearchFilters) => {
+    setIsHotelSlugSearch(false);
     executeSearch({
       variables: {
         query: filters.query || null,
@@ -36,7 +53,58 @@ export default function SearchPage() {
     });
   };
 
-  const hotels = searchData?.searchHotels ?? [];
+  useEffect(() => {
+    if (!router.isReady) return;
+
+    const queryValue = (value: string | string[] | undefined) =>
+      Array.isArray(value) ? value[0] : value;
+    const hotelSlug = queryValue(router.query.hotelSlug);
+    const destinationId = queryValue(router.query.destinationId);
+    const query = queryValue(router.query.query);
+    const checkIn = queryValue(router.query.checkIn);
+    const checkOut = queryValue(router.query.checkOut);
+
+    if (checkIn || checkOut) {
+      setDates(
+        checkIn && checkOut && checkOut > checkIn
+          ? { checkIn, checkOut }
+          : null,
+      );
+    }
+
+    if (hotelSlug) {
+      setIsHotelSlugSearch(true);
+      executeHotelBySlug({ variables: { slug: hotelSlug } });
+      return;
+    }
+
+    setIsHotelSlugSearch(false);
+    if (!destinationId && !query) return;
+
+    executeSearch({
+      variables: { query: query ?? null, destinationId: destinationId ?? null, take: 20 },
+    });
+  }, [
+    executeSearch,
+    executeHotelBySlug,
+    router.isReady,
+    router.query.destinationId,
+    router.query.hotelSlug,
+    router.query.query,
+    router.query.checkIn,
+    router.query.checkOut,
+    setDates,
+  ]);
+
+  const hotels = isHotelSlugSearch
+    ? hotelSearchData?.hotelBySlug
+      ? [hotelSearchData.hotelBySlug]
+      : []
+    : searchData?.searchHotels ?? [];
+  const isSearching = isHotelSlugSearch ? isHotelLoading : isSearchLoading;
+  const hasSearched = isHotelSlugSearch
+    ? hotelSearchData !== undefined
+    : searchData !== undefined;
 
   return (
     <div className="min-h-screen bg-slate-50 p-8 font-sans">
@@ -64,7 +132,7 @@ export default function SearchPage() {
             {isSearching && (
               <p className="text-slate-500 animate-pulse">Consultando inventario…</p>
             )}
-            {!isSearching && hotels.length === 0 && searchData && (
+            {!isSearching && hotels.length === 0 && hasSearched && (
               <p className="text-slate-500">
                 No se encontraron hoteles para esta búsqueda.
               </p>

@@ -1,132 +1,110 @@
-// pages/index.tsx (Reemplaza a tu antiguo Blog)
-import Layout from "../components/layout/Layout"
-// import { gql } from "@apollo/client/core"
+import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { SchemaLink } from '@apollo/client/link/schema';
+import Head from 'next/head';
+import type { GetStaticProps, InferGetStaticPropsType } from 'next';
+import Link from 'next/link';
+import Layout from '../components/layout/Layout';
+import { FeaturedDestinations } from '../features/landing/components/FeaturedDestinations';
+import { Hero } from '../features/landing/components/Hero';
+import { PopularHotels } from '../features/landing/components/PopularHotels';
 import { graphql } from '../gql';
+import { prisma } from '../lib/prisma';
+import { schema } from '../server/schema';
 
-import { createApolloClient } from "../lib/apollo-client";
-
-import { prisma } from "../lib/prisma";
-
-// Definimos los tipos basados en tu nuevo esquema
-type HotelProps = {
-  id: string
-  title: string
-  categoryStars: number
-  destination: {
-    name: string
+const LANDING_CONTENT_QUERY = graphql(`
+  query LandingContent {
+    destinations(featuredOnly: true, take: 6) {
+      id
+      slug
+      name
+      countryCode
+      imageUrl
+      popularityScore
+    }
+    hotels(first: 12, sort: POPULAR) {
+      edges {
+        node {
+          id
+          slug
+          title
+          categoryStars
+          ratingAvg
+          reviewCount
+          priceFrom
+          priceCurrency
+          mainImageUrl
+          destination {
+            name
+            code
+          }
+        }
+      }
+    }
   }
-  rooms: {
-    id: string
-    name: string
-  }[]
-}
+`);
 
-const HotelesHome: React.FC<{ data: { searchHotels: HotelProps[] } }> = (props) => {
-  return (
-    <Layout>
-      <div className="page">
-        <h1>Explora nuestros Hoteles</h1>
-        <main>
-          {props.data.searchHotels.map((hotel) => (
-            <div key={hotel.id} className="hotel-card">
-              <h2>{hotel.title}</h2>
-              <p>📍 {hotel.destination.name} | ⭐ {hotel.categoryStars} Estrellas</p>
-              
-              <div className="rooms">
-                <strong>Habitaciones disponibles:</strong>
-                <ul>
-                  {hotel.rooms.map(room => (
-                    <li key={room.id}>{room.name}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          ))}
-          
-          {props.data.searchHotels.length === 0 && (
-            <p>No hay hoteles registrados aún. ¡Corre el seed!</p>
-          )}
-        </main>
-      </div>
-      <style jsx>{`
-        .page { padding: 2rem; }
-        .hotel-card {
-          background: white;
-          padding: 1.5rem;
-          border-radius: 8px;
-          transition: box-shadow 0.2s ease-in;
-          border: 1px solid #eaeaea;
-        }
-        .hotel-card:hover {
-          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .hotel-card + .hotel-card {
-          margin-top: 2rem;
-        }
-        .rooms {
-          margin-top: 1rem;
-          padding-top: 1rem;
-          border-top: 1px dashed #eaeaea;
-        }
-        ul { margin-top: 0.5rem; padding-left: 1.5rem; }
-      `}</style>
-    </Layout>
-  )
-}
+const LandingPage = ({
+  destinations,
+  hotels,
+}: InferGetStaticPropsType<typeof getStaticProps>) => (
+  <Layout>
+    <Head>
+      <title>Aleca Travel | Encuentra tu próximo viaje</title>
+      <meta
+        name="description"
+        content="Descubre destinos destacados y encuentra hoteles para planear tu próximo viaje."
+      />
+    </Head>
+    <main className="mx-auto max-w-7xl space-y-20 px-4 py-8 sm:px-6 lg:px-8">
+      <Hero />
+      <FeaturedDestinations destinations={destinations} />
+      <PopularHotels hotels={hotels} />
+      <section className="rounded-3xl bg-slate-900 px-6 py-12 text-center text-white sm:px-12">
+        <h2 className="text-2xl font-bold sm:text-3xl">
+          ¿Buscas algo más específico?
+        </h2>
+        <p className="mx-auto mt-3 max-w-xl text-slate-300">
+          Explora el catálogo completo y encuentra la estancia ideal para tu
+          próximo viaje.
+        </p>
+        <Link
+          href="/search"
+          className="mt-6 inline-flex rounded-lg bg-white px-5 py-3 font-semibold text-slate-900 transition hover:bg-slate-100"
+        >
+          Explorar todos los hoteles
+        </Link>
+      </section>
+    </main>
+  </Layout>
+);
 
-export async function getServerSideProps() {
-  // const client = createApolloClient();
+export const getStaticProps: GetStaticProps = async () => {
+  const client = new ApolloClient({
+    ssrMode: true,
+    link: new SchemaLink({
+      schema,
+      context: {
+        prisma,
+        user: null,
+        anonymousId: null,
+      },
+    }),
+    cache: new InMemoryCache(),
+  });
+
   try {
-    // Vas directo a la BD sin pasar por GraphQL/HTTP
-    const hotels = await prisma.hotel.findMany({
-      include: { destination: true, rooms: true }
-    });
-    // console.log(client);
-    return { props: { data: { searchHotels: JSON.parse(JSON.stringify(hotels)) } } };
-  } catch (error) {
-    return { props: { data: { searchHotels: [] }, error: "Falló" } };
+    const { data } = await client.query({ query: LANDING_CONTENT_QUERY });
+    if (!data) throw new Error('La consulta GraphQL de la landing no devolvió datos.');
+    return {
+      props: {
+        destinations: data.destinations,
+        hotels: data.hotels.edges.map(({ node }) => node),
+      },
+      revalidate: 60,
+    };
+  } finally {
+    await client.stop();
   }
-}
+};
 
-// Hacemos la consulta GraphQL a tu nueva API
-// export async function getServerSideProps() {
-//   const client = createApolloClient();
-
-//   try {
-//     const { data } = await client.query({
-//       query: graphql(`
-//         query SearchHotels {
-//           searchHotels {
-//             id
-//             title
-//             categoryStars
-//             destination {
-//               name
-//             }
-//             rooms {
-//               id
-//               name
-//             }
-//           }
-//         }
-//       `),
-//     });
-
-//     return {
-//       props: { data },
-//     };
-//   } catch (error: any) {
-//     // 1. Imprime el error real en tu terminal de servidor
-//     console.error("🔥 Error en getServerSideProps (Index):", error.message || error);
-
-//     // 2. Retorna un estado vacío para que la página cargue sin dar 500
-//     return {
-//       props: {
-//         data: { searchHotels: [] },
-//         error: "No se pudieron cargar los hoteles. Revisa la consola del servidor."
-//       },
-//     };
-//   }
-// }
-
-export default HotelesHome;
+export default LandingPage;
