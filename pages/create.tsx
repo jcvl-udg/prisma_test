@@ -4,6 +4,7 @@ import Layout from "../components/layout/Layout"
 import Router from "next/router"
 import { gql } from "@apollo/client/core"
 import { useMutation } from "@apollo/client/react"
+import { withRequireRole } from "../features/auth/RequireRole"
 
 const CreateManualHotelMutation = gql`
   mutation CreateManualHotel(
@@ -32,7 +33,7 @@ const CreateManualHotelMutation = gql`
   }
 `
 
-export default function CreateHotel() {
+function CreateHotel() {
   const [title, setTitle] = useState("")
   const [categoryStars, setCategoryStars] = useState<number>(3)
   const [destinationName, setDestinationName] = useState("")
@@ -141,3 +142,5 @@ export default function CreateHotel() {
     </Layout>
   )
 }
+
+export default withRequireRole(CreateHotel, ['ADMIN'])

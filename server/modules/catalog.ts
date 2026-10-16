@@ -3,6 +3,7 @@ import { GraphQLError } from 'graphql';
 import { Prisma } from '../../prisma/generated/client';
 import { builder } from '../builder';
 import type { Context } from '../context';
+import { requireRole } from '../auth-guards';
 import { normalize, slugify } from '../../lib/text';
 
 // ─────────────────────────────────────────────────────────────
@@ -460,6 +461,7 @@ builder.mutationField('createManualHotel', (t) =>
       countryCode: t.arg.string({ required: true, description: 'ISO 3166-1 alpha-2, ej. MX' }),
     },
     resolve: async (query, _root, args, ctx) => {
+      requireRole(ctx, ['ADMIN']);
       const destSlug = slugify(args.destinationName);
       // `||` (no `??`): una cadena vacía también debe caer al valor por defecto
       const code = (args.destinationCode?.trim() || args.destinationName.slice(0, 3)).toUpperCase();

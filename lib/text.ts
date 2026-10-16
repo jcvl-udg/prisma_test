@@ -12,6 +12,10 @@ export function normalize(input: string): string {
     .trim();
 }
 
+export function normalizeEmail(email: string): string {
+  return email.trim().toLowerCase();
+}
+
 // "Gran Meliá Cancún" -> "gran-melia-cancun"
 export function slugify(input: string): string {
   return normalize(input)

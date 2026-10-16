@@ -1,14 +1,10 @@
 import { builder } from '../builder';
+import { requireRole } from '../auth-guards';
 
 import { GraphQLError } from 'graphql';
 import { Prisma } from '../../prisma/generated/client';
 // ─────────────────────────────────────────────────────────────
-// Por ahora este módulo SOLO define tipos. No hay queries ni mutations:
-//   - createBooking se reescribe completo en la Tarea 6
-//     (cotización, idempotencia, transacción, estados)
-//   - consultar reservas requiere sesión (Tarea 3)
-// Los datos personales del huésped (nombre, correo, teléfono) NO se exponen
-// todavía: se añadirán junto con las reglas de autorización.
+// Los campos personales del huésped no se exponen en el tipo GraphQL.
 // ─────────────────────────────────────────────────────────────
 
 // ─────────────────────────────────────────────────────────────
@@ -72,6 +68,47 @@ builder.prismaObject('BookingItem', {
     status: t.string({ resolve: (i) => i.status }),
   }),
 });
+
+const MAX_BOOKING_PAGE_SIZE = 50;
+
+builder.queryField('myBookings', (t) =>
+  t.prismaField({
+    type: ['Booking'],
+    args: {
+      first: t.arg.int({ required: false, defaultValue: 20 }),
+      skip: t.arg.int({ required: false, defaultValue: 0 }),
+    },
+    resolve: (query, _root, args, ctx) => {
+      const user = requireRole(ctx, ['CUSTOMER', 'AGENT', 'ADMIN']);
+      return ctx.prisma.booking.findMany({
+        ...query,
+        where: { userId: user.id },
+        orderBy: { createdAt: 'desc' },
+        take: Math.min(Math.max(args.first ?? 20, 1), MAX_BOOKING_PAGE_SIZE),
+        skip: Math.max(args.skip ?? 0, 0),
+      });
+    },
+  }),
+);
+
+builder.queryField('adminBookings', (t) =>
+  t.prismaField({
+    type: ['Booking'],
+    args: {
+      first: t.arg.int({ required: false, defaultValue: 20 }),
+      skip: t.arg.int({ required: false, defaultValue: 0 }),
+    },
+    resolve: (query, _root, args, ctx) => {
+      requireRole(ctx, ['AGENT', 'ADMIN']);
+      return ctx.prisma.booking.findMany({
+        ...query,
+        orderBy: { createdAt: 'desc' },
+        take: Math.min(Math.max(args.first ?? 20, 1), MAX_BOOKING_PAGE_SIZE),
+        skip: Math.max(args.skip ?? 0, 0),
+      });
+    },
+  }),
+);
 
 // ─────────────────────────────────────────────────────────────
 // MUTATIONS

@@ -153,9 +153,8 @@ type Mutation {
     destinationName: String!
     title: String!
   ): Hotel!
-  createProfile(bio: String!, userEmail: String!): Profile!
   createQuote(adults: Int!, checkIn: Date!, checkOut: Date!, childrenAges: [Int!]!, hotelId: String!, roomId: String!): Quote!
-  signupUser(email: String!, name: String): User!
+  signupUser(email: String!, name: String, password: String!): User!
 }
 
 type PageInfo {
@@ -175,12 +174,15 @@ type Profile {
 }
 
 type Query {
+  adminBookings(first: Int = 20, skip: Int = 0): [Booking!]!
   amenities: [Amenity!]!
   destinationBySlug(slug: String!): Destination
   destinations(featuredOnly: Boolean = false, take: Int = 12): [Destination!]!
   hotelBySlug(slug: String!): Hotel
   hotels(after: String, before: String, filter: HotelFilter, first: Int, last: Int, sort: HotelSort = POPULAR): QueryHotelsConnection!
   hotelsCount(filter: HotelFilter): Int!
+  me: User
+  myBookings(first: Int = 20, skip: Int = 0): [Booking!]!
   searchHotels(destinationId: String, minStars: Int, query: String, skip: Int = 0, take: Int = 10): [Hotel!]! @deprecated(reason: "Usa hotels(filter, sort, first, after) y suggestions(query)")
   suggestions(query: String!, take: Int = 5): Suggestions!
 }

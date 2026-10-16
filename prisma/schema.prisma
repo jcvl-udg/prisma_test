@@ -65,7 +65,7 @@ model User {
   emailVerified DateTime?
   name          String?
   image         String?
-  password      String?
+  password      String? // Hash de contraseña solo para Credentials; Auth.js no lo crea ni lo verifica por ti.
   role          UserRole  @default(CUSTOMER)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt

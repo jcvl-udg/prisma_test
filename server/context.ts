@@ -1,12 +1,10 @@
 import type { NextApiRequest } from 'next';
+import type { NextApiResponse } from 'next';
 import prisma from '../lib/prisma';
+import { auth } from './auth';
+import { sessionUserFromSession, type SessionUser } from './session-user';
 
-// Usuario autenticado. Hoy siempre es null; en la Tarea 3 (autenticación)
-// se llena leyendo la sesión de la librería elegida.
-export interface SessionUser {
-  id: string;
-  role: 'CUSTOMER' | 'AGENT' | 'ADMIN';
-}
+export type { SessionUser } from './session-user';
 
 // Se crea UNA vez por petición y llega a todos los resolvers como `ctx`.
 // Usar ctx.prisma (en vez de importar prisma en cada módulo) facilita
@@ -26,10 +24,14 @@ function readCookie(header: string | undefined, name: string): string | null {
   return null;
 }
 
-export function createContext(req: NextApiRequest): Context {
+export async function createContext(
+  req: NextApiRequest,
+  res: NextApiResponse,
+): Promise<Context> {
+  const session = await auth(req, res);
   return {
     prisma,
-    user: null, // TODO(Tarea 3): resolver sesión
+    user: sessionUserFromSession(session),
     anonymousId: readCookie(req.headers.cookie, 'anonymousId'),
   };
 }

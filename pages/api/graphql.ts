@@ -14,7 +14,7 @@ export default createYoga<{ req: NextApiRequest; res: NextApiResponse }>({
   // genérico y no detalles internos (SQL, rutas, stack traces).
   maskedErrors: { isDev: !isProd },
   // Se ejecuta una vez por petición y construye `ctx` para los resolvers
-  context: ({ req }) => createContext(req),
+  context: ({ req, res }) => createContext(req, res),
 });
 
 // Yoga lee el cuerpo por sí mismo: Next no debe parsearlo antes

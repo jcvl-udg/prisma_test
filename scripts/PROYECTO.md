@@ -42,21 +42,31 @@ proveedores externos (HBX, Omnibees) junto con inventario propio.
 ├── server/
 │   ├── builder.ts                 # Instancia única de SchemaBuilder
 │   ├── context.ts                 # Context por request (prisma, user, anonymousId)
+│   ├── auth.ts                    # Auth.js v5, providers y callbacks JWT
+│   ├── auth-guards.ts             # Guards GraphQL para sesión/roles
+│   ├── password.ts                # Hash y verificación bcrypt
 │   ├── schema.ts                  # Ensambla el schema importando módulos
 │   └── modules/
 │       ├── catalog.ts             # Queries: hotels, destinations, suggestions...
-│       ├── booking.ts             # Tipos Booking/BookingItem (mutation pendiente)
-│       └── user.ts                # Tipos User/Profile + signup temporal
+│       ├── booking.ts             # Cotización, reserva y queries según rol
+│       ├── auth.ts                # signupUser + me
+│       └── user.ts                # Tipos User/Profile
 │
 ├── pages/
-│   ├── _app.tsx                   # ApolloProvider + CartProvider
+│   ├── _app.tsx                   # SessionProvider + ApolloProvider + BookingProvider
 │   ├── index.tsx                  # Home (Prisma directo — a migrar)
 │   ├── search.tsx                 # Búsqueda con Apollo
-│   ├── create.tsx                 # Formulario alta de hotel
-│   ├── signup.tsx                 # Registro (temporal)
-│   └── api/graphql.ts             # Endpoint GraphQL Yoga
+│   ├── create.tsx                 # Alta de hotel (ADMIN)
+│   ├── signup.tsx                 # Registro con contraseña
+│   ├── login.tsx                  # Contraseña o magic link
+│   ├── mis-reservas.tsx           # Reservas del usuario autenticado
+│   ├── admin/index.tsx            # Panel de operaciones (AGENT/ADMIN)
+│   └── api/
+│       ├── graphql.ts             # Endpoint GraphQL Yoga
+│       └── auth/[...nextauth].ts  # Endpoint Auth.js v5
 │
 ├── features/
+│   ├── auth/                      # Sesión cliente, guards y layout admin
 │   ├── booking/CartContext.tsx    # Estado del carrito
 │   ├── catalog/components/
 │   │   └── HotelCard.tsx          # Tarjeta de hotel
@@ -145,8 +155,8 @@ y mutations (`builder.mutationField`).
 - `builder.ts`: única instancia del builder. Declara `PrismaTypes`, `Context`,
   y scalars (`DateTime`, `Date`).
 - `schema.ts`: importa los módulos (efecto secundario) y llama `builder.toSchema()`.
-- `context.ts`: lo que llega a cada resolver como `ctx`. Hoy expone `prisma`,
-  `user: null`, `anonymousId`.
+- `context.ts`: lo que llega a cada resolver como `ctx`. Valida la sesión JWT
+  de Auth.js y expone `prisma`, `user: {id, role} | null` y `anonymousId`.
 
 ### 5.3 GraphQL Yoga (`pages/api/graphql.ts`)
 
@@ -178,22 +188,25 @@ corres `npm run graphql:sync` y aparecen en `gql/graphql.ts`.
 | `amenities` | [Amenity] | Catálogo para filtros |
 | `suggestions(query, take)` | Suggestions | Autocomplete (destinos + hoteles) |
 | `searchHotels(...)` | [Hotel] | **LEGACY** — deprecado, migrar a `hotels` |
+| `me` | User? | Identidad obtenida de la sesión JWT |
+| `myBookings(first, skip)` | [Booking] | Reservas propias del usuario autenticado |
+| `adminBookings(first, skip)` | [Booking] | Vista operativa; requiere AGENT/ADMIN |
 
 ### GraphQL — Mutations
 
 | Nombre | Estado | Descripción |
 |---|---|---|
-| `createManualHotel(...)` | ✅ | Alta manual de hotel + upsert de destino |
-| `signupUser(...)` | ⚠️ Temporal | Registro sin password (se elimina al montar auth) |
-| `createProfile(...)` | ⚠️ Temporal | Perfil ligado a email (se elimina al montar auth) |
-| `createQuote(...)` | ❌ Pendiente | Congelar precio (Fase 1) |
-| `createBooking(...)` | ❌ Pendiente | Crear reserva + idempotencia (Fase 1) |
+| `signupUser(...)` | ✅ | Registro con hash bcrypt y rol CUSTOMER |
+| `createManualHotel(...)` | ✅ | Alta manual de hotel + upsert de destino; solo ADMIN |
+| `createQuote(...)` | ✅ | Congelar precio |
+| `createBooking(...)` | ✅ | Crear reserva + idempotencia |
 
 ### Carpetas `features/*`
 
 Se organiza **por dominio funcional**, no por tipo de archivo:
 
 - `features/booking/` — Todo lo del flujo de reserva (contexto, hooks, componentes).
+- `features/auth/` — Hook de sesión, guard por rol y layout de operaciones.
 - `features/catalog/` — Componentes de presentación de hoteles/habitaciones.
 - `features/search/` — Búsqueda y filtros.
 
@@ -205,6 +218,10 @@ Se organiza **por dominio funcional**, no por tipo de archivo:
   "@prisma/client": "^7.5.0",           // Cliente generado
   "@prisma/adapter-pg": "^7.10.0",      // Driver nativo para Postgres
   "pg": "^8.20.0",                      // Pool de conexiones
+  "next-auth": "5.0.0-beta.32",         // Sesión JWT y providers
+  "@auth/prisma-adapter": "2.11.3",     // Usuarios y tokens de magic link
+  "bcryptjs": "3.0.3",                  // Hash de passwords Credentials
+  "nodemailer": "8.0.11",               // Transporte de magic links
 
   // GraphQL servidor
   "graphql": "^16.13.1",                // Implementación de referencia
@@ -261,14 +278,8 @@ npm run graphql:watch    # codegen en modo watch
 - API GraphQL de solo lectura (búsqueda + catálogo) + alta manual de hotel.
 - Frontend de búsqueda con autocomplete y carrito en memoria.
 
-**Fase 1 en curso:**
-- Cerrar el ciclo `Quote → Booking` con:
-  - Mutation `createQuote` (validación de inventario noche-a-noche).
-  - Mutation `createBooking` (idempotencia + transacción + descuento de stock).
-  - Página `/checkout` y `/reservas/[reference]`.
-  - Contexto `BookingContext` que reemplaza al `CartContext`.
+**Fases completadas:** Fase 1 (flujo Quote → Booking) y Fase 2 (Auth.js, roles,
+reservas del cliente y panel de operaciones).
 
-**Fases posteriores:**
-- Autenticación real (Auth.js).
-- Dashboard admin (`/admin/*`).
-- Integración con proveedores externos.
+**Siguientes trabajos:** rate limiting/recovery de credenciales, integración con
+proveedores externos y ampliación del dashboard.

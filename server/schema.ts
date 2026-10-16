@@ -5,6 +5,7 @@ import { builder } from './builder';
 import './modules/catalog';
 import './modules/booking';
 import './modules/user';
+import './modules/auth';
 
 // Se exporta el esquema ya construido para poder usarlo en:
 //   - pages/api/graphql.ts      (servidor)
