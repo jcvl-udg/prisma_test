@@ -109,5 +109,7 @@ Verificaciones realizadas:
 - La regeneración ISR necesita que la base de datos esté disponible; si una regeneración falla, Next.js conserva la última página generada y registra el error.
 - TTFB, carga de imágenes y tamaño transferido deben medirse también en el entorno de despliegue.
 - **B1a: schema extendido y seeder v2** está implementado y validado en [`docs/FASE_B1A.md`](./FASE_B1A.md); migración, seed dev y reanudación se comprobaron en la base de desarrollo/pruebas.
-- **B1b: búsqueda y facets del catálogo** está implementada y validada en [`docs/FASE_B1B.md`](./FASE_B1B.md), con pruebas GraphQL, suite y build correctos y un plan de búsqueda medido contra el seed dev.
-- B1a y B1b no están commiteadas. B1c y B2 continúan pendientes.
+- **B1b: búsqueda y facets del catálogo** tiene backend validado en [`docs/FASE_B1B.md`](./FASE_B1B.md); el panel facetado, chips activos, badges y sincronización completa de filtros en URL siguen pendientes del prompt original.
+- **B1c: batching de relaciones y eliminación de N+1** está medida y validada en [`docs/FASE_B1C.md`](./FASE_B1C.md): la consulta objetivo resolvió 20 hoteles y sus relaciones en 6 consultas SQL.
+- **B2: arquitectura de providers** está implementada localmente en [`docs/FASE_B2.md`](./FASE_B2.md). La reserva/cotización local usa el router, y se añadieron la infraestructura BullMQ y el receptor genérico de webhooks; faltan Redis/Valkey real, clientes externos y handlers de producción.
+- B1a y el backend de B1b están en `main` remoto; B1c y B2 permanecen como cambios locales sin commit. No se ejecutó el seed durante estas fases.

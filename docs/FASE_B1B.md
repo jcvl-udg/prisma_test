@@ -1,6 +1,6 @@
 # Fase B1b — Búsqueda y facets del catálogo
 
-**Estado:** implementada y validada en desarrollo.  
+**Estado:** backend implementado y validado en desarrollo; UI pendiente.
 **Alcance:** búsqueda GraphQL del catálogo, facets de resultados y verificación de consultas/índices. B1c y B2 quedan fuera de esta entrega.
 
 ## Búsqueda y facets
@@ -38,7 +38,7 @@ La query `hotelsCount` sigue disponible cuando el cliente solo necesita el total
 - La disponibilidad valida que cada habitación tenga una fila libre para cada noche solicitada. Entrada/salida parciales, fechas pasadas y estancias superiores a 30 noches se rechazan.
 - La búsqueda usa orden determinista con `id` como desempate y límite de 50 resultados por página.
 - Los índices no se consideran útiles solo por existir en el schema. Medir con datos representativos y comprobar `EXPLAIN (ANALYZE, BUFFERS)` para los filtros y ordenamientos reales; contrastar latencia y filas leídas, no exigir `Index Scan` si el planificador elige correctamente un scan secuencial para una tabla pequeña.
-- Los facets no se consumen todavía desde la interfaz; integrar filtros en el frontend es trabajo posterior y no se elimina el endpoint legacy en B1b.
+- El alcance original de B1b también pide el panel de filtros, chips activos, badges de hotel y estado de filtros en la URL. Esas piezas de UI siguen pendientes; la query `hotelFacets` sí está lista para consumirlas. El endpoint legacy no se elimina en B1b.
 
 Consulta de referencia para explicar y ajustar a un destino real:
 
@@ -80,6 +80,6 @@ No ejecutar benchmarks de carga contra producción.
 
 ## No incluido
 
-- UI de filtros/facets.
+- UI de filtros/facets (pendiente respecto al prompt original).
 - Retirada de `searchHotels`.
 - Cambios en providers, recomendación o indexación de B1c/B2.

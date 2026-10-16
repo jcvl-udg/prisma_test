@@ -183,6 +183,38 @@ describe('createBooking', () => {
     }
   });
 
+  it('resuelve solicitudes concurrentes con la misma clave sin duplicar la reserva', async () => {
+    try {
+      const quoteId = await createQuoteForFx();
+      const idempotencyKey = rid();
+      const input = {
+        quoteId,
+        idempotencyKey,
+        guestName: 'Ana',
+        guestEmail: 'ana@example.com',
+        guestPhone: null,
+      };
+
+      const [first, second]: any[] = await Promise.all([
+        gql(CREATE_BOOKING, input),
+        gql(CREATE_BOOKING, input),
+      ]);
+
+      expect(first.errors).toBeUndefined();
+      expect(second.errors).toBeUndefined();
+      expect(first.data.createBooking.id).toBe(second.data.createBooking.id);
+      expect(await testPrisma.booking.count({ where: { idempotencyKey } })).toBe(1);
+
+      const inventory = await testPrisma.roomInventory.findMany({
+        where: { roomId: fx.roomId },
+        orderBy: { date: 'asc' },
+      });
+      expect(inventory.every((row) => row.available === 4)).toBe(true);
+    } finally {
+      await fx.cleanup();
+    }
+  });
+
   it('rechaza cuando la cotización expiró', async () => {
     try {
       const quoteId = await createQuoteForFx();
