@@ -47,3 +47,85 @@ export const EventType = {
 } as const
 
 export type EventType = (typeof EventType)[keyof typeof EventType]
+
+
+export const PropertyType = {
+  HOTEL: 'HOTEL',
+  RESORT: 'RESORT',
+  HOSTEL: 'HOSTEL',
+  APARTMENT: 'APARTMENT',
+  VILLA: 'VILLA',
+  BOUTIQUE_HOTEL: 'BOUTIQUE_HOTEL',
+  BED_AND_BREAKFAST: 'BED_AND_BREAKFAST',
+  MOTEL: 'MOTEL',
+  LODGE: 'LODGE',
+  APARTHOTEL: 'APARTHOTEL'
+} as const
+
+export type PropertyType = (typeof PropertyType)[keyof typeof PropertyType]
+
+
+export const ViewType = {
+  NONE: 'NONE',
+  CITY: 'CITY',
+  SEA: 'SEA',
+  GARDEN: 'GARDEN',
+  MOUNTAIN: 'MOUNTAIN',
+  POOL: 'POOL',
+  LANDMARK: 'LANDMARK'
+} as const
+
+export type ViewType = (typeof ViewType)[keyof typeof ViewType]
+
+
+export const BoardType = {
+  ROOM_ONLY: 'ROOM_ONLY',
+  BREAKFAST: 'BREAKFAST',
+  HALF_BOARD: 'HALF_BOARD',
+  FULL_BOARD: 'FULL_BOARD',
+  ALL_INCLUSIVE: 'ALL_INCLUSIVE'
+} as const
+
+export type BoardType = (typeof BoardType)[keyof typeof BoardType]
+
+
+export const CancellationType = {
+  FREE: 'FREE',
+  PARTIAL: 'PARTIAL',
+  NON_REFUNDABLE: 'NON_REFUNDABLE'
+} as const
+
+export type CancellationType = (typeof CancellationType)[keyof typeof CancellationType]
+
+
+export const PaymentType = {
+  PREPAID: 'PREPAID',
+  AT_PROPERTY: 'AT_PROPERTY',
+  DEPOSIT: 'DEPOSIT'
+} as const
+
+export type PaymentType = (typeof PaymentType)[keyof typeof PaymentType]
+
+
+export const POIKind = {
+  AIRPORT: 'AIRPORT',
+  BEACH: 'BEACH',
+  LANDMARK: 'LANDMARK',
+  MALL: 'MALL',
+  STADIUM: 'STADIUM',
+  CONVENTION_CENTER: 'CONVENTION_CENTER',
+  PARK: 'PARK',
+  MUSEUM: 'MUSEUM'
+} as const
+
+export type POIKind = (typeof POIKind)[keyof typeof POIKind]
+
+
+export const TagKind = {
+  AUDIENCE: 'AUDIENCE',
+  VIBE: 'VIBE',
+  CERTIFICATION: 'CERTIFICATION',
+  AWARD: 'AWARD'
+} as const
+
+export type TagKind = (typeof TagKind)[keyof typeof TagKind]

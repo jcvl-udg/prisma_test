@@ -30,12 +30,16 @@ export type RoomAvgAggregateOutputType = {
   maxAdults: number | null
   maxChildren: number | null
   sizeM2: number | null
+  bedCount: number | null
+  floor: number | null
 }
 
 export type RoomSumAggregateOutputType = {
   maxAdults: number | null
   maxChildren: number | null
   sizeM2: number | null
+  bedCount: number | null
+  floor: number | null
 }
 
 export type RoomMinAggregateOutputType = {
@@ -47,6 +51,16 @@ export type RoomMinAggregateOutputType = {
   maxChildren: number | null
   sizeM2: number | null
   bedType: string | null
+  viewType: $Enums.ViewType | null
+  boardType: $Enums.BoardType | null
+  hasBalcony: boolean | null
+  hasTerrace: boolean | null
+  hasKitchen: boolean | null
+  hasJacuzzi: boolean | null
+  isAccessible: boolean | null
+  smokingAllowed: boolean | null
+  bedCount: number | null
+  floor: number | null
 }
 
 export type RoomMaxAggregateOutputType = {
@@ -58,6 +72,16 @@ export type RoomMaxAggregateOutputType = {
   maxChildren: number | null
   sizeM2: number | null
   bedType: string | null
+  viewType: $Enums.ViewType | null
+  boardType: $Enums.BoardType | null
+  hasBalcony: boolean | null
+  hasTerrace: boolean | null
+  hasKitchen: boolean | null
+  hasJacuzzi: boolean | null
+  isAccessible: boolean | null
+  smokingAllowed: boolean | null
+  bedCount: number | null
+  floor: number | null
 }
 
 export type RoomCountAggregateOutputType = {
@@ -69,6 +93,16 @@ export type RoomCountAggregateOutputType = {
   maxChildren: number
   sizeM2: number
   bedType: number
+  viewType: number
+  boardType: number
+  hasBalcony: number
+  hasTerrace: number
+  hasKitchen: number
+  hasJacuzzi: number
+  isAccessible: number
+  smokingAllowed: number
+  bedCount: number
+  floor: number
   _all: number
 }
 
@@ -77,12 +111,16 @@ export type RoomAvgAggregateInputType = {
   maxAdults?: true
   maxChildren?: true
   sizeM2?: true
+  bedCount?: true
+  floor?: true
 }
 
 export type RoomSumAggregateInputType = {
   maxAdults?: true
   maxChildren?: true
   sizeM2?: true
+  bedCount?: true
+  floor?: true
 }
 
 export type RoomMinAggregateInputType = {
@@ -94,6 +132,16 @@ export type RoomMinAggregateInputType = {
   maxChildren?: true
   sizeM2?: true
   bedType?: true
+  viewType?: true
+  boardType?: true
+  hasBalcony?: true
+  hasTerrace?: true
+  hasKitchen?: true
+  hasJacuzzi?: true
+  isAccessible?: true
+  smokingAllowed?: true
+  bedCount?: true
+  floor?: true
 }
 
 export type RoomMaxAggregateInputType = {
@@ -105,6 +153,16 @@ export type RoomMaxAggregateInputType = {
   maxChildren?: true
   sizeM2?: true
   bedType?: true
+  viewType?: true
+  boardType?: true
+  hasBalcony?: true
+  hasTerrace?: true
+  hasKitchen?: true
+  hasJacuzzi?: true
+  isAccessible?: true
+  smokingAllowed?: true
+  bedCount?: true
+  floor?: true
 }
 
 export type RoomCountAggregateInputType = {
@@ -116,6 +174,16 @@ export type RoomCountAggregateInputType = {
   maxChildren?: true
   sizeM2?: true
   bedType?: true
+  viewType?: true
+  boardType?: true
+  hasBalcony?: true
+  hasTerrace?: true
+  hasKitchen?: true
+  hasJacuzzi?: true
+  isAccessible?: true
+  smokingAllowed?: true
+  bedCount?: true
+  floor?: true
   _all?: true
 }
 
@@ -214,6 +282,16 @@ export type RoomGroupByOutputType = {
   maxChildren: number
   sizeM2: number | null
   bedType: string | null
+  viewType: $Enums.ViewType
+  boardType: $Enums.BoardType
+  hasBalcony: boolean
+  hasTerrace: boolean
+  hasKitchen: boolean
+  hasJacuzzi: boolean
+  isAccessible: boolean
+  smokingAllowed: boolean
+  bedCount: number
+  floor: number | null
   _count: RoomCountAggregateOutputType | null
   _avg: RoomAvgAggregateOutputType | null
   _sum: RoomSumAggregateOutputType | null
@@ -248,6 +326,16 @@ export type RoomWhereInput = {
   maxChildren?: Prisma.IntFilter<"Room"> | number
   sizeM2?: Prisma.IntNullableFilter<"Room"> | number | null
   bedType?: Prisma.StringNullableFilter<"Room"> | string | null
+  viewType?: Prisma.EnumViewTypeFilter<"Room"> | $Enums.ViewType
+  boardType?: Prisma.EnumBoardTypeFilter<"Room"> | $Enums.BoardType
+  hasBalcony?: Prisma.BoolFilter<"Room"> | boolean
+  hasTerrace?: Prisma.BoolFilter<"Room"> | boolean
+  hasKitchen?: Prisma.BoolFilter<"Room"> | boolean
+  hasJacuzzi?: Prisma.BoolFilter<"Room"> | boolean
+  isAccessible?: Prisma.BoolFilter<"Room"> | boolean
+  smokingAllowed?: Prisma.BoolFilter<"Room"> | boolean
+  bedCount?: Prisma.IntFilter<"Room"> | number
+  floor?: Prisma.IntNullableFilter<"Room"> | number | null
   hotel?: Prisma.XOR<Prisma.HotelScalarRelationFilter, Prisma.HotelWhereInput>
   inventory?: Prisma.RoomInventoryListRelationFilter
   mappings?: Prisma.RoomMappingListRelationFilter
@@ -264,6 +352,16 @@ export type RoomOrderByWithRelationInput = {
   maxChildren?: Prisma.SortOrder
   sizeM2?: Prisma.SortOrderInput | Prisma.SortOrder
   bedType?: Prisma.SortOrderInput | Prisma.SortOrder
+  viewType?: Prisma.SortOrder
+  boardType?: Prisma.SortOrder
+  hasBalcony?: Prisma.SortOrder
+  hasTerrace?: Prisma.SortOrder
+  hasKitchen?: Prisma.SortOrder
+  hasJacuzzi?: Prisma.SortOrder
+  isAccessible?: Prisma.SortOrder
+  smokingAllowed?: Prisma.SortOrder
+  bedCount?: Prisma.SortOrder
+  floor?: Prisma.SortOrderInput | Prisma.SortOrder
   hotel?: Prisma.HotelOrderByWithRelationInput
   inventory?: Prisma.RoomInventoryOrderByRelationAggregateInput
   mappings?: Prisma.RoomMappingOrderByRelationAggregateInput
@@ -284,6 +382,16 @@ export type RoomWhereUniqueInput = Prisma.AtLeast<{
   maxChildren?: Prisma.IntFilter<"Room"> | number
   sizeM2?: Prisma.IntNullableFilter<"Room"> | number | null
   bedType?: Prisma.StringNullableFilter<"Room"> | string | null
+  viewType?: Prisma.EnumViewTypeFilter<"Room"> | $Enums.ViewType
+  boardType?: Prisma.EnumBoardTypeFilter<"Room"> | $Enums.BoardType
+  hasBalcony?: Prisma.BoolFilter<"Room"> | boolean
+  hasTerrace?: Prisma.BoolFilter<"Room"> | boolean
+  hasKitchen?: Prisma.BoolFilter<"Room"> | boolean
+  hasJacuzzi?: Prisma.BoolFilter<"Room"> | boolean
+  isAccessible?: Prisma.BoolFilter<"Room"> | boolean
+  smokingAllowed?: Prisma.BoolFilter<"Room"> | boolean
+  bedCount?: Prisma.IntFilter<"Room"> | number
+  floor?: Prisma.IntNullableFilter<"Room"> | number | null
   hotel?: Prisma.XOR<Prisma.HotelScalarRelationFilter, Prisma.HotelWhereInput>
   inventory?: Prisma.RoomInventoryListRelationFilter
   mappings?: Prisma.RoomMappingListRelationFilter
@@ -300,6 +408,16 @@ export type RoomOrderByWithAggregationInput = {
   maxChildren?: Prisma.SortOrder
   sizeM2?: Prisma.SortOrderInput | Prisma.SortOrder
   bedType?: Prisma.SortOrderInput | Prisma.SortOrder
+  viewType?: Prisma.SortOrder
+  boardType?: Prisma.SortOrder
+  hasBalcony?: Prisma.SortOrder
+  hasTerrace?: Prisma.SortOrder
+  hasKitchen?: Prisma.SortOrder
+  hasJacuzzi?: Prisma.SortOrder
+  isAccessible?: Prisma.SortOrder
+  smokingAllowed?: Prisma.SortOrder
+  bedCount?: Prisma.SortOrder
+  floor?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.RoomCountOrderByAggregateInput
   _avg?: Prisma.RoomAvgOrderByAggregateInput
   _max?: Prisma.RoomMaxOrderByAggregateInput
@@ -319,6 +437,16 @@ export type RoomScalarWhereWithAggregatesInput = {
   maxChildren?: Prisma.IntWithAggregatesFilter<"Room"> | number
   sizeM2?: Prisma.IntNullableWithAggregatesFilter<"Room"> | number | null
   bedType?: Prisma.StringNullableWithAggregatesFilter<"Room"> | string | null
+  viewType?: Prisma.EnumViewTypeWithAggregatesFilter<"Room"> | $Enums.ViewType
+  boardType?: Prisma.EnumBoardTypeWithAggregatesFilter<"Room"> | $Enums.BoardType
+  hasBalcony?: Prisma.BoolWithAggregatesFilter<"Room"> | boolean
+  hasTerrace?: Prisma.BoolWithAggregatesFilter<"Room"> | boolean
+  hasKitchen?: Prisma.BoolWithAggregatesFilter<"Room"> | boolean
+  hasJacuzzi?: Prisma.BoolWithAggregatesFilter<"Room"> | boolean
+  isAccessible?: Prisma.BoolWithAggregatesFilter<"Room"> | boolean
+  smokingAllowed?: Prisma.BoolWithAggregatesFilter<"Room"> | boolean
+  bedCount?: Prisma.IntWithAggregatesFilter<"Room"> | number
+  floor?: Prisma.IntNullableWithAggregatesFilter<"Room"> | number | null
 }
 
 export type RoomCreateInput = {
@@ -329,6 +457,16 @@ export type RoomCreateInput = {
   maxChildren?: number
   sizeM2?: number | null
   bedType?: string | null
+  viewType?: $Enums.ViewType
+  boardType?: $Enums.BoardType
+  hasBalcony?: boolean
+  hasTerrace?: boolean
+  hasKitchen?: boolean
+  hasJacuzzi?: boolean
+  isAccessible?: boolean
+  smokingAllowed?: boolean
+  bedCount?: number
+  floor?: number | null
   hotel: Prisma.HotelCreateNestedOneWithoutRoomsInput
   inventory?: Prisma.RoomInventoryCreateNestedManyWithoutRoomInput
   mappings?: Prisma.RoomMappingCreateNestedManyWithoutRoomInput
@@ -345,6 +483,16 @@ export type RoomUncheckedCreateInput = {
   maxChildren?: number
   sizeM2?: number | null
   bedType?: string | null
+  viewType?: $Enums.ViewType
+  boardType?: $Enums.BoardType
+  hasBalcony?: boolean
+  hasTerrace?: boolean
+  hasKitchen?: boolean
+  hasJacuzzi?: boolean
+  isAccessible?: boolean
+  smokingAllowed?: boolean
+  bedCount?: number
+  floor?: number | null
   inventory?: Prisma.RoomInventoryUncheckedCreateNestedManyWithoutRoomInput
   mappings?: Prisma.RoomMappingUncheckedCreateNestedManyWithoutRoomInput
   bookingItems?: Prisma.BookingItemUncheckedCreateNestedManyWithoutRoomInput
@@ -359,6 +507,16 @@ export type RoomUpdateInput = {
   maxChildren?: Prisma.IntFieldUpdateOperationsInput | number
   sizeM2?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   bedType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  viewType?: Prisma.EnumViewTypeFieldUpdateOperationsInput | $Enums.ViewType
+  boardType?: Prisma.EnumBoardTypeFieldUpdateOperationsInput | $Enums.BoardType
+  hasBalcony?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasTerrace?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasKitchen?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasJacuzzi?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAccessible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  smokingAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   hotel?: Prisma.HotelUpdateOneRequiredWithoutRoomsNestedInput
   inventory?: Prisma.RoomInventoryUpdateManyWithoutRoomNestedInput
   mappings?: Prisma.RoomMappingUpdateManyWithoutRoomNestedInput
@@ -375,6 +533,16 @@ export type RoomUncheckedUpdateInput = {
   maxChildren?: Prisma.IntFieldUpdateOperationsInput | number
   sizeM2?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   bedType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  viewType?: Prisma.EnumViewTypeFieldUpdateOperationsInput | $Enums.ViewType
+  boardType?: Prisma.EnumBoardTypeFieldUpdateOperationsInput | $Enums.BoardType
+  hasBalcony?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasTerrace?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasKitchen?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasJacuzzi?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAccessible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  smokingAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   inventory?: Prisma.RoomInventoryUncheckedUpdateManyWithoutRoomNestedInput
   mappings?: Prisma.RoomMappingUncheckedUpdateManyWithoutRoomNestedInput
   bookingItems?: Prisma.BookingItemUncheckedUpdateManyWithoutRoomNestedInput
@@ -390,6 +558,16 @@ export type RoomCreateManyInput = {
   maxChildren?: number
   sizeM2?: number | null
   bedType?: string | null
+  viewType?: $Enums.ViewType
+  boardType?: $Enums.BoardType
+  hasBalcony?: boolean
+  hasTerrace?: boolean
+  hasKitchen?: boolean
+  hasJacuzzi?: boolean
+  isAccessible?: boolean
+  smokingAllowed?: boolean
+  bedCount?: number
+  floor?: number | null
 }
 
 export type RoomUpdateManyMutationInput = {
@@ -400,6 +578,16 @@ export type RoomUpdateManyMutationInput = {
   maxChildren?: Prisma.IntFieldUpdateOperationsInput | number
   sizeM2?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   bedType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  viewType?: Prisma.EnumViewTypeFieldUpdateOperationsInput | $Enums.ViewType
+  boardType?: Prisma.EnumBoardTypeFieldUpdateOperationsInput | $Enums.BoardType
+  hasBalcony?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasTerrace?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasKitchen?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasJacuzzi?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAccessible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  smokingAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type RoomUncheckedUpdateManyInput = {
@@ -411,6 +599,16 @@ export type RoomUncheckedUpdateManyInput = {
   maxChildren?: Prisma.IntFieldUpdateOperationsInput | number
   sizeM2?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   bedType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  viewType?: Prisma.EnumViewTypeFieldUpdateOperationsInput | $Enums.ViewType
+  boardType?: Prisma.EnumBoardTypeFieldUpdateOperationsInput | $Enums.BoardType
+  hasBalcony?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasTerrace?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasKitchen?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasJacuzzi?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAccessible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  smokingAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type RoomScalarRelationFilter = {
@@ -442,12 +640,24 @@ export type RoomCountOrderByAggregateInput = {
   maxChildren?: Prisma.SortOrder
   sizeM2?: Prisma.SortOrder
   bedType?: Prisma.SortOrder
+  viewType?: Prisma.SortOrder
+  boardType?: Prisma.SortOrder
+  hasBalcony?: Prisma.SortOrder
+  hasTerrace?: Prisma.SortOrder
+  hasKitchen?: Prisma.SortOrder
+  hasJacuzzi?: Prisma.SortOrder
+  isAccessible?: Prisma.SortOrder
+  smokingAllowed?: Prisma.SortOrder
+  bedCount?: Prisma.SortOrder
+  floor?: Prisma.SortOrder
 }
 
 export type RoomAvgOrderByAggregateInput = {
   maxAdults?: Prisma.SortOrder
   maxChildren?: Prisma.SortOrder
   sizeM2?: Prisma.SortOrder
+  bedCount?: Prisma.SortOrder
+  floor?: Prisma.SortOrder
 }
 
 export type RoomMaxOrderByAggregateInput = {
@@ -459,6 +669,16 @@ export type RoomMaxOrderByAggregateInput = {
   maxChildren?: Prisma.SortOrder
   sizeM2?: Prisma.SortOrder
   bedType?: Prisma.SortOrder
+  viewType?: Prisma.SortOrder
+  boardType?: Prisma.SortOrder
+  hasBalcony?: Prisma.SortOrder
+  hasTerrace?: Prisma.SortOrder
+  hasKitchen?: Prisma.SortOrder
+  hasJacuzzi?: Prisma.SortOrder
+  isAccessible?: Prisma.SortOrder
+  smokingAllowed?: Prisma.SortOrder
+  bedCount?: Prisma.SortOrder
+  floor?: Prisma.SortOrder
 }
 
 export type RoomMinOrderByAggregateInput = {
@@ -470,12 +690,24 @@ export type RoomMinOrderByAggregateInput = {
   maxChildren?: Prisma.SortOrder
   sizeM2?: Prisma.SortOrder
   bedType?: Prisma.SortOrder
+  viewType?: Prisma.SortOrder
+  boardType?: Prisma.SortOrder
+  hasBalcony?: Prisma.SortOrder
+  hasTerrace?: Prisma.SortOrder
+  hasKitchen?: Prisma.SortOrder
+  hasJacuzzi?: Prisma.SortOrder
+  isAccessible?: Prisma.SortOrder
+  smokingAllowed?: Prisma.SortOrder
+  bedCount?: Prisma.SortOrder
+  floor?: Prisma.SortOrder
 }
 
 export type RoomSumOrderByAggregateInput = {
   maxAdults?: Prisma.SortOrder
   maxChildren?: Prisma.SortOrder
   sizeM2?: Prisma.SortOrder
+  bedCount?: Prisma.SortOrder
+  floor?: Prisma.SortOrder
 }
 
 export type RoomCreateNestedOneWithoutMappingsInput = {
@@ -534,6 +766,14 @@ export type RoomUncheckedUpdateManyWithoutHotelNestedInput = {
   deleteMany?: Prisma.RoomScalarWhereInput | Prisma.RoomScalarWhereInput[]
 }
 
+export type EnumViewTypeFieldUpdateOperationsInput = {
+  set?: $Enums.ViewType
+}
+
+export type EnumBoardTypeFieldUpdateOperationsInput = {
+  set?: $Enums.BoardType
+}
+
 export type RoomCreateNestedOneWithoutInventoryInput = {
   create?: Prisma.XOR<Prisma.RoomCreateWithoutInventoryInput, Prisma.RoomUncheckedCreateWithoutInventoryInput>
   connectOrCreate?: Prisma.RoomCreateOrConnectWithoutInventoryInput
@@ -584,6 +824,16 @@ export type RoomCreateWithoutMappingsInput = {
   maxChildren?: number
   sizeM2?: number | null
   bedType?: string | null
+  viewType?: $Enums.ViewType
+  boardType?: $Enums.BoardType
+  hasBalcony?: boolean
+  hasTerrace?: boolean
+  hasKitchen?: boolean
+  hasJacuzzi?: boolean
+  isAccessible?: boolean
+  smokingAllowed?: boolean
+  bedCount?: number
+  floor?: number | null
   hotel: Prisma.HotelCreateNestedOneWithoutRoomsInput
   inventory?: Prisma.RoomInventoryCreateNestedManyWithoutRoomInput
   bookingItems?: Prisma.BookingItemCreateNestedManyWithoutRoomInput
@@ -599,6 +849,16 @@ export type RoomUncheckedCreateWithoutMappingsInput = {
   maxChildren?: number
   sizeM2?: number | null
   bedType?: string | null
+  viewType?: $Enums.ViewType
+  boardType?: $Enums.BoardType
+  hasBalcony?: boolean
+  hasTerrace?: boolean
+  hasKitchen?: boolean
+  hasJacuzzi?: boolean
+  isAccessible?: boolean
+  smokingAllowed?: boolean
+  bedCount?: number
+  floor?: number | null
   inventory?: Prisma.RoomInventoryUncheckedCreateNestedManyWithoutRoomInput
   bookingItems?: Prisma.BookingItemUncheckedCreateNestedManyWithoutRoomInput
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutRoomInput
@@ -628,6 +888,16 @@ export type RoomUpdateWithoutMappingsInput = {
   maxChildren?: Prisma.IntFieldUpdateOperationsInput | number
   sizeM2?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   bedType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  viewType?: Prisma.EnumViewTypeFieldUpdateOperationsInput | $Enums.ViewType
+  boardType?: Prisma.EnumBoardTypeFieldUpdateOperationsInput | $Enums.BoardType
+  hasBalcony?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasTerrace?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasKitchen?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasJacuzzi?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAccessible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  smokingAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   hotel?: Prisma.HotelUpdateOneRequiredWithoutRoomsNestedInput
   inventory?: Prisma.RoomInventoryUpdateManyWithoutRoomNestedInput
   bookingItems?: Prisma.BookingItemUpdateManyWithoutRoomNestedInput
@@ -643,6 +913,16 @@ export type RoomUncheckedUpdateWithoutMappingsInput = {
   maxChildren?: Prisma.IntFieldUpdateOperationsInput | number
   sizeM2?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   bedType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  viewType?: Prisma.EnumViewTypeFieldUpdateOperationsInput | $Enums.ViewType
+  boardType?: Prisma.EnumBoardTypeFieldUpdateOperationsInput | $Enums.BoardType
+  hasBalcony?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasTerrace?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasKitchen?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasJacuzzi?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAccessible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  smokingAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   inventory?: Prisma.RoomInventoryUncheckedUpdateManyWithoutRoomNestedInput
   bookingItems?: Prisma.BookingItemUncheckedUpdateManyWithoutRoomNestedInput
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutRoomNestedInput
@@ -656,6 +936,16 @@ export type RoomCreateWithoutHotelInput = {
   maxChildren?: number
   sizeM2?: number | null
   bedType?: string | null
+  viewType?: $Enums.ViewType
+  boardType?: $Enums.BoardType
+  hasBalcony?: boolean
+  hasTerrace?: boolean
+  hasKitchen?: boolean
+  hasJacuzzi?: boolean
+  isAccessible?: boolean
+  smokingAllowed?: boolean
+  bedCount?: number
+  floor?: number | null
   inventory?: Prisma.RoomInventoryCreateNestedManyWithoutRoomInput
   mappings?: Prisma.RoomMappingCreateNestedManyWithoutRoomInput
   bookingItems?: Prisma.BookingItemCreateNestedManyWithoutRoomInput
@@ -670,6 +960,16 @@ export type RoomUncheckedCreateWithoutHotelInput = {
   maxChildren?: number
   sizeM2?: number | null
   bedType?: string | null
+  viewType?: $Enums.ViewType
+  boardType?: $Enums.BoardType
+  hasBalcony?: boolean
+  hasTerrace?: boolean
+  hasKitchen?: boolean
+  hasJacuzzi?: boolean
+  isAccessible?: boolean
+  smokingAllowed?: boolean
+  bedCount?: number
+  floor?: number | null
   inventory?: Prisma.RoomInventoryUncheckedCreateNestedManyWithoutRoomInput
   mappings?: Prisma.RoomMappingUncheckedCreateNestedManyWithoutRoomInput
   bookingItems?: Prisma.BookingItemUncheckedCreateNestedManyWithoutRoomInput
@@ -714,6 +1014,16 @@ export type RoomScalarWhereInput = {
   maxChildren?: Prisma.IntFilter<"Room"> | number
   sizeM2?: Prisma.IntNullableFilter<"Room"> | number | null
   bedType?: Prisma.StringNullableFilter<"Room"> | string | null
+  viewType?: Prisma.EnumViewTypeFilter<"Room"> | $Enums.ViewType
+  boardType?: Prisma.EnumBoardTypeFilter<"Room"> | $Enums.BoardType
+  hasBalcony?: Prisma.BoolFilter<"Room"> | boolean
+  hasTerrace?: Prisma.BoolFilter<"Room"> | boolean
+  hasKitchen?: Prisma.BoolFilter<"Room"> | boolean
+  hasJacuzzi?: Prisma.BoolFilter<"Room"> | boolean
+  isAccessible?: Prisma.BoolFilter<"Room"> | boolean
+  smokingAllowed?: Prisma.BoolFilter<"Room"> | boolean
+  bedCount?: Prisma.IntFilter<"Room"> | number
+  floor?: Prisma.IntNullableFilter<"Room"> | number | null
 }
 
 export type RoomCreateWithoutInventoryInput = {
@@ -724,6 +1034,16 @@ export type RoomCreateWithoutInventoryInput = {
   maxChildren?: number
   sizeM2?: number | null
   bedType?: string | null
+  viewType?: $Enums.ViewType
+  boardType?: $Enums.BoardType
+  hasBalcony?: boolean
+  hasTerrace?: boolean
+  hasKitchen?: boolean
+  hasJacuzzi?: boolean
+  isAccessible?: boolean
+  smokingAllowed?: boolean
+  bedCount?: number
+  floor?: number | null
   hotel: Prisma.HotelCreateNestedOneWithoutRoomsInput
   mappings?: Prisma.RoomMappingCreateNestedManyWithoutRoomInput
   bookingItems?: Prisma.BookingItemCreateNestedManyWithoutRoomInput
@@ -739,6 +1059,16 @@ export type RoomUncheckedCreateWithoutInventoryInput = {
   maxChildren?: number
   sizeM2?: number | null
   bedType?: string | null
+  viewType?: $Enums.ViewType
+  boardType?: $Enums.BoardType
+  hasBalcony?: boolean
+  hasTerrace?: boolean
+  hasKitchen?: boolean
+  hasJacuzzi?: boolean
+  isAccessible?: boolean
+  smokingAllowed?: boolean
+  bedCount?: number
+  floor?: number | null
   mappings?: Prisma.RoomMappingUncheckedCreateNestedManyWithoutRoomInput
   bookingItems?: Prisma.BookingItemUncheckedCreateNestedManyWithoutRoomInput
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutRoomInput
@@ -768,6 +1098,16 @@ export type RoomUpdateWithoutInventoryInput = {
   maxChildren?: Prisma.IntFieldUpdateOperationsInput | number
   sizeM2?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   bedType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  viewType?: Prisma.EnumViewTypeFieldUpdateOperationsInput | $Enums.ViewType
+  boardType?: Prisma.EnumBoardTypeFieldUpdateOperationsInput | $Enums.BoardType
+  hasBalcony?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasTerrace?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasKitchen?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasJacuzzi?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAccessible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  smokingAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   hotel?: Prisma.HotelUpdateOneRequiredWithoutRoomsNestedInput
   mappings?: Prisma.RoomMappingUpdateManyWithoutRoomNestedInput
   bookingItems?: Prisma.BookingItemUpdateManyWithoutRoomNestedInput
@@ -783,6 +1123,16 @@ export type RoomUncheckedUpdateWithoutInventoryInput = {
   maxChildren?: Prisma.IntFieldUpdateOperationsInput | number
   sizeM2?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   bedType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  viewType?: Prisma.EnumViewTypeFieldUpdateOperationsInput | $Enums.ViewType
+  boardType?: Prisma.EnumBoardTypeFieldUpdateOperationsInput | $Enums.BoardType
+  hasBalcony?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasTerrace?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasKitchen?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasJacuzzi?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAccessible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  smokingAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   mappings?: Prisma.RoomMappingUncheckedUpdateManyWithoutRoomNestedInput
   bookingItems?: Prisma.BookingItemUncheckedUpdateManyWithoutRoomNestedInput
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutRoomNestedInput
@@ -796,6 +1146,16 @@ export type RoomCreateWithoutQuotesInput = {
   maxChildren?: number
   sizeM2?: number | null
   bedType?: string | null
+  viewType?: $Enums.ViewType
+  boardType?: $Enums.BoardType
+  hasBalcony?: boolean
+  hasTerrace?: boolean
+  hasKitchen?: boolean
+  hasJacuzzi?: boolean
+  isAccessible?: boolean
+  smokingAllowed?: boolean
+  bedCount?: number
+  floor?: number | null
   hotel: Prisma.HotelCreateNestedOneWithoutRoomsInput
   inventory?: Prisma.RoomInventoryCreateNestedManyWithoutRoomInput
   mappings?: Prisma.RoomMappingCreateNestedManyWithoutRoomInput
@@ -811,6 +1171,16 @@ export type RoomUncheckedCreateWithoutQuotesInput = {
   maxChildren?: number
   sizeM2?: number | null
   bedType?: string | null
+  viewType?: $Enums.ViewType
+  boardType?: $Enums.BoardType
+  hasBalcony?: boolean
+  hasTerrace?: boolean
+  hasKitchen?: boolean
+  hasJacuzzi?: boolean
+  isAccessible?: boolean
+  smokingAllowed?: boolean
+  bedCount?: number
+  floor?: number | null
   inventory?: Prisma.RoomInventoryUncheckedCreateNestedManyWithoutRoomInput
   mappings?: Prisma.RoomMappingUncheckedCreateNestedManyWithoutRoomInput
   bookingItems?: Prisma.BookingItemUncheckedCreateNestedManyWithoutRoomInput
@@ -840,6 +1210,16 @@ export type RoomUpdateWithoutQuotesInput = {
   maxChildren?: Prisma.IntFieldUpdateOperationsInput | number
   sizeM2?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   bedType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  viewType?: Prisma.EnumViewTypeFieldUpdateOperationsInput | $Enums.ViewType
+  boardType?: Prisma.EnumBoardTypeFieldUpdateOperationsInput | $Enums.BoardType
+  hasBalcony?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasTerrace?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasKitchen?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasJacuzzi?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAccessible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  smokingAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   hotel?: Prisma.HotelUpdateOneRequiredWithoutRoomsNestedInput
   inventory?: Prisma.RoomInventoryUpdateManyWithoutRoomNestedInput
   mappings?: Prisma.RoomMappingUpdateManyWithoutRoomNestedInput
@@ -855,6 +1235,16 @@ export type RoomUncheckedUpdateWithoutQuotesInput = {
   maxChildren?: Prisma.IntFieldUpdateOperationsInput | number
   sizeM2?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   bedType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  viewType?: Prisma.EnumViewTypeFieldUpdateOperationsInput | $Enums.ViewType
+  boardType?: Prisma.EnumBoardTypeFieldUpdateOperationsInput | $Enums.BoardType
+  hasBalcony?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasTerrace?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasKitchen?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasJacuzzi?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAccessible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  smokingAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   inventory?: Prisma.RoomInventoryUncheckedUpdateManyWithoutRoomNestedInput
   mappings?: Prisma.RoomMappingUncheckedUpdateManyWithoutRoomNestedInput
   bookingItems?: Prisma.BookingItemUncheckedUpdateManyWithoutRoomNestedInput
@@ -868,6 +1258,16 @@ export type RoomCreateWithoutBookingItemsInput = {
   maxChildren?: number
   sizeM2?: number | null
   bedType?: string | null
+  viewType?: $Enums.ViewType
+  boardType?: $Enums.BoardType
+  hasBalcony?: boolean
+  hasTerrace?: boolean
+  hasKitchen?: boolean
+  hasJacuzzi?: boolean
+  isAccessible?: boolean
+  smokingAllowed?: boolean
+  bedCount?: number
+  floor?: number | null
   hotel: Prisma.HotelCreateNestedOneWithoutRoomsInput
   inventory?: Prisma.RoomInventoryCreateNestedManyWithoutRoomInput
   mappings?: Prisma.RoomMappingCreateNestedManyWithoutRoomInput
@@ -883,6 +1283,16 @@ export type RoomUncheckedCreateWithoutBookingItemsInput = {
   maxChildren?: number
   sizeM2?: number | null
   bedType?: string | null
+  viewType?: $Enums.ViewType
+  boardType?: $Enums.BoardType
+  hasBalcony?: boolean
+  hasTerrace?: boolean
+  hasKitchen?: boolean
+  hasJacuzzi?: boolean
+  isAccessible?: boolean
+  smokingAllowed?: boolean
+  bedCount?: number
+  floor?: number | null
   inventory?: Prisma.RoomInventoryUncheckedCreateNestedManyWithoutRoomInput
   mappings?: Prisma.RoomMappingUncheckedCreateNestedManyWithoutRoomInput
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutRoomInput
@@ -912,6 +1322,16 @@ export type RoomUpdateWithoutBookingItemsInput = {
   maxChildren?: Prisma.IntFieldUpdateOperationsInput | number
   sizeM2?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   bedType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  viewType?: Prisma.EnumViewTypeFieldUpdateOperationsInput | $Enums.ViewType
+  boardType?: Prisma.EnumBoardTypeFieldUpdateOperationsInput | $Enums.BoardType
+  hasBalcony?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasTerrace?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasKitchen?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasJacuzzi?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAccessible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  smokingAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   hotel?: Prisma.HotelUpdateOneRequiredWithoutRoomsNestedInput
   inventory?: Prisma.RoomInventoryUpdateManyWithoutRoomNestedInput
   mappings?: Prisma.RoomMappingUpdateManyWithoutRoomNestedInput
@@ -927,6 +1347,16 @@ export type RoomUncheckedUpdateWithoutBookingItemsInput = {
   maxChildren?: Prisma.IntFieldUpdateOperationsInput | number
   sizeM2?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   bedType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  viewType?: Prisma.EnumViewTypeFieldUpdateOperationsInput | $Enums.ViewType
+  boardType?: Prisma.EnumBoardTypeFieldUpdateOperationsInput | $Enums.BoardType
+  hasBalcony?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasTerrace?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasKitchen?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasJacuzzi?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAccessible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  smokingAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   inventory?: Prisma.RoomInventoryUncheckedUpdateManyWithoutRoomNestedInput
   mappings?: Prisma.RoomMappingUncheckedUpdateManyWithoutRoomNestedInput
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutRoomNestedInput
@@ -940,6 +1370,16 @@ export type RoomCreateManyHotelInput = {
   maxChildren?: number
   sizeM2?: number | null
   bedType?: string | null
+  viewType?: $Enums.ViewType
+  boardType?: $Enums.BoardType
+  hasBalcony?: boolean
+  hasTerrace?: boolean
+  hasKitchen?: boolean
+  hasJacuzzi?: boolean
+  isAccessible?: boolean
+  smokingAllowed?: boolean
+  bedCount?: number
+  floor?: number | null
 }
 
 export type RoomUpdateWithoutHotelInput = {
@@ -950,6 +1390,16 @@ export type RoomUpdateWithoutHotelInput = {
   maxChildren?: Prisma.IntFieldUpdateOperationsInput | number
   sizeM2?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   bedType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  viewType?: Prisma.EnumViewTypeFieldUpdateOperationsInput | $Enums.ViewType
+  boardType?: Prisma.EnumBoardTypeFieldUpdateOperationsInput | $Enums.BoardType
+  hasBalcony?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasTerrace?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasKitchen?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasJacuzzi?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAccessible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  smokingAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   inventory?: Prisma.RoomInventoryUpdateManyWithoutRoomNestedInput
   mappings?: Prisma.RoomMappingUpdateManyWithoutRoomNestedInput
   bookingItems?: Prisma.BookingItemUpdateManyWithoutRoomNestedInput
@@ -964,6 +1414,16 @@ export type RoomUncheckedUpdateWithoutHotelInput = {
   maxChildren?: Prisma.IntFieldUpdateOperationsInput | number
   sizeM2?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   bedType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  viewType?: Prisma.EnumViewTypeFieldUpdateOperationsInput | $Enums.ViewType
+  boardType?: Prisma.EnumBoardTypeFieldUpdateOperationsInput | $Enums.BoardType
+  hasBalcony?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasTerrace?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasKitchen?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasJacuzzi?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAccessible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  smokingAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   inventory?: Prisma.RoomInventoryUncheckedUpdateManyWithoutRoomNestedInput
   mappings?: Prisma.RoomMappingUncheckedUpdateManyWithoutRoomNestedInput
   bookingItems?: Prisma.BookingItemUncheckedUpdateManyWithoutRoomNestedInput
@@ -978,6 +1438,16 @@ export type RoomUncheckedUpdateManyWithoutHotelInput = {
   maxChildren?: Prisma.IntFieldUpdateOperationsInput | number
   sizeM2?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   bedType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  viewType?: Prisma.EnumViewTypeFieldUpdateOperationsInput | $Enums.ViewType
+  boardType?: Prisma.EnumBoardTypeFieldUpdateOperationsInput | $Enums.BoardType
+  hasBalcony?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasTerrace?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasKitchen?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasJacuzzi?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAccessible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  smokingAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 
@@ -1047,6 +1517,16 @@ export type RoomSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   maxChildren?: boolean
   sizeM2?: boolean
   bedType?: boolean
+  viewType?: boolean
+  boardType?: boolean
+  hasBalcony?: boolean
+  hasTerrace?: boolean
+  hasKitchen?: boolean
+  hasJacuzzi?: boolean
+  isAccessible?: boolean
+  smokingAllowed?: boolean
+  bedCount?: boolean
+  floor?: boolean
   hotel?: boolean | Prisma.HotelDefaultArgs<ExtArgs>
   inventory?: boolean | Prisma.Room$inventoryArgs<ExtArgs>
   mappings?: boolean | Prisma.Room$mappingsArgs<ExtArgs>
@@ -1064,6 +1544,16 @@ export type RoomSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   maxChildren?: boolean
   sizeM2?: boolean
   bedType?: boolean
+  viewType?: boolean
+  boardType?: boolean
+  hasBalcony?: boolean
+  hasTerrace?: boolean
+  hasKitchen?: boolean
+  hasJacuzzi?: boolean
+  isAccessible?: boolean
+  smokingAllowed?: boolean
+  bedCount?: boolean
+  floor?: boolean
   hotel?: boolean | Prisma.HotelDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["room"]>
 
@@ -1076,6 +1566,16 @@ export type RoomSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   maxChildren?: boolean
   sizeM2?: boolean
   bedType?: boolean
+  viewType?: boolean
+  boardType?: boolean
+  hasBalcony?: boolean
+  hasTerrace?: boolean
+  hasKitchen?: boolean
+  hasJacuzzi?: boolean
+  isAccessible?: boolean
+  smokingAllowed?: boolean
+  bedCount?: boolean
+  floor?: boolean
   hotel?: boolean | Prisma.HotelDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["room"]>
 
@@ -1088,9 +1588,19 @@ export type RoomSelectScalar = {
   maxChildren?: boolean
   sizeM2?: boolean
   bedType?: boolean
+  viewType?: boolean
+  boardType?: boolean
+  hasBalcony?: boolean
+  hasTerrace?: boolean
+  hasKitchen?: boolean
+  hasJacuzzi?: boolean
+  isAccessible?: boolean
+  smokingAllowed?: boolean
+  bedCount?: boolean
+  floor?: boolean
 }
 
-export type RoomOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "hotelId" | "name" | "code" | "maxAdults" | "maxChildren" | "sizeM2" | "bedType", ExtArgs["result"]["room"]>
+export type RoomOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "hotelId" | "name" | "code" | "maxAdults" | "maxChildren" | "sizeM2" | "bedType" | "viewType" | "boardType" | "hasBalcony" | "hasTerrace" | "hasKitchen" | "hasJacuzzi" | "isAccessible" | "smokingAllowed" | "bedCount" | "floor", ExtArgs["result"]["room"]>
 export type RoomInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   hotel?: boolean | Prisma.HotelDefaultArgs<ExtArgs>
   inventory?: boolean | Prisma.Room$inventoryArgs<ExtArgs>
@@ -1124,6 +1634,16 @@ export type $RoomPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     maxChildren: number
     sizeM2: number | null
     bedType: string | null
+    viewType: $Enums.ViewType
+    boardType: $Enums.BoardType
+    hasBalcony: boolean
+    hasTerrace: boolean
+    hasKitchen: boolean
+    hasJacuzzi: boolean
+    isAccessible: boolean
+    smokingAllowed: boolean
+    bedCount: number
+    floor: number | null
   }, ExtArgs["result"]["room"]>
   composites: {}
 }
@@ -1560,6 +2080,16 @@ export interface RoomFieldRefs {
   readonly maxChildren: Prisma.FieldRef<"Room", 'Int'>
   readonly sizeM2: Prisma.FieldRef<"Room", 'Int'>
   readonly bedType: Prisma.FieldRef<"Room", 'String'>
+  readonly viewType: Prisma.FieldRef<"Room", 'ViewType'>
+  readonly boardType: Prisma.FieldRef<"Room", 'BoardType'>
+  readonly hasBalcony: Prisma.FieldRef<"Room", 'Boolean'>
+  readonly hasTerrace: Prisma.FieldRef<"Room", 'Boolean'>
+  readonly hasKitchen: Prisma.FieldRef<"Room", 'Boolean'>
+  readonly hasJacuzzi: Prisma.FieldRef<"Room", 'Boolean'>
+  readonly isAccessible: Prisma.FieldRef<"Room", 'Boolean'>
+  readonly smokingAllowed: Prisma.FieldRef<"Room", 'Boolean'>
+  readonly bedCount: Prisma.FieldRef<"Room", 'Int'>
+  readonly floor: Prisma.FieldRef<"Room", 'Int'>
 }
     
 

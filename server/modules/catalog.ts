@@ -134,6 +134,46 @@ const HotelFilter = builder.inputType('HotelFilter', {
 });
 type HotelFilterValue = typeof HotelFilter.$inferInput;
 
+type HotelFacetValue = { value: string; count: number };
+type HotelFacetsValue = {
+  total: number;
+  stars: HotelFacetValue[];
+  propertyTypes: HotelFacetValue[];
+  themes: HotelFacetValue[];
+  amenities: HotelFacetValue[];
+  boardTypes: HotelFacetValue[];
+  cancellationTypes: HotelFacetValue[];
+  priceBuckets: HotelFacetValue[];
+};
+
+const HotelFacetValue = builder.objectRef<HotelFacetValue>('HotelFacetValue');
+HotelFacetValue.implement({
+  fields: (t) => ({
+    value: t.exposeString('value'),
+    count: t.exposeInt('count'),
+  }),
+});
+
+const HotelFacets = builder.objectRef<HotelFacetsValue>('HotelFacets');
+HotelFacets.implement({
+  fields: (t) => ({
+    total: t.exposeInt('total'),
+    stars: t.field({ type: [HotelFacetValue], resolve: (facets) => facets.stars }),
+    propertyTypes: t.field({
+      type: [HotelFacetValue],
+      resolve: (facets) => facets.propertyTypes,
+    }),
+    themes: t.field({ type: [HotelFacetValue], resolve: (facets) => facets.themes }),
+    amenities: t.field({ type: [HotelFacetValue], resolve: (facets) => facets.amenities }),
+    boardTypes: t.field({ type: [HotelFacetValue], resolve: (facets) => facets.boardTypes }),
+    cancellationTypes: t.field({
+      type: [HotelFacetValue],
+      resolve: (facets) => facets.cancellationTypes,
+    }),
+    priceBuckets: t.field({ type: [HotelFacetValue], resolve: (facets) => facets.priceBuckets }),
+  }),
+});
+
 function badInput(message: string): never {
   throw new GraphQLError(message, { extensions: { code: 'BAD_USER_INPUT' } });
 }
@@ -227,9 +267,9 @@ async function buildHotelWhere(
     and.push({ themes: { hasSome: f.themes.slice(0, MAX_LIST_FILTER).map((x) => x.toLowerCase()) } });
   }
 
-  // Amenidades: "todas" (filtro duro: si pides alberca Y spa, necesita ambas)
+  // Amenidades: "todas". Usa la proyección indexada para evitar un JOIN por código.
   for (const code of (f.amenities ?? []).slice(0, MAX_LIST_FILTER)) {
-    and.push({ amenities: { some: { amenity: { code: code.toUpperCase() } } } });
+    and.push({ amenityCodes: { has: code.trim().toUpperCase() } });
   }
 
   const ids = await availableHotelIds(ctx, f);
@@ -286,6 +326,97 @@ builder.queryField('hotelsCount', (t) =>
     args: { filter: t.arg({ type: HotelFilter, required: false }) },
     resolve: async (_root, args, ctx) =>
       ctx.prisma.hotel.count({ where: await buildHotelWhere(ctx, args.filter) }),
+  }),
+);
+
+builder.queryField('hotelFacets', (t) =>
+  t.field({
+    type: HotelFacets,
+    args: { filter: t.arg({ type: HotelFilter, required: false }) },
+    resolve: async (_root, args, ctx) => {
+      const where = await buildHotelWhere(ctx, args.filter);
+      return ctx.prisma.$transaction(
+        async (tx) => {
+          const hotels = await tx.hotel.findMany({
+            where,
+            select: { id: true },
+          });
+          const ids = hotels.map((hotel) => hotel.id);
+          const emptyFacets: HotelFacetsValue = {
+            total: 0,
+            stars: [],
+            propertyTypes: [],
+            themes: [],
+            amenities: [],
+            boardTypes: [],
+            cancellationTypes: [],
+            priceBuckets: [],
+          };
+          if (ids.length === 0) return emptyFacets;
+
+          const rows = await tx.$queryRaw<
+            { facet: string; value: string; count: number }[]
+          >(Prisma.sql`
+            WITH matched AS (
+              SELECT *
+              FROM "Hotel"
+              WHERE id = ANY(${ids}::text[])
+            ),
+            facet_values AS (
+              SELECT 'stars' AS facet, "categoryStars"::text AS value FROM matched
+              UNION ALL
+              SELECT 'propertyTypes', "propertyType"::text FROM matched
+              UNION ALL
+              SELECT 'themes', theme.value
+              FROM matched
+              CROSS JOIN LATERAL (
+                SELECT DISTINCT unnest(themes) AS value
+              ) AS theme
+              UNION ALL
+              SELECT 'amenities', amenity.value
+              FROM matched
+              CROSS JOIN LATERAL (
+                SELECT DISTINCT unnest("amenityCodes") AS value
+              ) AS amenity
+              UNION ALL
+              SELECT 'boardTypes', board.value
+              FROM matched
+              CROSS JOIN LATERAL (
+                SELECT DISTINCT unnest("boardTypes")::text AS value
+              ) AS board
+              UNION ALL
+              SELECT 'cancellationTypes', "cancellationType"::text
+              FROM matched
+              WHERE "cancellationType" IS NOT NULL
+              UNION ALL
+              SELECT 'priceBuckets', "priceBucket"
+              FROM matched
+              WHERE "priceBucket" IS NOT NULL
+            )
+            SELECT facet, value, COUNT(*)::int AS count
+            FROM facet_values
+            GROUP BY facet, value
+            ORDER BY facet, value
+          `);
+
+          const facets = { ...emptyFacets, total: ids.length };
+          const facetLists: Record<string, HotelFacetValue[]> = {
+            stars: facets.stars,
+            propertyTypes: facets.propertyTypes,
+            themes: facets.themes,
+            amenities: facets.amenities,
+            boardTypes: facets.boardTypes,
+            cancellationTypes: facets.cancellationTypes,
+            priceBuckets: facets.priceBuckets,
+          };
+          for (const row of rows) {
+            facetLists[row.facet]?.push({ value: row.value, count: row.count });
+          }
+          return facets;
+        },
+        { isolationLevel: Prisma.TransactionIsolationLevel.RepeatableRead },
+      );
+    },
   }),
 );
 

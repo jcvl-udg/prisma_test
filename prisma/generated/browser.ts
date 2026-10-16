@@ -68,6 +68,26 @@ export type Destination = Prisma.DestinationModel
  */
 export type Hotel = Prisma.HotelModel
 /**
+ * Model HotelTag
+ * 
+ */
+export type HotelTag = Prisma.HotelTagModel
+/**
+ * Model PointOfInterest
+ * 
+ */
+export type PointOfInterest = Prisma.PointOfInterestModel
+/**
+ * Model HotelPointOfInterest
+ * 
+ */
+export type HotelPointOfInterest = Prisma.HotelPointOfInterestModel
+/**
+ * Model SeedProgress
+ * 
+ */
+export type SeedProgress = Prisma.SeedProgressModel
+/**
  * Model HotelImage
  * 
  */

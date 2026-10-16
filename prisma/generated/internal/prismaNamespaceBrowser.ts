@@ -61,6 +61,10 @@ export const ModelName = {
   RoomMapping: 'RoomMapping',
   Destination: 'Destination',
   Hotel: 'Hotel',
+  HotelTag: 'HotelTag',
+  PointOfInterest: 'PointOfInterest',
+  HotelPointOfInterest: 'HotelPointOfInterest',
+  SeedProgress: 'SeedProgress',
   HotelImage: 'HotelImage',
   Amenity: 'Amenity',
   HotelAmenity: 'HotelAmenity',
@@ -217,13 +221,53 @@ export const HotelScalarFieldEnum = {
   address: 'address',
   latitude: 'latitude',
   longitude: 'longitude',
+  countryCode: 'countryCode',
+  regionCode: 'regionCode',
+  neighborhood: 'neighborhood',
+  zone: 'zone',
+  distanceToBeachMeters: 'distanceToBeachMeters',
+  distanceToAirportKm: 'distanceToAirportKm',
+  distanceToCenterMeters: 'distanceToCenterMeters',
+  distanceToSkiLiftMeters: 'distanceToSkiLiftMeters',
+  distanceToMetroMeters: 'distanceToMetroMeters',
+  propertyType: 'propertyType',
+  chainBrand: 'chainBrand',
+  isLuxury: 'isLuxury',
+  isBoutique: 'isBoutique',
+  isChain: 'isChain',
+  yearBuilt: 'yearBuilt',
+  yearRenovated: 'yearRenovated',
+  totalRooms: 'totalRooms',
   ratingAvg: 'ratingAvg',
   reviewCount: 'reviewCount',
+  ratingCleanliness: 'ratingCleanliness',
+  ratingService: 'ratingService',
+  ratingLocation: 'ratingLocation',
+  ratingValue: 'ratingValue',
   popularityScore: 'popularityScore',
+  bookingCount30d: 'bookingCount30d',
+  viewCount30d: 'viewCount30d',
+  conversionRate30d: 'conversionRate30d',
+  providerCount: 'providerCount',
+  bestRateGuarantee: 'bestRateGuarantee',
   priceFrom: 'priceFrom',
   priceCurrency: 'priceCurrency',
+  priceBucket: 'priceBucket',
   priceUpdatedAt: 'priceUpdatedAt',
   themes: 'themes',
+  vibes: 'vibes',
+  amenityCodes: 'amenityCodes',
+  boardTypes: 'boardTypes',
+  cancellationType: 'cancellationType',
+  cancellationWindowHours: 'cancellationWindowHours',
+  paymentType: 'paymentType',
+  minAge: 'minAge',
+  petsAllowed: 'petsAllowed',
+  petsFee: 'petsFee',
+  childrenAllowed: 'childrenAllowed',
+  checkInTime: 'checkInTime',
+  checkOutTime: 'checkOutTime',
+  smokingAllowed: 'smokingAllowed',
   mainImageUrl: 'mainImageUrl',
   searchKey: 'searchKey',
   destinationId: 'destinationId',
@@ -232,6 +276,46 @@ export const HotelScalarFieldEnum = {
 } as const
 
 export type HotelScalarFieldEnum = (typeof HotelScalarFieldEnum)[keyof typeof HotelScalarFieldEnum]
+
+
+export const HotelTagScalarFieldEnum = {
+  hotelId: 'hotelId',
+  kind: 'kind',
+  value: 'value'
+} as const
+
+export type HotelTagScalarFieldEnum = (typeof HotelTagScalarFieldEnum)[keyof typeof HotelTagScalarFieldEnum]
+
+
+export const PointOfInterestScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  kind: 'kind',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  destinationId: 'destinationId'
+} as const
+
+export type PointOfInterestScalarFieldEnum = (typeof PointOfInterestScalarFieldEnum)[keyof typeof PointOfInterestScalarFieldEnum]
+
+
+export const HotelPointOfInterestScalarFieldEnum = {
+  hotelId: 'hotelId',
+  poiId: 'poiId',
+  distanceMeters: 'distanceMeters'
+} as const
+
+export type HotelPointOfInterestScalarFieldEnum = (typeof HotelPointOfInterestScalarFieldEnum)[keyof typeof HotelPointOfInterestScalarFieldEnum]
+
+
+export const SeedProgressScalarFieldEnum = {
+  id: 'id',
+  phase: 'phase',
+  subPhase: 'subPhase',
+  doneAt: 'doneAt'
+} as const
+
+export type SeedProgressScalarFieldEnum = (typeof SeedProgressScalarFieldEnum)[keyof typeof SeedProgressScalarFieldEnum]
 
 
 export const HotelImageScalarFieldEnum = {
@@ -271,7 +355,17 @@ export const RoomScalarFieldEnum = {
   maxAdults: 'maxAdults',
   maxChildren: 'maxChildren',
   sizeM2: 'sizeM2',
-  bedType: 'bedType'
+  bedType: 'bedType',
+  viewType: 'viewType',
+  boardType: 'boardType',
+  hasBalcony: 'hasBalcony',
+  hasTerrace: 'hasTerrace',
+  hasKitchen: 'hasKitchen',
+  hasJacuzzi: 'hasJacuzzi',
+  isAccessible: 'isAccessible',
+  smokingAllowed: 'smokingAllowed',
+  bedCount: 'bedCount',
+  floor: 'floor'
 } as const
 
 export type RoomScalarFieldEnum = (typeof RoomScalarFieldEnum)[keyof typeof RoomScalarFieldEnum]

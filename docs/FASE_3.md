@@ -108,4 +108,6 @@ Verificaciones realizadas:
 
 - La regeneración ISR necesita que la base de datos esté disponible; si una regeneración falla, Next.js conserva la última página generada y registra el error.
 - TTFB, carga de imágenes y tamaño transferido deben medirse también en el entorno de despliegue.
-- El siguiente bloque, según el prompt adjunto, es **B1a: extensión del schema y seeder v2**. Debe trabajarse como entrega independiente antes de B1b.
+- **B1a: schema extendido y seeder v2** está implementado y validado en [`docs/FASE_B1A.md`](./FASE_B1A.md); migración, seed dev y reanudación se comprobaron en la base de desarrollo/pruebas.
+- **B1b: búsqueda y facets del catálogo** está implementada y validada en [`docs/FASE_B1B.md`](./FASE_B1B.md), con pruebas GraphQL, suite y build correctos y un plan de búsqueda medido contra el seed dev.
+- B1a y B1b no están commiteadas. B1c y B2 continúan pendientes.

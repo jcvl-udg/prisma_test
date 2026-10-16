@@ -302,6 +302,7 @@ export type DestinationWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Destination"> | Date | string
   hotels?: Prisma.HotelListRelationFilter
   events?: Prisma.UserEventListRelationFilter
+  pointsOfInterest?: Prisma.PointOfInterestListRelationFilter
 }
 
 export type DestinationOrderByWithRelationInput = {
@@ -322,6 +323,7 @@ export type DestinationOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   hotels?: Prisma.HotelOrderByRelationAggregateInput
   events?: Prisma.UserEventOrderByRelationAggregateInput
+  pointsOfInterest?: Prisma.PointOfInterestOrderByRelationAggregateInput
 }
 
 export type DestinationWhereUniqueInput = Prisma.AtLeast<{
@@ -345,6 +347,7 @@ export type DestinationWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Destination"> | Date | string
   hotels?: Prisma.HotelListRelationFilter
   events?: Prisma.UserEventListRelationFilter
+  pointsOfInterest?: Prisma.PointOfInterestListRelationFilter
 }, "id" | "slug">
 
 export type DestinationOrderByWithAggregationInput = {
@@ -409,6 +412,7 @@ export type DestinationCreateInput = {
   updatedAt?: Date | string
   hotels?: Prisma.HotelCreateNestedManyWithoutDestinationInput
   events?: Prisma.UserEventCreateNestedManyWithoutDestinationInput
+  pointsOfInterest?: Prisma.PointOfInterestCreateNestedManyWithoutDestinationInput
 }
 
 export type DestinationUncheckedCreateInput = {
@@ -429,6 +433,7 @@ export type DestinationUncheckedCreateInput = {
   updatedAt?: Date | string
   hotels?: Prisma.HotelUncheckedCreateNestedManyWithoutDestinationInput
   events?: Prisma.UserEventUncheckedCreateNestedManyWithoutDestinationInput
+  pointsOfInterest?: Prisma.PointOfInterestUncheckedCreateNestedManyWithoutDestinationInput
 }
 
 export type DestinationUpdateInput = {
@@ -449,6 +454,7 @@ export type DestinationUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   hotels?: Prisma.HotelUpdateManyWithoutDestinationNestedInput
   events?: Prisma.UserEventUpdateManyWithoutDestinationNestedInput
+  pointsOfInterest?: Prisma.PointOfInterestUpdateManyWithoutDestinationNestedInput
 }
 
 export type DestinationUncheckedUpdateInput = {
@@ -469,6 +475,7 @@ export type DestinationUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   hotels?: Prisma.HotelUncheckedUpdateManyWithoutDestinationNestedInput
   events?: Prisma.UserEventUncheckedUpdateManyWithoutDestinationNestedInput
+  pointsOfInterest?: Prisma.PointOfInterestUncheckedUpdateManyWithoutDestinationNestedInput
 }
 
 export type DestinationCreateManyInput = {
@@ -646,6 +653,20 @@ export type DestinationUpdateOneRequiredWithoutHotelsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.DestinationUpdateToOneWithWhereWithoutHotelsInput, Prisma.DestinationUpdateWithoutHotelsInput>, Prisma.DestinationUncheckedUpdateWithoutHotelsInput>
 }
 
+export type DestinationCreateNestedOneWithoutPointsOfInterestInput = {
+  create?: Prisma.XOR<Prisma.DestinationCreateWithoutPointsOfInterestInput, Prisma.DestinationUncheckedCreateWithoutPointsOfInterestInput>
+  connectOrCreate?: Prisma.DestinationCreateOrConnectWithoutPointsOfInterestInput
+  connect?: Prisma.DestinationWhereUniqueInput
+}
+
+export type DestinationUpdateOneRequiredWithoutPointsOfInterestNestedInput = {
+  create?: Prisma.XOR<Prisma.DestinationCreateWithoutPointsOfInterestInput, Prisma.DestinationUncheckedCreateWithoutPointsOfInterestInput>
+  connectOrCreate?: Prisma.DestinationCreateOrConnectWithoutPointsOfInterestInput
+  upsert?: Prisma.DestinationUpsertWithoutPointsOfInterestInput
+  connect?: Prisma.DestinationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DestinationUpdateToOneWithWhereWithoutPointsOfInterestInput, Prisma.DestinationUpdateWithoutPointsOfInterestInput>, Prisma.DestinationUncheckedUpdateWithoutPointsOfInterestInput>
+}
+
 export type DestinationCreateNestedOneWithoutEventsInput = {
   create?: Prisma.XOR<Prisma.DestinationCreateWithoutEventsInput, Prisma.DestinationUncheckedCreateWithoutEventsInput>
   connectOrCreate?: Prisma.DestinationCreateOrConnectWithoutEventsInput
@@ -679,6 +700,7 @@ export type DestinationCreateWithoutHotelsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   events?: Prisma.UserEventCreateNestedManyWithoutDestinationInput
+  pointsOfInterest?: Prisma.PointOfInterestCreateNestedManyWithoutDestinationInput
 }
 
 export type DestinationUncheckedCreateWithoutHotelsInput = {
@@ -698,6 +720,7 @@ export type DestinationUncheckedCreateWithoutHotelsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   events?: Prisma.UserEventUncheckedCreateNestedManyWithoutDestinationInput
+  pointsOfInterest?: Prisma.PointOfInterestUncheckedCreateNestedManyWithoutDestinationInput
 }
 
 export type DestinationCreateOrConnectWithoutHotelsInput = {
@@ -733,6 +756,7 @@ export type DestinationUpdateWithoutHotelsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   events?: Prisma.UserEventUpdateManyWithoutDestinationNestedInput
+  pointsOfInterest?: Prisma.PointOfInterestUpdateManyWithoutDestinationNestedInput
 }
 
 export type DestinationUncheckedUpdateWithoutHotelsInput = {
@@ -751,6 +775,103 @@ export type DestinationUncheckedUpdateWithoutHotelsInput = {
   searchKey?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  events?: Prisma.UserEventUncheckedUpdateManyWithoutDestinationNestedInput
+  pointsOfInterest?: Prisma.PointOfInterestUncheckedUpdateManyWithoutDestinationNestedInput
+}
+
+export type DestinationCreateWithoutPointsOfInterestInput = {
+  id?: string
+  slug: string
+  name: string
+  code?: string | null
+  countryCode: string
+  latitude?: number | null
+  longitude?: number | null
+  description?: string | null
+  imageUrl?: string | null
+  themes?: Prisma.DestinationCreatethemesInput | string[]
+  popularityScore?: number
+  isFeatured?: boolean
+  searchKey: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  hotels?: Prisma.HotelCreateNestedManyWithoutDestinationInput
+  events?: Prisma.UserEventCreateNestedManyWithoutDestinationInput
+}
+
+export type DestinationUncheckedCreateWithoutPointsOfInterestInput = {
+  id?: string
+  slug: string
+  name: string
+  code?: string | null
+  countryCode: string
+  latitude?: number | null
+  longitude?: number | null
+  description?: string | null
+  imageUrl?: string | null
+  themes?: Prisma.DestinationCreatethemesInput | string[]
+  popularityScore?: number
+  isFeatured?: boolean
+  searchKey: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  hotels?: Prisma.HotelUncheckedCreateNestedManyWithoutDestinationInput
+  events?: Prisma.UserEventUncheckedCreateNestedManyWithoutDestinationInput
+}
+
+export type DestinationCreateOrConnectWithoutPointsOfInterestInput = {
+  where: Prisma.DestinationWhereUniqueInput
+  create: Prisma.XOR<Prisma.DestinationCreateWithoutPointsOfInterestInput, Prisma.DestinationUncheckedCreateWithoutPointsOfInterestInput>
+}
+
+export type DestinationUpsertWithoutPointsOfInterestInput = {
+  update: Prisma.XOR<Prisma.DestinationUpdateWithoutPointsOfInterestInput, Prisma.DestinationUncheckedUpdateWithoutPointsOfInterestInput>
+  create: Prisma.XOR<Prisma.DestinationCreateWithoutPointsOfInterestInput, Prisma.DestinationUncheckedCreateWithoutPointsOfInterestInput>
+  where?: Prisma.DestinationWhereInput
+}
+
+export type DestinationUpdateToOneWithWhereWithoutPointsOfInterestInput = {
+  where?: Prisma.DestinationWhereInput
+  data: Prisma.XOR<Prisma.DestinationUpdateWithoutPointsOfInterestInput, Prisma.DestinationUncheckedUpdateWithoutPointsOfInterestInput>
+}
+
+export type DestinationUpdateWithoutPointsOfInterestInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  countryCode?: Prisma.StringFieldUpdateOperationsInput | string
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themes?: Prisma.DestinationUpdatethemesInput | string[]
+  popularityScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  searchKey?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  hotels?: Prisma.HotelUpdateManyWithoutDestinationNestedInput
+  events?: Prisma.UserEventUpdateManyWithoutDestinationNestedInput
+}
+
+export type DestinationUncheckedUpdateWithoutPointsOfInterestInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  countryCode?: Prisma.StringFieldUpdateOperationsInput | string
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themes?: Prisma.DestinationUpdatethemesInput | string[]
+  popularityScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  searchKey?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  hotels?: Prisma.HotelUncheckedUpdateManyWithoutDestinationNestedInput
   events?: Prisma.UserEventUncheckedUpdateManyWithoutDestinationNestedInput
 }
 
@@ -771,6 +892,7 @@ export type DestinationCreateWithoutEventsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   hotels?: Prisma.HotelCreateNestedManyWithoutDestinationInput
+  pointsOfInterest?: Prisma.PointOfInterestCreateNestedManyWithoutDestinationInput
 }
 
 export type DestinationUncheckedCreateWithoutEventsInput = {
@@ -790,6 +912,7 @@ export type DestinationUncheckedCreateWithoutEventsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   hotels?: Prisma.HotelUncheckedCreateNestedManyWithoutDestinationInput
+  pointsOfInterest?: Prisma.PointOfInterestUncheckedCreateNestedManyWithoutDestinationInput
 }
 
 export type DestinationCreateOrConnectWithoutEventsInput = {
@@ -825,6 +948,7 @@ export type DestinationUpdateWithoutEventsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   hotels?: Prisma.HotelUpdateManyWithoutDestinationNestedInput
+  pointsOfInterest?: Prisma.PointOfInterestUpdateManyWithoutDestinationNestedInput
 }
 
 export type DestinationUncheckedUpdateWithoutEventsInput = {
@@ -844,6 +968,7 @@ export type DestinationUncheckedUpdateWithoutEventsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   hotels?: Prisma.HotelUncheckedUpdateManyWithoutDestinationNestedInput
+  pointsOfInterest?: Prisma.PointOfInterestUncheckedUpdateManyWithoutDestinationNestedInput
 }
 
 
@@ -854,11 +979,13 @@ export type DestinationUncheckedUpdateWithoutEventsInput = {
 export type DestinationCountOutputType = {
   hotels: number
   events: number
+  pointsOfInterest: number
 }
 
 export type DestinationCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   hotels?: boolean | DestinationCountOutputTypeCountHotelsArgs
   events?: boolean | DestinationCountOutputTypeCountEventsArgs
+  pointsOfInterest?: boolean | DestinationCountOutputTypeCountPointsOfInterestArgs
 }
 
 /**
@@ -885,6 +1012,13 @@ export type DestinationCountOutputTypeCountEventsArgs<ExtArgs extends runtime.Ty
   where?: Prisma.UserEventWhereInput
 }
 
+/**
+ * DestinationCountOutputType without action
+ */
+export type DestinationCountOutputTypeCountPointsOfInterestArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PointOfInterestWhereInput
+}
+
 
 export type DestinationSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -904,6 +1038,7 @@ export type DestinationSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   updatedAt?: boolean
   hotels?: boolean | Prisma.Destination$hotelsArgs<ExtArgs>
   events?: boolean | Prisma.Destination$eventsArgs<ExtArgs>
+  pointsOfInterest?: boolean | Prisma.Destination$pointsOfInterestArgs<ExtArgs>
   _count?: boolean | Prisma.DestinationCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["destination"]>
 
@@ -965,6 +1100,7 @@ export type DestinationOmit<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type DestinationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   hotels?: boolean | Prisma.Destination$hotelsArgs<ExtArgs>
   events?: boolean | Prisma.Destination$eventsArgs<ExtArgs>
+  pointsOfInterest?: boolean | Prisma.Destination$pointsOfInterestArgs<ExtArgs>
   _count?: boolean | Prisma.DestinationCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DestinationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -975,6 +1111,7 @@ export type $DestinationPayload<ExtArgs extends runtime.Types.Extensions.Interna
   objects: {
     hotels: Prisma.$HotelPayload<ExtArgs>[]
     events: Prisma.$UserEventPayload<ExtArgs>[]
+    pointsOfInterest: Prisma.$PointOfInterestPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1388,6 +1525,7 @@ export interface Prisma__DestinationClient<T, Null = never, ExtArgs extends runt
   readonly [Symbol.toStringTag]: "PrismaPromise"
   hotels<T extends Prisma.Destination$hotelsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Destination$hotelsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HotelPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   events<T extends Prisma.Destination$eventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Destination$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  pointsOfInterest<T extends Prisma.Destination$pointsOfInterestArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Destination$pointsOfInterestArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PointOfInterestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1870,6 +2008,30 @@ export type Destination$eventsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.UserEventScalarFieldEnum | Prisma.UserEventScalarFieldEnum[]
+}
+
+/**
+ * Destination.pointsOfInterest
+ */
+export type Destination$pointsOfInterestArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PointOfInterest
+   */
+  select?: Prisma.PointOfInterestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PointOfInterest
+   */
+  omit?: Prisma.PointOfInterestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PointOfInterestInclude<ExtArgs> | null
+  where?: Prisma.PointOfInterestWhereInput
+  orderBy?: Prisma.PointOfInterestOrderByWithRelationInput | Prisma.PointOfInterestOrderByWithRelationInput[]
+  cursor?: Prisma.PointOfInterestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PointOfInterestScalarFieldEnum | Prisma.PointOfInterestScalarFieldEnum[]
 }
 
 /**

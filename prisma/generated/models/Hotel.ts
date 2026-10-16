@@ -30,20 +30,58 @@ export type HotelAvgAggregateOutputType = {
   categoryStars: number | null
   latitude: number | null
   longitude: number | null
+  distanceToBeachMeters: number | null
+  distanceToAirportKm: number | null
+  distanceToCenterMeters: number | null
+  distanceToSkiLiftMeters: number | null
+  distanceToMetroMeters: number | null
+  yearBuilt: number | null
+  yearRenovated: number | null
+  totalRooms: number | null
   ratingAvg: number | null
   reviewCount: number | null
+  ratingCleanliness: number | null
+  ratingService: number | null
+  ratingLocation: number | null
+  ratingValue: number | null
   popularityScore: number | null
+  bookingCount30d: number | null
+  viewCount30d: number | null
+  conversionRate30d: number | null
+  providerCount: number | null
   priceFrom: runtime.Decimal | null
+  cancellationWindowHours: number | null
+  minAge: number | null
+  petsFee: runtime.Decimal | null
 }
 
 export type HotelSumAggregateOutputType = {
   categoryStars: number | null
   latitude: number | null
   longitude: number | null
+  distanceToBeachMeters: number | null
+  distanceToAirportKm: number | null
+  distanceToCenterMeters: number | null
+  distanceToSkiLiftMeters: number | null
+  distanceToMetroMeters: number | null
+  yearBuilt: number | null
+  yearRenovated: number | null
+  totalRooms: number | null
   ratingAvg: number | null
   reviewCount: number | null
+  ratingCleanliness: number | null
+  ratingService: number | null
+  ratingLocation: number | null
+  ratingValue: number | null
   popularityScore: number | null
+  bookingCount30d: number | null
+  viewCount30d: number | null
+  conversionRate30d: number | null
+  providerCount: number | null
   priceFrom: runtime.Decimal | null
+  cancellationWindowHours: number | null
+  minAge: number | null
+  petsFee: runtime.Decimal | null
 }
 
 export type HotelMinAggregateOutputType = {
@@ -56,12 +94,49 @@ export type HotelMinAggregateOutputType = {
   address: string | null
   latitude: number | null
   longitude: number | null
+  countryCode: string | null
+  regionCode: string | null
+  neighborhood: string | null
+  zone: string | null
+  distanceToBeachMeters: number | null
+  distanceToAirportKm: number | null
+  distanceToCenterMeters: number | null
+  distanceToSkiLiftMeters: number | null
+  distanceToMetroMeters: number | null
+  propertyType: $Enums.PropertyType | null
+  chainBrand: string | null
+  isLuxury: boolean | null
+  isBoutique: boolean | null
+  isChain: boolean | null
+  yearBuilt: number | null
+  yearRenovated: number | null
+  totalRooms: number | null
   ratingAvg: number | null
   reviewCount: number | null
+  ratingCleanliness: number | null
+  ratingService: number | null
+  ratingLocation: number | null
+  ratingValue: number | null
   popularityScore: number | null
+  bookingCount30d: number | null
+  viewCount30d: number | null
+  conversionRate30d: number | null
+  providerCount: number | null
+  bestRateGuarantee: boolean | null
   priceFrom: runtime.Decimal | null
   priceCurrency: string | null
+  priceBucket: string | null
   priceUpdatedAt: Date | null
+  cancellationType: $Enums.CancellationType | null
+  cancellationWindowHours: number | null
+  paymentType: $Enums.PaymentType | null
+  minAge: number | null
+  petsAllowed: boolean | null
+  petsFee: runtime.Decimal | null
+  childrenAllowed: boolean | null
+  checkInTime: string | null
+  checkOutTime: string | null
+  smokingAllowed: boolean | null
   mainImageUrl: string | null
   searchKey: string | null
   destinationId: string | null
@@ -79,12 +154,49 @@ export type HotelMaxAggregateOutputType = {
   address: string | null
   latitude: number | null
   longitude: number | null
+  countryCode: string | null
+  regionCode: string | null
+  neighborhood: string | null
+  zone: string | null
+  distanceToBeachMeters: number | null
+  distanceToAirportKm: number | null
+  distanceToCenterMeters: number | null
+  distanceToSkiLiftMeters: number | null
+  distanceToMetroMeters: number | null
+  propertyType: $Enums.PropertyType | null
+  chainBrand: string | null
+  isLuxury: boolean | null
+  isBoutique: boolean | null
+  isChain: boolean | null
+  yearBuilt: number | null
+  yearRenovated: number | null
+  totalRooms: number | null
   ratingAvg: number | null
   reviewCount: number | null
+  ratingCleanliness: number | null
+  ratingService: number | null
+  ratingLocation: number | null
+  ratingValue: number | null
   popularityScore: number | null
+  bookingCount30d: number | null
+  viewCount30d: number | null
+  conversionRate30d: number | null
+  providerCount: number | null
+  bestRateGuarantee: boolean | null
   priceFrom: runtime.Decimal | null
   priceCurrency: string | null
+  priceBucket: string | null
   priceUpdatedAt: Date | null
+  cancellationType: $Enums.CancellationType | null
+  cancellationWindowHours: number | null
+  paymentType: $Enums.PaymentType | null
+  minAge: number | null
+  petsAllowed: boolean | null
+  petsFee: runtime.Decimal | null
+  childrenAllowed: boolean | null
+  checkInTime: string | null
+  checkOutTime: string | null
+  smokingAllowed: boolean | null
   mainImageUrl: string | null
   searchKey: string | null
   destinationId: string | null
@@ -102,13 +214,53 @@ export type HotelCountAggregateOutputType = {
   address: number
   latitude: number
   longitude: number
+  countryCode: number
+  regionCode: number
+  neighborhood: number
+  zone: number
+  distanceToBeachMeters: number
+  distanceToAirportKm: number
+  distanceToCenterMeters: number
+  distanceToSkiLiftMeters: number
+  distanceToMetroMeters: number
+  propertyType: number
+  chainBrand: number
+  isLuxury: number
+  isBoutique: number
+  isChain: number
+  yearBuilt: number
+  yearRenovated: number
+  totalRooms: number
   ratingAvg: number
   reviewCount: number
+  ratingCleanliness: number
+  ratingService: number
+  ratingLocation: number
+  ratingValue: number
   popularityScore: number
+  bookingCount30d: number
+  viewCount30d: number
+  conversionRate30d: number
+  providerCount: number
+  bestRateGuarantee: number
   priceFrom: number
   priceCurrency: number
+  priceBucket: number
   priceUpdatedAt: number
   themes: number
+  vibes: number
+  amenityCodes: number
+  boardTypes: number
+  cancellationType: number
+  cancellationWindowHours: number
+  paymentType: number
+  minAge: number
+  petsAllowed: number
+  petsFee: number
+  childrenAllowed: number
+  checkInTime: number
+  checkOutTime: number
+  smokingAllowed: number
   mainImageUrl: number
   searchKey: number
   destinationId: number
@@ -122,20 +274,58 @@ export type HotelAvgAggregateInputType = {
   categoryStars?: true
   latitude?: true
   longitude?: true
+  distanceToBeachMeters?: true
+  distanceToAirportKm?: true
+  distanceToCenterMeters?: true
+  distanceToSkiLiftMeters?: true
+  distanceToMetroMeters?: true
+  yearBuilt?: true
+  yearRenovated?: true
+  totalRooms?: true
   ratingAvg?: true
   reviewCount?: true
+  ratingCleanliness?: true
+  ratingService?: true
+  ratingLocation?: true
+  ratingValue?: true
   popularityScore?: true
+  bookingCount30d?: true
+  viewCount30d?: true
+  conversionRate30d?: true
+  providerCount?: true
   priceFrom?: true
+  cancellationWindowHours?: true
+  minAge?: true
+  petsFee?: true
 }
 
 export type HotelSumAggregateInputType = {
   categoryStars?: true
   latitude?: true
   longitude?: true
+  distanceToBeachMeters?: true
+  distanceToAirportKm?: true
+  distanceToCenterMeters?: true
+  distanceToSkiLiftMeters?: true
+  distanceToMetroMeters?: true
+  yearBuilt?: true
+  yearRenovated?: true
+  totalRooms?: true
   ratingAvg?: true
   reviewCount?: true
+  ratingCleanliness?: true
+  ratingService?: true
+  ratingLocation?: true
+  ratingValue?: true
   popularityScore?: true
+  bookingCount30d?: true
+  viewCount30d?: true
+  conversionRate30d?: true
+  providerCount?: true
   priceFrom?: true
+  cancellationWindowHours?: true
+  minAge?: true
+  petsFee?: true
 }
 
 export type HotelMinAggregateInputType = {
@@ -148,12 +338,49 @@ export type HotelMinAggregateInputType = {
   address?: true
   latitude?: true
   longitude?: true
+  countryCode?: true
+  regionCode?: true
+  neighborhood?: true
+  zone?: true
+  distanceToBeachMeters?: true
+  distanceToAirportKm?: true
+  distanceToCenterMeters?: true
+  distanceToSkiLiftMeters?: true
+  distanceToMetroMeters?: true
+  propertyType?: true
+  chainBrand?: true
+  isLuxury?: true
+  isBoutique?: true
+  isChain?: true
+  yearBuilt?: true
+  yearRenovated?: true
+  totalRooms?: true
   ratingAvg?: true
   reviewCount?: true
+  ratingCleanliness?: true
+  ratingService?: true
+  ratingLocation?: true
+  ratingValue?: true
   popularityScore?: true
+  bookingCount30d?: true
+  viewCount30d?: true
+  conversionRate30d?: true
+  providerCount?: true
+  bestRateGuarantee?: true
   priceFrom?: true
   priceCurrency?: true
+  priceBucket?: true
   priceUpdatedAt?: true
+  cancellationType?: true
+  cancellationWindowHours?: true
+  paymentType?: true
+  minAge?: true
+  petsAllowed?: true
+  petsFee?: true
+  childrenAllowed?: true
+  checkInTime?: true
+  checkOutTime?: true
+  smokingAllowed?: true
   mainImageUrl?: true
   searchKey?: true
   destinationId?: true
@@ -171,12 +398,49 @@ export type HotelMaxAggregateInputType = {
   address?: true
   latitude?: true
   longitude?: true
+  countryCode?: true
+  regionCode?: true
+  neighborhood?: true
+  zone?: true
+  distanceToBeachMeters?: true
+  distanceToAirportKm?: true
+  distanceToCenterMeters?: true
+  distanceToSkiLiftMeters?: true
+  distanceToMetroMeters?: true
+  propertyType?: true
+  chainBrand?: true
+  isLuxury?: true
+  isBoutique?: true
+  isChain?: true
+  yearBuilt?: true
+  yearRenovated?: true
+  totalRooms?: true
   ratingAvg?: true
   reviewCount?: true
+  ratingCleanliness?: true
+  ratingService?: true
+  ratingLocation?: true
+  ratingValue?: true
   popularityScore?: true
+  bookingCount30d?: true
+  viewCount30d?: true
+  conversionRate30d?: true
+  providerCount?: true
+  bestRateGuarantee?: true
   priceFrom?: true
   priceCurrency?: true
+  priceBucket?: true
   priceUpdatedAt?: true
+  cancellationType?: true
+  cancellationWindowHours?: true
+  paymentType?: true
+  minAge?: true
+  petsAllowed?: true
+  petsFee?: true
+  childrenAllowed?: true
+  checkInTime?: true
+  checkOutTime?: true
+  smokingAllowed?: true
   mainImageUrl?: true
   searchKey?: true
   destinationId?: true
@@ -194,13 +458,53 @@ export type HotelCountAggregateInputType = {
   address?: true
   latitude?: true
   longitude?: true
+  countryCode?: true
+  regionCode?: true
+  neighborhood?: true
+  zone?: true
+  distanceToBeachMeters?: true
+  distanceToAirportKm?: true
+  distanceToCenterMeters?: true
+  distanceToSkiLiftMeters?: true
+  distanceToMetroMeters?: true
+  propertyType?: true
+  chainBrand?: true
+  isLuxury?: true
+  isBoutique?: true
+  isChain?: true
+  yearBuilt?: true
+  yearRenovated?: true
+  totalRooms?: true
   ratingAvg?: true
   reviewCount?: true
+  ratingCleanliness?: true
+  ratingService?: true
+  ratingLocation?: true
+  ratingValue?: true
   popularityScore?: true
+  bookingCount30d?: true
+  viewCount30d?: true
+  conversionRate30d?: true
+  providerCount?: true
+  bestRateGuarantee?: true
   priceFrom?: true
   priceCurrency?: true
+  priceBucket?: true
   priceUpdatedAt?: true
   themes?: true
+  vibes?: true
+  amenityCodes?: true
+  boardTypes?: true
+  cancellationType?: true
+  cancellationWindowHours?: true
+  paymentType?: true
+  minAge?: true
+  petsAllowed?: true
+  petsFee?: true
+  childrenAllowed?: true
+  checkInTime?: true
+  checkOutTime?: true
+  smokingAllowed?: true
   mainImageUrl?: true
   searchKey?: true
   destinationId?: true
@@ -305,13 +609,53 @@ export type HotelGroupByOutputType = {
   address: string | null
   latitude: number | null
   longitude: number | null
+  countryCode: string | null
+  regionCode: string | null
+  neighborhood: string | null
+  zone: string | null
+  distanceToBeachMeters: number | null
+  distanceToAirportKm: number | null
+  distanceToCenterMeters: number | null
+  distanceToSkiLiftMeters: number | null
+  distanceToMetroMeters: number | null
+  propertyType: $Enums.PropertyType
+  chainBrand: string | null
+  isLuxury: boolean
+  isBoutique: boolean
+  isChain: boolean
+  yearBuilt: number | null
+  yearRenovated: number | null
+  totalRooms: number | null
   ratingAvg: number | null
   reviewCount: number
+  ratingCleanliness: number | null
+  ratingService: number | null
+  ratingLocation: number | null
+  ratingValue: number | null
   popularityScore: number
+  bookingCount30d: number
+  viewCount30d: number
+  conversionRate30d: number | null
+  providerCount: number
+  bestRateGuarantee: boolean
   priceFrom: runtime.Decimal | null
   priceCurrency: string
+  priceBucket: string | null
   priceUpdatedAt: Date | null
   themes: string[]
+  vibes: string[]
+  amenityCodes: string[]
+  boardTypes: $Enums.BoardType[]
+  cancellationType: $Enums.CancellationType | null
+  cancellationWindowHours: number | null
+  paymentType: $Enums.PaymentType | null
+  minAge: number | null
+  petsAllowed: boolean | null
+  petsFee: runtime.Decimal | null
+  childrenAllowed: boolean | null
+  checkInTime: string | null
+  checkOutTime: string | null
+  smokingAllowed: boolean | null
   mainImageUrl: string | null
   searchKey: string
   destinationId: string
@@ -352,13 +696,53 @@ export type HotelWhereInput = {
   address?: Prisma.StringNullableFilter<"Hotel"> | string | null
   latitude?: Prisma.FloatNullableFilter<"Hotel"> | number | null
   longitude?: Prisma.FloatNullableFilter<"Hotel"> | number | null
+  countryCode?: Prisma.StringNullableFilter<"Hotel"> | string | null
+  regionCode?: Prisma.StringNullableFilter<"Hotel"> | string | null
+  neighborhood?: Prisma.StringNullableFilter<"Hotel"> | string | null
+  zone?: Prisma.StringNullableFilter<"Hotel"> | string | null
+  distanceToBeachMeters?: Prisma.IntNullableFilter<"Hotel"> | number | null
+  distanceToAirportKm?: Prisma.FloatNullableFilter<"Hotel"> | number | null
+  distanceToCenterMeters?: Prisma.IntNullableFilter<"Hotel"> | number | null
+  distanceToSkiLiftMeters?: Prisma.IntNullableFilter<"Hotel"> | number | null
+  distanceToMetroMeters?: Prisma.IntNullableFilter<"Hotel"> | number | null
+  propertyType?: Prisma.EnumPropertyTypeFilter<"Hotel"> | $Enums.PropertyType
+  chainBrand?: Prisma.StringNullableFilter<"Hotel"> | string | null
+  isLuxury?: Prisma.BoolFilter<"Hotel"> | boolean
+  isBoutique?: Prisma.BoolFilter<"Hotel"> | boolean
+  isChain?: Prisma.BoolFilter<"Hotel"> | boolean
+  yearBuilt?: Prisma.IntNullableFilter<"Hotel"> | number | null
+  yearRenovated?: Prisma.IntNullableFilter<"Hotel"> | number | null
+  totalRooms?: Prisma.IntNullableFilter<"Hotel"> | number | null
   ratingAvg?: Prisma.FloatNullableFilter<"Hotel"> | number | null
   reviewCount?: Prisma.IntFilter<"Hotel"> | number
+  ratingCleanliness?: Prisma.FloatNullableFilter<"Hotel"> | number | null
+  ratingService?: Prisma.FloatNullableFilter<"Hotel"> | number | null
+  ratingLocation?: Prisma.FloatNullableFilter<"Hotel"> | number | null
+  ratingValue?: Prisma.FloatNullableFilter<"Hotel"> | number | null
   popularityScore?: Prisma.IntFilter<"Hotel"> | number
+  bookingCount30d?: Prisma.IntFilter<"Hotel"> | number
+  viewCount30d?: Prisma.IntFilter<"Hotel"> | number
+  conversionRate30d?: Prisma.FloatNullableFilter<"Hotel"> | number | null
+  providerCount?: Prisma.IntFilter<"Hotel"> | number
+  bestRateGuarantee?: Prisma.BoolFilter<"Hotel"> | boolean
   priceFrom?: Prisma.DecimalNullableFilter<"Hotel"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: Prisma.StringFilter<"Hotel"> | string
+  priceBucket?: Prisma.StringNullableFilter<"Hotel"> | string | null
   priceUpdatedAt?: Prisma.DateTimeNullableFilter<"Hotel"> | Date | string | null
   themes?: Prisma.StringNullableListFilter<"Hotel">
+  vibes?: Prisma.StringNullableListFilter<"Hotel">
+  amenityCodes?: Prisma.StringNullableListFilter<"Hotel">
+  boardTypes?: Prisma.EnumBoardTypeNullableListFilter<"Hotel">
+  cancellationType?: Prisma.EnumCancellationTypeNullableFilter<"Hotel"> | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.IntNullableFilter<"Hotel"> | number | null
+  paymentType?: Prisma.EnumPaymentTypeNullableFilter<"Hotel"> | $Enums.PaymentType | null
+  minAge?: Prisma.IntNullableFilter<"Hotel"> | number | null
+  petsAllowed?: Prisma.BoolNullableFilter<"Hotel"> | boolean | null
+  petsFee?: Prisma.DecimalNullableFilter<"Hotel"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.BoolNullableFilter<"Hotel"> | boolean | null
+  checkInTime?: Prisma.StringNullableFilter<"Hotel"> | string | null
+  checkOutTime?: Prisma.StringNullableFilter<"Hotel"> | string | null
+  smokingAllowed?: Prisma.BoolNullableFilter<"Hotel"> | boolean | null
   mainImageUrl?: Prisma.StringNullableFilter<"Hotel"> | string | null
   searchKey?: Prisma.StringFilter<"Hotel"> | string
   destinationId?: Prisma.StringFilter<"Hotel"> | string
@@ -373,6 +757,8 @@ export type HotelWhereInput = {
   quotes?: Prisma.QuoteListRelationFilter
   favorites?: Prisma.FavoriteListRelationFilter
   events?: Prisma.UserEventListRelationFilter
+  tags?: Prisma.HotelTagListRelationFilter
+  pointsOfInterest?: Prisma.HotelPointOfInterestListRelationFilter
 }
 
 export type HotelOrderByWithRelationInput = {
@@ -385,13 +771,53 @@ export type HotelOrderByWithRelationInput = {
   address?: Prisma.SortOrderInput | Prisma.SortOrder
   latitude?: Prisma.SortOrderInput | Prisma.SortOrder
   longitude?: Prisma.SortOrderInput | Prisma.SortOrder
+  countryCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  regionCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  neighborhood?: Prisma.SortOrderInput | Prisma.SortOrder
+  zone?: Prisma.SortOrderInput | Prisma.SortOrder
+  distanceToBeachMeters?: Prisma.SortOrderInput | Prisma.SortOrder
+  distanceToAirportKm?: Prisma.SortOrderInput | Prisma.SortOrder
+  distanceToCenterMeters?: Prisma.SortOrderInput | Prisma.SortOrder
+  distanceToSkiLiftMeters?: Prisma.SortOrderInput | Prisma.SortOrder
+  distanceToMetroMeters?: Prisma.SortOrderInput | Prisma.SortOrder
+  propertyType?: Prisma.SortOrder
+  chainBrand?: Prisma.SortOrderInput | Prisma.SortOrder
+  isLuxury?: Prisma.SortOrder
+  isBoutique?: Prisma.SortOrder
+  isChain?: Prisma.SortOrder
+  yearBuilt?: Prisma.SortOrderInput | Prisma.SortOrder
+  yearRenovated?: Prisma.SortOrderInput | Prisma.SortOrder
+  totalRooms?: Prisma.SortOrderInput | Prisma.SortOrder
   ratingAvg?: Prisma.SortOrderInput | Prisma.SortOrder
   reviewCount?: Prisma.SortOrder
+  ratingCleanliness?: Prisma.SortOrderInput | Prisma.SortOrder
+  ratingService?: Prisma.SortOrderInput | Prisma.SortOrder
+  ratingLocation?: Prisma.SortOrderInput | Prisma.SortOrder
+  ratingValue?: Prisma.SortOrderInput | Prisma.SortOrder
   popularityScore?: Prisma.SortOrder
+  bookingCount30d?: Prisma.SortOrder
+  viewCount30d?: Prisma.SortOrder
+  conversionRate30d?: Prisma.SortOrderInput | Prisma.SortOrder
+  providerCount?: Prisma.SortOrder
+  bestRateGuarantee?: Prisma.SortOrder
   priceFrom?: Prisma.SortOrderInput | Prisma.SortOrder
   priceCurrency?: Prisma.SortOrder
+  priceBucket?: Prisma.SortOrderInput | Prisma.SortOrder
   priceUpdatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   themes?: Prisma.SortOrder
+  vibes?: Prisma.SortOrder
+  amenityCodes?: Prisma.SortOrder
+  boardTypes?: Prisma.SortOrder
+  cancellationType?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancellationWindowHours?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentType?: Prisma.SortOrderInput | Prisma.SortOrder
+  minAge?: Prisma.SortOrderInput | Prisma.SortOrder
+  petsAllowed?: Prisma.SortOrderInput | Prisma.SortOrder
+  petsFee?: Prisma.SortOrderInput | Prisma.SortOrder
+  childrenAllowed?: Prisma.SortOrderInput | Prisma.SortOrder
+  checkInTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  checkOutTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  smokingAllowed?: Prisma.SortOrderInput | Prisma.SortOrder
   mainImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   searchKey?: Prisma.SortOrder
   destinationId?: Prisma.SortOrder
@@ -406,6 +832,8 @@ export type HotelOrderByWithRelationInput = {
   quotes?: Prisma.QuoteOrderByRelationAggregateInput
   favorites?: Prisma.FavoriteOrderByRelationAggregateInput
   events?: Prisma.UserEventOrderByRelationAggregateInput
+  tags?: Prisma.HotelTagOrderByRelationAggregateInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestOrderByRelationAggregateInput
 }
 
 export type HotelWhereUniqueInput = Prisma.AtLeast<{
@@ -421,13 +849,53 @@ export type HotelWhereUniqueInput = Prisma.AtLeast<{
   address?: Prisma.StringNullableFilter<"Hotel"> | string | null
   latitude?: Prisma.FloatNullableFilter<"Hotel"> | number | null
   longitude?: Prisma.FloatNullableFilter<"Hotel"> | number | null
+  countryCode?: Prisma.StringNullableFilter<"Hotel"> | string | null
+  regionCode?: Prisma.StringNullableFilter<"Hotel"> | string | null
+  neighborhood?: Prisma.StringNullableFilter<"Hotel"> | string | null
+  zone?: Prisma.StringNullableFilter<"Hotel"> | string | null
+  distanceToBeachMeters?: Prisma.IntNullableFilter<"Hotel"> | number | null
+  distanceToAirportKm?: Prisma.FloatNullableFilter<"Hotel"> | number | null
+  distanceToCenterMeters?: Prisma.IntNullableFilter<"Hotel"> | number | null
+  distanceToSkiLiftMeters?: Prisma.IntNullableFilter<"Hotel"> | number | null
+  distanceToMetroMeters?: Prisma.IntNullableFilter<"Hotel"> | number | null
+  propertyType?: Prisma.EnumPropertyTypeFilter<"Hotel"> | $Enums.PropertyType
+  chainBrand?: Prisma.StringNullableFilter<"Hotel"> | string | null
+  isLuxury?: Prisma.BoolFilter<"Hotel"> | boolean
+  isBoutique?: Prisma.BoolFilter<"Hotel"> | boolean
+  isChain?: Prisma.BoolFilter<"Hotel"> | boolean
+  yearBuilt?: Prisma.IntNullableFilter<"Hotel"> | number | null
+  yearRenovated?: Prisma.IntNullableFilter<"Hotel"> | number | null
+  totalRooms?: Prisma.IntNullableFilter<"Hotel"> | number | null
   ratingAvg?: Prisma.FloatNullableFilter<"Hotel"> | number | null
   reviewCount?: Prisma.IntFilter<"Hotel"> | number
+  ratingCleanliness?: Prisma.FloatNullableFilter<"Hotel"> | number | null
+  ratingService?: Prisma.FloatNullableFilter<"Hotel"> | number | null
+  ratingLocation?: Prisma.FloatNullableFilter<"Hotel"> | number | null
+  ratingValue?: Prisma.FloatNullableFilter<"Hotel"> | number | null
   popularityScore?: Prisma.IntFilter<"Hotel"> | number
+  bookingCount30d?: Prisma.IntFilter<"Hotel"> | number
+  viewCount30d?: Prisma.IntFilter<"Hotel"> | number
+  conversionRate30d?: Prisma.FloatNullableFilter<"Hotel"> | number | null
+  providerCount?: Prisma.IntFilter<"Hotel"> | number
+  bestRateGuarantee?: Prisma.BoolFilter<"Hotel"> | boolean
   priceFrom?: Prisma.DecimalNullableFilter<"Hotel"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: Prisma.StringFilter<"Hotel"> | string
+  priceBucket?: Prisma.StringNullableFilter<"Hotel"> | string | null
   priceUpdatedAt?: Prisma.DateTimeNullableFilter<"Hotel"> | Date | string | null
   themes?: Prisma.StringNullableListFilter<"Hotel">
+  vibes?: Prisma.StringNullableListFilter<"Hotel">
+  amenityCodes?: Prisma.StringNullableListFilter<"Hotel">
+  boardTypes?: Prisma.EnumBoardTypeNullableListFilter<"Hotel">
+  cancellationType?: Prisma.EnumCancellationTypeNullableFilter<"Hotel"> | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.IntNullableFilter<"Hotel"> | number | null
+  paymentType?: Prisma.EnumPaymentTypeNullableFilter<"Hotel"> | $Enums.PaymentType | null
+  minAge?: Prisma.IntNullableFilter<"Hotel"> | number | null
+  petsAllowed?: Prisma.BoolNullableFilter<"Hotel"> | boolean | null
+  petsFee?: Prisma.DecimalNullableFilter<"Hotel"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.BoolNullableFilter<"Hotel"> | boolean | null
+  checkInTime?: Prisma.StringNullableFilter<"Hotel"> | string | null
+  checkOutTime?: Prisma.StringNullableFilter<"Hotel"> | string | null
+  smokingAllowed?: Prisma.BoolNullableFilter<"Hotel"> | boolean | null
   mainImageUrl?: Prisma.StringNullableFilter<"Hotel"> | string | null
   searchKey?: Prisma.StringFilter<"Hotel"> | string
   destinationId?: Prisma.StringFilter<"Hotel"> | string
@@ -442,6 +910,8 @@ export type HotelWhereUniqueInput = Prisma.AtLeast<{
   quotes?: Prisma.QuoteListRelationFilter
   favorites?: Prisma.FavoriteListRelationFilter
   events?: Prisma.UserEventListRelationFilter
+  tags?: Prisma.HotelTagListRelationFilter
+  pointsOfInterest?: Prisma.HotelPointOfInterestListRelationFilter
 }, "id" | "slug">
 
 export type HotelOrderByWithAggregationInput = {
@@ -454,13 +924,53 @@ export type HotelOrderByWithAggregationInput = {
   address?: Prisma.SortOrderInput | Prisma.SortOrder
   latitude?: Prisma.SortOrderInput | Prisma.SortOrder
   longitude?: Prisma.SortOrderInput | Prisma.SortOrder
+  countryCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  regionCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  neighborhood?: Prisma.SortOrderInput | Prisma.SortOrder
+  zone?: Prisma.SortOrderInput | Prisma.SortOrder
+  distanceToBeachMeters?: Prisma.SortOrderInput | Prisma.SortOrder
+  distanceToAirportKm?: Prisma.SortOrderInput | Prisma.SortOrder
+  distanceToCenterMeters?: Prisma.SortOrderInput | Prisma.SortOrder
+  distanceToSkiLiftMeters?: Prisma.SortOrderInput | Prisma.SortOrder
+  distanceToMetroMeters?: Prisma.SortOrderInput | Prisma.SortOrder
+  propertyType?: Prisma.SortOrder
+  chainBrand?: Prisma.SortOrderInput | Prisma.SortOrder
+  isLuxury?: Prisma.SortOrder
+  isBoutique?: Prisma.SortOrder
+  isChain?: Prisma.SortOrder
+  yearBuilt?: Prisma.SortOrderInput | Prisma.SortOrder
+  yearRenovated?: Prisma.SortOrderInput | Prisma.SortOrder
+  totalRooms?: Prisma.SortOrderInput | Prisma.SortOrder
   ratingAvg?: Prisma.SortOrderInput | Prisma.SortOrder
   reviewCount?: Prisma.SortOrder
+  ratingCleanliness?: Prisma.SortOrderInput | Prisma.SortOrder
+  ratingService?: Prisma.SortOrderInput | Prisma.SortOrder
+  ratingLocation?: Prisma.SortOrderInput | Prisma.SortOrder
+  ratingValue?: Prisma.SortOrderInput | Prisma.SortOrder
   popularityScore?: Prisma.SortOrder
+  bookingCount30d?: Prisma.SortOrder
+  viewCount30d?: Prisma.SortOrder
+  conversionRate30d?: Prisma.SortOrderInput | Prisma.SortOrder
+  providerCount?: Prisma.SortOrder
+  bestRateGuarantee?: Prisma.SortOrder
   priceFrom?: Prisma.SortOrderInput | Prisma.SortOrder
   priceCurrency?: Prisma.SortOrder
+  priceBucket?: Prisma.SortOrderInput | Prisma.SortOrder
   priceUpdatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   themes?: Prisma.SortOrder
+  vibes?: Prisma.SortOrder
+  amenityCodes?: Prisma.SortOrder
+  boardTypes?: Prisma.SortOrder
+  cancellationType?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancellationWindowHours?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentType?: Prisma.SortOrderInput | Prisma.SortOrder
+  minAge?: Prisma.SortOrderInput | Prisma.SortOrder
+  petsAllowed?: Prisma.SortOrderInput | Prisma.SortOrder
+  petsFee?: Prisma.SortOrderInput | Prisma.SortOrder
+  childrenAllowed?: Prisma.SortOrderInput | Prisma.SortOrder
+  checkInTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  checkOutTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  smokingAllowed?: Prisma.SortOrderInput | Prisma.SortOrder
   mainImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   searchKey?: Prisma.SortOrder
   destinationId?: Prisma.SortOrder
@@ -486,13 +996,53 @@ export type HotelScalarWhereWithAggregatesInput = {
   address?: Prisma.StringNullableWithAggregatesFilter<"Hotel"> | string | null
   latitude?: Prisma.FloatNullableWithAggregatesFilter<"Hotel"> | number | null
   longitude?: Prisma.FloatNullableWithAggregatesFilter<"Hotel"> | number | null
+  countryCode?: Prisma.StringNullableWithAggregatesFilter<"Hotel"> | string | null
+  regionCode?: Prisma.StringNullableWithAggregatesFilter<"Hotel"> | string | null
+  neighborhood?: Prisma.StringNullableWithAggregatesFilter<"Hotel"> | string | null
+  zone?: Prisma.StringNullableWithAggregatesFilter<"Hotel"> | string | null
+  distanceToBeachMeters?: Prisma.IntNullableWithAggregatesFilter<"Hotel"> | number | null
+  distanceToAirportKm?: Prisma.FloatNullableWithAggregatesFilter<"Hotel"> | number | null
+  distanceToCenterMeters?: Prisma.IntNullableWithAggregatesFilter<"Hotel"> | number | null
+  distanceToSkiLiftMeters?: Prisma.IntNullableWithAggregatesFilter<"Hotel"> | number | null
+  distanceToMetroMeters?: Prisma.IntNullableWithAggregatesFilter<"Hotel"> | number | null
+  propertyType?: Prisma.EnumPropertyTypeWithAggregatesFilter<"Hotel"> | $Enums.PropertyType
+  chainBrand?: Prisma.StringNullableWithAggregatesFilter<"Hotel"> | string | null
+  isLuxury?: Prisma.BoolWithAggregatesFilter<"Hotel"> | boolean
+  isBoutique?: Prisma.BoolWithAggregatesFilter<"Hotel"> | boolean
+  isChain?: Prisma.BoolWithAggregatesFilter<"Hotel"> | boolean
+  yearBuilt?: Prisma.IntNullableWithAggregatesFilter<"Hotel"> | number | null
+  yearRenovated?: Prisma.IntNullableWithAggregatesFilter<"Hotel"> | number | null
+  totalRooms?: Prisma.IntNullableWithAggregatesFilter<"Hotel"> | number | null
   ratingAvg?: Prisma.FloatNullableWithAggregatesFilter<"Hotel"> | number | null
   reviewCount?: Prisma.IntWithAggregatesFilter<"Hotel"> | number
+  ratingCleanliness?: Prisma.FloatNullableWithAggregatesFilter<"Hotel"> | number | null
+  ratingService?: Prisma.FloatNullableWithAggregatesFilter<"Hotel"> | number | null
+  ratingLocation?: Prisma.FloatNullableWithAggregatesFilter<"Hotel"> | number | null
+  ratingValue?: Prisma.FloatNullableWithAggregatesFilter<"Hotel"> | number | null
   popularityScore?: Prisma.IntWithAggregatesFilter<"Hotel"> | number
+  bookingCount30d?: Prisma.IntWithAggregatesFilter<"Hotel"> | number
+  viewCount30d?: Prisma.IntWithAggregatesFilter<"Hotel"> | number
+  conversionRate30d?: Prisma.FloatNullableWithAggregatesFilter<"Hotel"> | number | null
+  providerCount?: Prisma.IntWithAggregatesFilter<"Hotel"> | number
+  bestRateGuarantee?: Prisma.BoolWithAggregatesFilter<"Hotel"> | boolean
   priceFrom?: Prisma.DecimalNullableWithAggregatesFilter<"Hotel"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: Prisma.StringWithAggregatesFilter<"Hotel"> | string
+  priceBucket?: Prisma.StringNullableWithAggregatesFilter<"Hotel"> | string | null
   priceUpdatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Hotel"> | Date | string | null
   themes?: Prisma.StringNullableListFilter<"Hotel">
+  vibes?: Prisma.StringNullableListFilter<"Hotel">
+  amenityCodes?: Prisma.StringNullableListFilter<"Hotel">
+  boardTypes?: Prisma.EnumBoardTypeNullableListFilter<"Hotel">
+  cancellationType?: Prisma.EnumCancellationTypeNullableWithAggregatesFilter<"Hotel"> | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.IntNullableWithAggregatesFilter<"Hotel"> | number | null
+  paymentType?: Prisma.EnumPaymentTypeNullableWithAggregatesFilter<"Hotel"> | $Enums.PaymentType | null
+  minAge?: Prisma.IntNullableWithAggregatesFilter<"Hotel"> | number | null
+  petsAllowed?: Prisma.BoolNullableWithAggregatesFilter<"Hotel"> | boolean | null
+  petsFee?: Prisma.DecimalNullableWithAggregatesFilter<"Hotel"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.BoolNullableWithAggregatesFilter<"Hotel"> | boolean | null
+  checkInTime?: Prisma.StringNullableWithAggregatesFilter<"Hotel"> | string | null
+  checkOutTime?: Prisma.StringNullableWithAggregatesFilter<"Hotel"> | string | null
+  smokingAllowed?: Prisma.BoolNullableWithAggregatesFilter<"Hotel"> | boolean | null
   mainImageUrl?: Prisma.StringNullableWithAggregatesFilter<"Hotel"> | string | null
   searchKey?: Prisma.StringWithAggregatesFilter<"Hotel"> | string
   destinationId?: Prisma.StringWithAggregatesFilter<"Hotel"> | string
@@ -510,13 +1060,53 @@ export type HotelCreateInput = {
   address?: string | null
   latitude?: number | null
   longitude?: number | null
+  countryCode?: string | null
+  regionCode?: string | null
+  neighborhood?: string | null
+  zone?: string | null
+  distanceToBeachMeters?: number | null
+  distanceToAirportKm?: number | null
+  distanceToCenterMeters?: number | null
+  distanceToSkiLiftMeters?: number | null
+  distanceToMetroMeters?: number | null
+  propertyType?: $Enums.PropertyType
+  chainBrand?: string | null
+  isLuxury?: boolean
+  isBoutique?: boolean
+  isChain?: boolean
+  yearBuilt?: number | null
+  yearRenovated?: number | null
+  totalRooms?: number | null
   ratingAvg?: number | null
   reviewCount?: number
+  ratingCleanliness?: number | null
+  ratingService?: number | null
+  ratingLocation?: number | null
+  ratingValue?: number | null
   popularityScore?: number
+  bookingCount30d?: number
+  viewCount30d?: number
+  conversionRate30d?: number | null
+  providerCount?: number
+  bestRateGuarantee?: boolean
   priceFrom?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: string
+  priceBucket?: string | null
   priceUpdatedAt?: Date | string | null
   themes?: Prisma.HotelCreatethemesInput | string[]
+  vibes?: Prisma.HotelCreatevibesInput | string[]
+  amenityCodes?: Prisma.HotelCreateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelCreateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: $Enums.CancellationType | null
+  cancellationWindowHours?: number | null
+  paymentType?: $Enums.PaymentType | null
+  minAge?: number | null
+  petsAllowed?: boolean | null
+  petsFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: boolean | null
+  checkInTime?: string | null
+  checkOutTime?: string | null
+  smokingAllowed?: boolean | null
   mainImageUrl?: string | null
   searchKey: string
   createdAt?: Date | string
@@ -530,6 +1120,8 @@ export type HotelCreateInput = {
   quotes?: Prisma.QuoteCreateNestedManyWithoutHotelInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutHotelInput
   events?: Prisma.UserEventCreateNestedManyWithoutHotelInput
+  tags?: Prisma.HotelTagCreateNestedManyWithoutHotelInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestCreateNestedManyWithoutHotelInput
 }
 
 export type HotelUncheckedCreateInput = {
@@ -542,13 +1134,53 @@ export type HotelUncheckedCreateInput = {
   address?: string | null
   latitude?: number | null
   longitude?: number | null
+  countryCode?: string | null
+  regionCode?: string | null
+  neighborhood?: string | null
+  zone?: string | null
+  distanceToBeachMeters?: number | null
+  distanceToAirportKm?: number | null
+  distanceToCenterMeters?: number | null
+  distanceToSkiLiftMeters?: number | null
+  distanceToMetroMeters?: number | null
+  propertyType?: $Enums.PropertyType
+  chainBrand?: string | null
+  isLuxury?: boolean
+  isBoutique?: boolean
+  isChain?: boolean
+  yearBuilt?: number | null
+  yearRenovated?: number | null
+  totalRooms?: number | null
   ratingAvg?: number | null
   reviewCount?: number
+  ratingCleanliness?: number | null
+  ratingService?: number | null
+  ratingLocation?: number | null
+  ratingValue?: number | null
   popularityScore?: number
+  bookingCount30d?: number
+  viewCount30d?: number
+  conversionRate30d?: number | null
+  providerCount?: number
+  bestRateGuarantee?: boolean
   priceFrom?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: string
+  priceBucket?: string | null
   priceUpdatedAt?: Date | string | null
   themes?: Prisma.HotelCreatethemesInput | string[]
+  vibes?: Prisma.HotelCreatevibesInput | string[]
+  amenityCodes?: Prisma.HotelCreateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelCreateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: $Enums.CancellationType | null
+  cancellationWindowHours?: number | null
+  paymentType?: $Enums.PaymentType | null
+  minAge?: number | null
+  petsAllowed?: boolean | null
+  petsFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: boolean | null
+  checkInTime?: string | null
+  checkOutTime?: string | null
+  smokingAllowed?: boolean | null
   mainImageUrl?: string | null
   searchKey: string
   destinationId: string
@@ -562,6 +1194,8 @@ export type HotelUncheckedCreateInput = {
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutHotelInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutHotelInput
   events?: Prisma.UserEventUncheckedCreateNestedManyWithoutHotelInput
+  tags?: Prisma.HotelTagUncheckedCreateNestedManyWithoutHotelInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUncheckedCreateNestedManyWithoutHotelInput
 }
 
 export type HotelUpdateInput = {
@@ -574,13 +1208,53 @@ export type HotelUpdateInput = {
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceToBeachMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToAirportKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceToCenterMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToSkiLiftMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToMetroMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  propertyType?: Prisma.EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+  chainBrand?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLuxury?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBoutique?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isChain?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  yearBuilt?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  yearRenovated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalRooms?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingCleanliness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingService?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingLocation?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   popularityScore?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  conversionRate30d?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  providerCount?: Prisma.IntFieldUpdateOperationsInput | number
+  bestRateGuarantee?: Prisma.BoolFieldUpdateOperationsInput | boolean
   priceFrom?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  priceBucket?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   themes?: Prisma.HotelUpdatethemesInput | string[]
+  vibes?: Prisma.HotelUpdatevibesInput | string[]
+  amenityCodes?: Prisma.HotelUpdateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelUpdateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: Prisma.NullableEnumCancellationTypeFieldUpdateOperationsInput | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentType?: Prisma.NullableEnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType | null
+  minAge?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  petsAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  petsFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  checkInTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checkOutTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  smokingAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   mainImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   searchKey?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -594,6 +1268,8 @@ export type HotelUpdateInput = {
   quotes?: Prisma.QuoteUpdateManyWithoutHotelNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutHotelNestedInput
   events?: Prisma.UserEventUpdateManyWithoutHotelNestedInput
+  tags?: Prisma.HotelTagUpdateManyWithoutHotelNestedInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUpdateManyWithoutHotelNestedInput
 }
 
 export type HotelUncheckedUpdateInput = {
@@ -606,13 +1282,53 @@ export type HotelUncheckedUpdateInput = {
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceToBeachMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToAirportKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceToCenterMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToSkiLiftMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToMetroMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  propertyType?: Prisma.EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+  chainBrand?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLuxury?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBoutique?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isChain?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  yearBuilt?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  yearRenovated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalRooms?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingCleanliness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingService?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingLocation?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   popularityScore?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  conversionRate30d?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  providerCount?: Prisma.IntFieldUpdateOperationsInput | number
+  bestRateGuarantee?: Prisma.BoolFieldUpdateOperationsInput | boolean
   priceFrom?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  priceBucket?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   themes?: Prisma.HotelUpdatethemesInput | string[]
+  vibes?: Prisma.HotelUpdatevibesInput | string[]
+  amenityCodes?: Prisma.HotelUpdateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelUpdateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: Prisma.NullableEnumCancellationTypeFieldUpdateOperationsInput | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentType?: Prisma.NullableEnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType | null
+  minAge?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  petsAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  petsFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  checkInTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checkOutTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  smokingAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   mainImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   searchKey?: Prisma.StringFieldUpdateOperationsInput | string
   destinationId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -626,6 +1342,8 @@ export type HotelUncheckedUpdateInput = {
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutHotelNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutHotelNestedInput
   events?: Prisma.UserEventUncheckedUpdateManyWithoutHotelNestedInput
+  tags?: Prisma.HotelTagUncheckedUpdateManyWithoutHotelNestedInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUncheckedUpdateManyWithoutHotelNestedInput
 }
 
 export type HotelCreateManyInput = {
@@ -638,13 +1356,53 @@ export type HotelCreateManyInput = {
   address?: string | null
   latitude?: number | null
   longitude?: number | null
+  countryCode?: string | null
+  regionCode?: string | null
+  neighborhood?: string | null
+  zone?: string | null
+  distanceToBeachMeters?: number | null
+  distanceToAirportKm?: number | null
+  distanceToCenterMeters?: number | null
+  distanceToSkiLiftMeters?: number | null
+  distanceToMetroMeters?: number | null
+  propertyType?: $Enums.PropertyType
+  chainBrand?: string | null
+  isLuxury?: boolean
+  isBoutique?: boolean
+  isChain?: boolean
+  yearBuilt?: number | null
+  yearRenovated?: number | null
+  totalRooms?: number | null
   ratingAvg?: number | null
   reviewCount?: number
+  ratingCleanliness?: number | null
+  ratingService?: number | null
+  ratingLocation?: number | null
+  ratingValue?: number | null
   popularityScore?: number
+  bookingCount30d?: number
+  viewCount30d?: number
+  conversionRate30d?: number | null
+  providerCount?: number
+  bestRateGuarantee?: boolean
   priceFrom?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: string
+  priceBucket?: string | null
   priceUpdatedAt?: Date | string | null
   themes?: Prisma.HotelCreatethemesInput | string[]
+  vibes?: Prisma.HotelCreatevibesInput | string[]
+  amenityCodes?: Prisma.HotelCreateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelCreateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: $Enums.CancellationType | null
+  cancellationWindowHours?: number | null
+  paymentType?: $Enums.PaymentType | null
+  minAge?: number | null
+  petsAllowed?: boolean | null
+  petsFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: boolean | null
+  checkInTime?: string | null
+  checkOutTime?: string | null
+  smokingAllowed?: boolean | null
   mainImageUrl?: string | null
   searchKey: string
   destinationId: string
@@ -662,13 +1420,53 @@ export type HotelUpdateManyMutationInput = {
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceToBeachMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToAirportKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceToCenterMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToSkiLiftMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToMetroMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  propertyType?: Prisma.EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+  chainBrand?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLuxury?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBoutique?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isChain?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  yearBuilt?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  yearRenovated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalRooms?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingCleanliness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingService?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingLocation?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   popularityScore?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  conversionRate30d?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  providerCount?: Prisma.IntFieldUpdateOperationsInput | number
+  bestRateGuarantee?: Prisma.BoolFieldUpdateOperationsInput | boolean
   priceFrom?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  priceBucket?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   themes?: Prisma.HotelUpdatethemesInput | string[]
+  vibes?: Prisma.HotelUpdatevibesInput | string[]
+  amenityCodes?: Prisma.HotelUpdateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelUpdateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: Prisma.NullableEnumCancellationTypeFieldUpdateOperationsInput | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentType?: Prisma.NullableEnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType | null
+  minAge?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  petsAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  petsFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  checkInTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checkOutTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  smokingAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   mainImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   searchKey?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -685,13 +1483,53 @@ export type HotelUncheckedUpdateManyInput = {
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceToBeachMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToAirportKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceToCenterMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToSkiLiftMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToMetroMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  propertyType?: Prisma.EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+  chainBrand?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLuxury?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBoutique?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isChain?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  yearBuilt?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  yearRenovated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalRooms?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingCleanliness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingService?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingLocation?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   popularityScore?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  conversionRate30d?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  providerCount?: Prisma.IntFieldUpdateOperationsInput | number
+  bestRateGuarantee?: Prisma.BoolFieldUpdateOperationsInput | boolean
   priceFrom?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  priceBucket?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   themes?: Prisma.HotelUpdatethemesInput | string[]
+  vibes?: Prisma.HotelUpdatevibesInput | string[]
+  amenityCodes?: Prisma.HotelUpdateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelUpdateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: Prisma.NullableEnumCancellationTypeFieldUpdateOperationsInput | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentType?: Prisma.NullableEnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType | null
+  minAge?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  petsAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  petsFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  checkInTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checkOutTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  smokingAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   mainImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   searchKey?: Prisma.StringFieldUpdateOperationsInput | string
   destinationId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -714,6 +1552,14 @@ export type HotelOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type EnumBoardTypeNullableListFilter<$PrismaModel = never> = {
+  equals?: $Enums.BoardType[] | Prisma.ListEnumBoardTypeFieldRefInput<$PrismaModel> | null
+  has?: $Enums.BoardType | Prisma.EnumBoardTypeFieldRefInput<$PrismaModel> | null
+  hasEvery?: $Enums.BoardType[] | Prisma.ListEnumBoardTypeFieldRefInput<$PrismaModel>
+  hasSome?: $Enums.BoardType[] | Prisma.ListEnumBoardTypeFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
+}
+
 export type HotelCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   slug?: Prisma.SortOrder
@@ -724,13 +1570,53 @@ export type HotelCountOrderByAggregateInput = {
   address?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
+  countryCode?: Prisma.SortOrder
+  regionCode?: Prisma.SortOrder
+  neighborhood?: Prisma.SortOrder
+  zone?: Prisma.SortOrder
+  distanceToBeachMeters?: Prisma.SortOrder
+  distanceToAirportKm?: Prisma.SortOrder
+  distanceToCenterMeters?: Prisma.SortOrder
+  distanceToSkiLiftMeters?: Prisma.SortOrder
+  distanceToMetroMeters?: Prisma.SortOrder
+  propertyType?: Prisma.SortOrder
+  chainBrand?: Prisma.SortOrder
+  isLuxury?: Prisma.SortOrder
+  isBoutique?: Prisma.SortOrder
+  isChain?: Prisma.SortOrder
+  yearBuilt?: Prisma.SortOrder
+  yearRenovated?: Prisma.SortOrder
+  totalRooms?: Prisma.SortOrder
   ratingAvg?: Prisma.SortOrder
   reviewCount?: Prisma.SortOrder
+  ratingCleanliness?: Prisma.SortOrder
+  ratingService?: Prisma.SortOrder
+  ratingLocation?: Prisma.SortOrder
+  ratingValue?: Prisma.SortOrder
   popularityScore?: Prisma.SortOrder
+  bookingCount30d?: Prisma.SortOrder
+  viewCount30d?: Prisma.SortOrder
+  conversionRate30d?: Prisma.SortOrder
+  providerCount?: Prisma.SortOrder
+  bestRateGuarantee?: Prisma.SortOrder
   priceFrom?: Prisma.SortOrder
   priceCurrency?: Prisma.SortOrder
+  priceBucket?: Prisma.SortOrder
   priceUpdatedAt?: Prisma.SortOrder
   themes?: Prisma.SortOrder
+  vibes?: Prisma.SortOrder
+  amenityCodes?: Prisma.SortOrder
+  boardTypes?: Prisma.SortOrder
+  cancellationType?: Prisma.SortOrder
+  cancellationWindowHours?: Prisma.SortOrder
+  paymentType?: Prisma.SortOrder
+  minAge?: Prisma.SortOrder
+  petsAllowed?: Prisma.SortOrder
+  petsFee?: Prisma.SortOrder
+  childrenAllowed?: Prisma.SortOrder
+  checkInTime?: Prisma.SortOrder
+  checkOutTime?: Prisma.SortOrder
+  smokingAllowed?: Prisma.SortOrder
   mainImageUrl?: Prisma.SortOrder
   searchKey?: Prisma.SortOrder
   destinationId?: Prisma.SortOrder
@@ -742,10 +1628,29 @@ export type HotelAvgOrderByAggregateInput = {
   categoryStars?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
+  distanceToBeachMeters?: Prisma.SortOrder
+  distanceToAirportKm?: Prisma.SortOrder
+  distanceToCenterMeters?: Prisma.SortOrder
+  distanceToSkiLiftMeters?: Prisma.SortOrder
+  distanceToMetroMeters?: Prisma.SortOrder
+  yearBuilt?: Prisma.SortOrder
+  yearRenovated?: Prisma.SortOrder
+  totalRooms?: Prisma.SortOrder
   ratingAvg?: Prisma.SortOrder
   reviewCount?: Prisma.SortOrder
+  ratingCleanliness?: Prisma.SortOrder
+  ratingService?: Prisma.SortOrder
+  ratingLocation?: Prisma.SortOrder
+  ratingValue?: Prisma.SortOrder
   popularityScore?: Prisma.SortOrder
+  bookingCount30d?: Prisma.SortOrder
+  viewCount30d?: Prisma.SortOrder
+  conversionRate30d?: Prisma.SortOrder
+  providerCount?: Prisma.SortOrder
   priceFrom?: Prisma.SortOrder
+  cancellationWindowHours?: Prisma.SortOrder
+  minAge?: Prisma.SortOrder
+  petsFee?: Prisma.SortOrder
 }
 
 export type HotelMaxOrderByAggregateInput = {
@@ -758,12 +1663,49 @@ export type HotelMaxOrderByAggregateInput = {
   address?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
+  countryCode?: Prisma.SortOrder
+  regionCode?: Prisma.SortOrder
+  neighborhood?: Prisma.SortOrder
+  zone?: Prisma.SortOrder
+  distanceToBeachMeters?: Prisma.SortOrder
+  distanceToAirportKm?: Prisma.SortOrder
+  distanceToCenterMeters?: Prisma.SortOrder
+  distanceToSkiLiftMeters?: Prisma.SortOrder
+  distanceToMetroMeters?: Prisma.SortOrder
+  propertyType?: Prisma.SortOrder
+  chainBrand?: Prisma.SortOrder
+  isLuxury?: Prisma.SortOrder
+  isBoutique?: Prisma.SortOrder
+  isChain?: Prisma.SortOrder
+  yearBuilt?: Prisma.SortOrder
+  yearRenovated?: Prisma.SortOrder
+  totalRooms?: Prisma.SortOrder
   ratingAvg?: Prisma.SortOrder
   reviewCount?: Prisma.SortOrder
+  ratingCleanliness?: Prisma.SortOrder
+  ratingService?: Prisma.SortOrder
+  ratingLocation?: Prisma.SortOrder
+  ratingValue?: Prisma.SortOrder
   popularityScore?: Prisma.SortOrder
+  bookingCount30d?: Prisma.SortOrder
+  viewCount30d?: Prisma.SortOrder
+  conversionRate30d?: Prisma.SortOrder
+  providerCount?: Prisma.SortOrder
+  bestRateGuarantee?: Prisma.SortOrder
   priceFrom?: Prisma.SortOrder
   priceCurrency?: Prisma.SortOrder
+  priceBucket?: Prisma.SortOrder
   priceUpdatedAt?: Prisma.SortOrder
+  cancellationType?: Prisma.SortOrder
+  cancellationWindowHours?: Prisma.SortOrder
+  paymentType?: Prisma.SortOrder
+  minAge?: Prisma.SortOrder
+  petsAllowed?: Prisma.SortOrder
+  petsFee?: Prisma.SortOrder
+  childrenAllowed?: Prisma.SortOrder
+  checkInTime?: Prisma.SortOrder
+  checkOutTime?: Prisma.SortOrder
+  smokingAllowed?: Prisma.SortOrder
   mainImageUrl?: Prisma.SortOrder
   searchKey?: Prisma.SortOrder
   destinationId?: Prisma.SortOrder
@@ -781,12 +1723,49 @@ export type HotelMinOrderByAggregateInput = {
   address?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
+  countryCode?: Prisma.SortOrder
+  regionCode?: Prisma.SortOrder
+  neighborhood?: Prisma.SortOrder
+  zone?: Prisma.SortOrder
+  distanceToBeachMeters?: Prisma.SortOrder
+  distanceToAirportKm?: Prisma.SortOrder
+  distanceToCenterMeters?: Prisma.SortOrder
+  distanceToSkiLiftMeters?: Prisma.SortOrder
+  distanceToMetroMeters?: Prisma.SortOrder
+  propertyType?: Prisma.SortOrder
+  chainBrand?: Prisma.SortOrder
+  isLuxury?: Prisma.SortOrder
+  isBoutique?: Prisma.SortOrder
+  isChain?: Prisma.SortOrder
+  yearBuilt?: Prisma.SortOrder
+  yearRenovated?: Prisma.SortOrder
+  totalRooms?: Prisma.SortOrder
   ratingAvg?: Prisma.SortOrder
   reviewCount?: Prisma.SortOrder
+  ratingCleanliness?: Prisma.SortOrder
+  ratingService?: Prisma.SortOrder
+  ratingLocation?: Prisma.SortOrder
+  ratingValue?: Prisma.SortOrder
   popularityScore?: Prisma.SortOrder
+  bookingCount30d?: Prisma.SortOrder
+  viewCount30d?: Prisma.SortOrder
+  conversionRate30d?: Prisma.SortOrder
+  providerCount?: Prisma.SortOrder
+  bestRateGuarantee?: Prisma.SortOrder
   priceFrom?: Prisma.SortOrder
   priceCurrency?: Prisma.SortOrder
+  priceBucket?: Prisma.SortOrder
   priceUpdatedAt?: Prisma.SortOrder
+  cancellationType?: Prisma.SortOrder
+  cancellationWindowHours?: Prisma.SortOrder
+  paymentType?: Prisma.SortOrder
+  minAge?: Prisma.SortOrder
+  petsAllowed?: Prisma.SortOrder
+  petsFee?: Prisma.SortOrder
+  childrenAllowed?: Prisma.SortOrder
+  checkInTime?: Prisma.SortOrder
+  checkOutTime?: Prisma.SortOrder
+  smokingAllowed?: Prisma.SortOrder
   mainImageUrl?: Prisma.SortOrder
   searchKey?: Prisma.SortOrder
   destinationId?: Prisma.SortOrder
@@ -798,10 +1777,29 @@ export type HotelSumOrderByAggregateInput = {
   categoryStars?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
+  distanceToBeachMeters?: Prisma.SortOrder
+  distanceToAirportKm?: Prisma.SortOrder
+  distanceToCenterMeters?: Prisma.SortOrder
+  distanceToSkiLiftMeters?: Prisma.SortOrder
+  distanceToMetroMeters?: Prisma.SortOrder
+  yearBuilt?: Prisma.SortOrder
+  yearRenovated?: Prisma.SortOrder
+  totalRooms?: Prisma.SortOrder
   ratingAvg?: Prisma.SortOrder
   reviewCount?: Prisma.SortOrder
+  ratingCleanliness?: Prisma.SortOrder
+  ratingService?: Prisma.SortOrder
+  ratingLocation?: Prisma.SortOrder
+  ratingValue?: Prisma.SortOrder
   popularityScore?: Prisma.SortOrder
+  bookingCount30d?: Prisma.SortOrder
+  viewCount30d?: Prisma.SortOrder
+  conversionRate30d?: Prisma.SortOrder
+  providerCount?: Prisma.SortOrder
   priceFrom?: Prisma.SortOrder
+  cancellationWindowHours?: Prisma.SortOrder
+  minAge?: Prisma.SortOrder
+  petsFee?: Prisma.SortOrder
 }
 
 export type HotelNullableScalarRelationFilter = {
@@ -869,8 +1867,24 @@ export type HotelCreatethemesInput = {
   set: string[]
 }
 
+export type HotelCreatevibesInput = {
+  set: string[]
+}
+
+export type HotelCreateamenityCodesInput = {
+  set: string[]
+}
+
+export type HotelCreateboardTypesInput = {
+  set: $Enums.BoardType[]
+}
+
 export type EnumHotelStatusFieldUpdateOperationsInput = {
   set?: $Enums.HotelStatus
+}
+
+export type EnumPropertyTypeFieldUpdateOperationsInput = {
+  set?: $Enums.PropertyType
 }
 
 export type NullableDecimalFieldUpdateOperationsInput = {
@@ -884,6 +1898,61 @@ export type NullableDecimalFieldUpdateOperationsInput = {
 export type HotelUpdatethemesInput = {
   set?: string[]
   push?: string | string[]
+}
+
+export type HotelUpdatevibesInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
+export type HotelUpdateamenityCodesInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
+export type HotelUpdateboardTypesInput = {
+  set?: $Enums.BoardType[]
+  push?: $Enums.BoardType | $Enums.BoardType[]
+}
+
+export type NullableEnumCancellationTypeFieldUpdateOperationsInput = {
+  set?: $Enums.CancellationType | null
+}
+
+export type NullableEnumPaymentTypeFieldUpdateOperationsInput = {
+  set?: $Enums.PaymentType | null
+}
+
+export type NullableBoolFieldUpdateOperationsInput = {
+  set?: boolean | null
+}
+
+export type HotelCreateNestedOneWithoutTagsInput = {
+  create?: Prisma.XOR<Prisma.HotelCreateWithoutTagsInput, Prisma.HotelUncheckedCreateWithoutTagsInput>
+  connectOrCreate?: Prisma.HotelCreateOrConnectWithoutTagsInput
+  connect?: Prisma.HotelWhereUniqueInput
+}
+
+export type HotelUpdateOneRequiredWithoutTagsNestedInput = {
+  create?: Prisma.XOR<Prisma.HotelCreateWithoutTagsInput, Prisma.HotelUncheckedCreateWithoutTagsInput>
+  connectOrCreate?: Prisma.HotelCreateOrConnectWithoutTagsInput
+  upsert?: Prisma.HotelUpsertWithoutTagsInput
+  connect?: Prisma.HotelWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.HotelUpdateToOneWithWhereWithoutTagsInput, Prisma.HotelUpdateWithoutTagsInput>, Prisma.HotelUncheckedUpdateWithoutTagsInput>
+}
+
+export type HotelCreateNestedOneWithoutPointsOfInterestInput = {
+  create?: Prisma.XOR<Prisma.HotelCreateWithoutPointsOfInterestInput, Prisma.HotelUncheckedCreateWithoutPointsOfInterestInput>
+  connectOrCreate?: Prisma.HotelCreateOrConnectWithoutPointsOfInterestInput
+  connect?: Prisma.HotelWhereUniqueInput
+}
+
+export type HotelUpdateOneRequiredWithoutPointsOfInterestNestedInput = {
+  create?: Prisma.XOR<Prisma.HotelCreateWithoutPointsOfInterestInput, Prisma.HotelUncheckedCreateWithoutPointsOfInterestInput>
+  connectOrCreate?: Prisma.HotelCreateOrConnectWithoutPointsOfInterestInput
+  upsert?: Prisma.HotelUpsertWithoutPointsOfInterestInput
+  connect?: Prisma.HotelWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.HotelUpdateToOneWithWhereWithoutPointsOfInterestInput, Prisma.HotelUpdateWithoutPointsOfInterestInput>, Prisma.HotelUncheckedUpdateWithoutPointsOfInterestInput>
 }
 
 export type HotelCreateNestedOneWithoutImagesInput = {
@@ -996,13 +2065,53 @@ export type HotelCreateWithoutProviderMappingsInput = {
   address?: string | null
   latitude?: number | null
   longitude?: number | null
+  countryCode?: string | null
+  regionCode?: string | null
+  neighborhood?: string | null
+  zone?: string | null
+  distanceToBeachMeters?: number | null
+  distanceToAirportKm?: number | null
+  distanceToCenterMeters?: number | null
+  distanceToSkiLiftMeters?: number | null
+  distanceToMetroMeters?: number | null
+  propertyType?: $Enums.PropertyType
+  chainBrand?: string | null
+  isLuxury?: boolean
+  isBoutique?: boolean
+  isChain?: boolean
+  yearBuilt?: number | null
+  yearRenovated?: number | null
+  totalRooms?: number | null
   ratingAvg?: number | null
   reviewCount?: number
+  ratingCleanliness?: number | null
+  ratingService?: number | null
+  ratingLocation?: number | null
+  ratingValue?: number | null
   popularityScore?: number
+  bookingCount30d?: number
+  viewCount30d?: number
+  conversionRate30d?: number | null
+  providerCount?: number
+  bestRateGuarantee?: boolean
   priceFrom?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: string
+  priceBucket?: string | null
   priceUpdatedAt?: Date | string | null
   themes?: Prisma.HotelCreatethemesInput | string[]
+  vibes?: Prisma.HotelCreatevibesInput | string[]
+  amenityCodes?: Prisma.HotelCreateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelCreateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: $Enums.CancellationType | null
+  cancellationWindowHours?: number | null
+  paymentType?: $Enums.PaymentType | null
+  minAge?: number | null
+  petsAllowed?: boolean | null
+  petsFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: boolean | null
+  checkInTime?: string | null
+  checkOutTime?: string | null
+  smokingAllowed?: boolean | null
   mainImageUrl?: string | null
   searchKey: string
   createdAt?: Date | string
@@ -1015,6 +2124,8 @@ export type HotelCreateWithoutProviderMappingsInput = {
   quotes?: Prisma.QuoteCreateNestedManyWithoutHotelInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutHotelInput
   events?: Prisma.UserEventCreateNestedManyWithoutHotelInput
+  tags?: Prisma.HotelTagCreateNestedManyWithoutHotelInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestCreateNestedManyWithoutHotelInput
 }
 
 export type HotelUncheckedCreateWithoutProviderMappingsInput = {
@@ -1027,13 +2138,53 @@ export type HotelUncheckedCreateWithoutProviderMappingsInput = {
   address?: string | null
   latitude?: number | null
   longitude?: number | null
+  countryCode?: string | null
+  regionCode?: string | null
+  neighborhood?: string | null
+  zone?: string | null
+  distanceToBeachMeters?: number | null
+  distanceToAirportKm?: number | null
+  distanceToCenterMeters?: number | null
+  distanceToSkiLiftMeters?: number | null
+  distanceToMetroMeters?: number | null
+  propertyType?: $Enums.PropertyType
+  chainBrand?: string | null
+  isLuxury?: boolean
+  isBoutique?: boolean
+  isChain?: boolean
+  yearBuilt?: number | null
+  yearRenovated?: number | null
+  totalRooms?: number | null
   ratingAvg?: number | null
   reviewCount?: number
+  ratingCleanliness?: number | null
+  ratingService?: number | null
+  ratingLocation?: number | null
+  ratingValue?: number | null
   popularityScore?: number
+  bookingCount30d?: number
+  viewCount30d?: number
+  conversionRate30d?: number | null
+  providerCount?: number
+  bestRateGuarantee?: boolean
   priceFrom?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: string
+  priceBucket?: string | null
   priceUpdatedAt?: Date | string | null
   themes?: Prisma.HotelCreatethemesInput | string[]
+  vibes?: Prisma.HotelCreatevibesInput | string[]
+  amenityCodes?: Prisma.HotelCreateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelCreateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: $Enums.CancellationType | null
+  cancellationWindowHours?: number | null
+  paymentType?: $Enums.PaymentType | null
+  minAge?: number | null
+  petsAllowed?: boolean | null
+  petsFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: boolean | null
+  checkInTime?: string | null
+  checkOutTime?: string | null
+  smokingAllowed?: boolean | null
   mainImageUrl?: string | null
   searchKey: string
   destinationId: string
@@ -1046,6 +2197,8 @@ export type HotelUncheckedCreateWithoutProviderMappingsInput = {
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutHotelInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutHotelInput
   events?: Prisma.UserEventUncheckedCreateNestedManyWithoutHotelInput
+  tags?: Prisma.HotelTagUncheckedCreateNestedManyWithoutHotelInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUncheckedCreateNestedManyWithoutHotelInput
 }
 
 export type HotelCreateOrConnectWithoutProviderMappingsInput = {
@@ -1074,13 +2227,53 @@ export type HotelUpdateWithoutProviderMappingsInput = {
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceToBeachMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToAirportKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceToCenterMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToSkiLiftMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToMetroMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  propertyType?: Prisma.EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+  chainBrand?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLuxury?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBoutique?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isChain?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  yearBuilt?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  yearRenovated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalRooms?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingCleanliness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingService?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingLocation?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   popularityScore?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  conversionRate30d?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  providerCount?: Prisma.IntFieldUpdateOperationsInput | number
+  bestRateGuarantee?: Prisma.BoolFieldUpdateOperationsInput | boolean
   priceFrom?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  priceBucket?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   themes?: Prisma.HotelUpdatethemesInput | string[]
+  vibes?: Prisma.HotelUpdatevibesInput | string[]
+  amenityCodes?: Prisma.HotelUpdateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelUpdateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: Prisma.NullableEnumCancellationTypeFieldUpdateOperationsInput | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentType?: Prisma.NullableEnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType | null
+  minAge?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  petsAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  petsFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  checkInTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checkOutTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  smokingAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   mainImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   searchKey?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1093,6 +2286,8 @@ export type HotelUpdateWithoutProviderMappingsInput = {
   quotes?: Prisma.QuoteUpdateManyWithoutHotelNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutHotelNestedInput
   events?: Prisma.UserEventUpdateManyWithoutHotelNestedInput
+  tags?: Prisma.HotelTagUpdateManyWithoutHotelNestedInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUpdateManyWithoutHotelNestedInput
 }
 
 export type HotelUncheckedUpdateWithoutProviderMappingsInput = {
@@ -1105,13 +2300,53 @@ export type HotelUncheckedUpdateWithoutProviderMappingsInput = {
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceToBeachMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToAirportKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceToCenterMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToSkiLiftMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToMetroMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  propertyType?: Prisma.EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+  chainBrand?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLuxury?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBoutique?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isChain?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  yearBuilt?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  yearRenovated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalRooms?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingCleanliness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingService?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingLocation?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   popularityScore?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  conversionRate30d?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  providerCount?: Prisma.IntFieldUpdateOperationsInput | number
+  bestRateGuarantee?: Prisma.BoolFieldUpdateOperationsInput | boolean
   priceFrom?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  priceBucket?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   themes?: Prisma.HotelUpdatethemesInput | string[]
+  vibes?: Prisma.HotelUpdatevibesInput | string[]
+  amenityCodes?: Prisma.HotelUpdateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelUpdateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: Prisma.NullableEnumCancellationTypeFieldUpdateOperationsInput | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentType?: Prisma.NullableEnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType | null
+  minAge?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  petsAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  petsFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  checkInTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checkOutTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  smokingAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   mainImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   searchKey?: Prisma.StringFieldUpdateOperationsInput | string
   destinationId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1124,6 +2359,8 @@ export type HotelUncheckedUpdateWithoutProviderMappingsInput = {
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutHotelNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutHotelNestedInput
   events?: Prisma.UserEventUncheckedUpdateManyWithoutHotelNestedInput
+  tags?: Prisma.HotelTagUncheckedUpdateManyWithoutHotelNestedInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUncheckedUpdateManyWithoutHotelNestedInput
 }
 
 export type HotelCreateWithoutDestinationInput = {
@@ -1136,13 +2373,53 @@ export type HotelCreateWithoutDestinationInput = {
   address?: string | null
   latitude?: number | null
   longitude?: number | null
+  countryCode?: string | null
+  regionCode?: string | null
+  neighborhood?: string | null
+  zone?: string | null
+  distanceToBeachMeters?: number | null
+  distanceToAirportKm?: number | null
+  distanceToCenterMeters?: number | null
+  distanceToSkiLiftMeters?: number | null
+  distanceToMetroMeters?: number | null
+  propertyType?: $Enums.PropertyType
+  chainBrand?: string | null
+  isLuxury?: boolean
+  isBoutique?: boolean
+  isChain?: boolean
+  yearBuilt?: number | null
+  yearRenovated?: number | null
+  totalRooms?: number | null
   ratingAvg?: number | null
   reviewCount?: number
+  ratingCleanliness?: number | null
+  ratingService?: number | null
+  ratingLocation?: number | null
+  ratingValue?: number | null
   popularityScore?: number
+  bookingCount30d?: number
+  viewCount30d?: number
+  conversionRate30d?: number | null
+  providerCount?: number
+  bestRateGuarantee?: boolean
   priceFrom?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: string
+  priceBucket?: string | null
   priceUpdatedAt?: Date | string | null
   themes?: Prisma.HotelCreatethemesInput | string[]
+  vibes?: Prisma.HotelCreatevibesInput | string[]
+  amenityCodes?: Prisma.HotelCreateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelCreateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: $Enums.CancellationType | null
+  cancellationWindowHours?: number | null
+  paymentType?: $Enums.PaymentType | null
+  minAge?: number | null
+  petsAllowed?: boolean | null
+  petsFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: boolean | null
+  checkInTime?: string | null
+  checkOutTime?: string | null
+  smokingAllowed?: boolean | null
   mainImageUrl?: string | null
   searchKey: string
   createdAt?: Date | string
@@ -1155,6 +2432,8 @@ export type HotelCreateWithoutDestinationInput = {
   quotes?: Prisma.QuoteCreateNestedManyWithoutHotelInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutHotelInput
   events?: Prisma.UserEventCreateNestedManyWithoutHotelInput
+  tags?: Prisma.HotelTagCreateNestedManyWithoutHotelInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestCreateNestedManyWithoutHotelInput
 }
 
 export type HotelUncheckedCreateWithoutDestinationInput = {
@@ -1167,13 +2446,53 @@ export type HotelUncheckedCreateWithoutDestinationInput = {
   address?: string | null
   latitude?: number | null
   longitude?: number | null
+  countryCode?: string | null
+  regionCode?: string | null
+  neighborhood?: string | null
+  zone?: string | null
+  distanceToBeachMeters?: number | null
+  distanceToAirportKm?: number | null
+  distanceToCenterMeters?: number | null
+  distanceToSkiLiftMeters?: number | null
+  distanceToMetroMeters?: number | null
+  propertyType?: $Enums.PropertyType
+  chainBrand?: string | null
+  isLuxury?: boolean
+  isBoutique?: boolean
+  isChain?: boolean
+  yearBuilt?: number | null
+  yearRenovated?: number | null
+  totalRooms?: number | null
   ratingAvg?: number | null
   reviewCount?: number
+  ratingCleanliness?: number | null
+  ratingService?: number | null
+  ratingLocation?: number | null
+  ratingValue?: number | null
   popularityScore?: number
+  bookingCount30d?: number
+  viewCount30d?: number
+  conversionRate30d?: number | null
+  providerCount?: number
+  bestRateGuarantee?: boolean
   priceFrom?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: string
+  priceBucket?: string | null
   priceUpdatedAt?: Date | string | null
   themes?: Prisma.HotelCreatethemesInput | string[]
+  vibes?: Prisma.HotelCreatevibesInput | string[]
+  amenityCodes?: Prisma.HotelCreateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelCreateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: $Enums.CancellationType | null
+  cancellationWindowHours?: number | null
+  paymentType?: $Enums.PaymentType | null
+  minAge?: number | null
+  petsAllowed?: boolean | null
+  petsFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: boolean | null
+  checkInTime?: string | null
+  checkOutTime?: string | null
+  smokingAllowed?: boolean | null
   mainImageUrl?: string | null
   searchKey: string
   createdAt?: Date | string
@@ -1186,6 +2505,8 @@ export type HotelUncheckedCreateWithoutDestinationInput = {
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutHotelInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutHotelInput
   events?: Prisma.UserEventUncheckedCreateNestedManyWithoutHotelInput
+  tags?: Prisma.HotelTagUncheckedCreateNestedManyWithoutHotelInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUncheckedCreateNestedManyWithoutHotelInput
 }
 
 export type HotelCreateOrConnectWithoutDestinationInput = {
@@ -1227,18 +2548,674 @@ export type HotelScalarWhereInput = {
   address?: Prisma.StringNullableFilter<"Hotel"> | string | null
   latitude?: Prisma.FloatNullableFilter<"Hotel"> | number | null
   longitude?: Prisma.FloatNullableFilter<"Hotel"> | number | null
+  countryCode?: Prisma.StringNullableFilter<"Hotel"> | string | null
+  regionCode?: Prisma.StringNullableFilter<"Hotel"> | string | null
+  neighborhood?: Prisma.StringNullableFilter<"Hotel"> | string | null
+  zone?: Prisma.StringNullableFilter<"Hotel"> | string | null
+  distanceToBeachMeters?: Prisma.IntNullableFilter<"Hotel"> | number | null
+  distanceToAirportKm?: Prisma.FloatNullableFilter<"Hotel"> | number | null
+  distanceToCenterMeters?: Prisma.IntNullableFilter<"Hotel"> | number | null
+  distanceToSkiLiftMeters?: Prisma.IntNullableFilter<"Hotel"> | number | null
+  distanceToMetroMeters?: Prisma.IntNullableFilter<"Hotel"> | number | null
+  propertyType?: Prisma.EnumPropertyTypeFilter<"Hotel"> | $Enums.PropertyType
+  chainBrand?: Prisma.StringNullableFilter<"Hotel"> | string | null
+  isLuxury?: Prisma.BoolFilter<"Hotel"> | boolean
+  isBoutique?: Prisma.BoolFilter<"Hotel"> | boolean
+  isChain?: Prisma.BoolFilter<"Hotel"> | boolean
+  yearBuilt?: Prisma.IntNullableFilter<"Hotel"> | number | null
+  yearRenovated?: Prisma.IntNullableFilter<"Hotel"> | number | null
+  totalRooms?: Prisma.IntNullableFilter<"Hotel"> | number | null
   ratingAvg?: Prisma.FloatNullableFilter<"Hotel"> | number | null
   reviewCount?: Prisma.IntFilter<"Hotel"> | number
+  ratingCleanliness?: Prisma.FloatNullableFilter<"Hotel"> | number | null
+  ratingService?: Prisma.FloatNullableFilter<"Hotel"> | number | null
+  ratingLocation?: Prisma.FloatNullableFilter<"Hotel"> | number | null
+  ratingValue?: Prisma.FloatNullableFilter<"Hotel"> | number | null
   popularityScore?: Prisma.IntFilter<"Hotel"> | number
+  bookingCount30d?: Prisma.IntFilter<"Hotel"> | number
+  viewCount30d?: Prisma.IntFilter<"Hotel"> | number
+  conversionRate30d?: Prisma.FloatNullableFilter<"Hotel"> | number | null
+  providerCount?: Prisma.IntFilter<"Hotel"> | number
+  bestRateGuarantee?: Prisma.BoolFilter<"Hotel"> | boolean
   priceFrom?: Prisma.DecimalNullableFilter<"Hotel"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: Prisma.StringFilter<"Hotel"> | string
+  priceBucket?: Prisma.StringNullableFilter<"Hotel"> | string | null
   priceUpdatedAt?: Prisma.DateTimeNullableFilter<"Hotel"> | Date | string | null
   themes?: Prisma.StringNullableListFilter<"Hotel">
+  vibes?: Prisma.StringNullableListFilter<"Hotel">
+  amenityCodes?: Prisma.StringNullableListFilter<"Hotel">
+  boardTypes?: Prisma.EnumBoardTypeNullableListFilter<"Hotel">
+  cancellationType?: Prisma.EnumCancellationTypeNullableFilter<"Hotel"> | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.IntNullableFilter<"Hotel"> | number | null
+  paymentType?: Prisma.EnumPaymentTypeNullableFilter<"Hotel"> | $Enums.PaymentType | null
+  minAge?: Prisma.IntNullableFilter<"Hotel"> | number | null
+  petsAllowed?: Prisma.BoolNullableFilter<"Hotel"> | boolean | null
+  petsFee?: Prisma.DecimalNullableFilter<"Hotel"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.BoolNullableFilter<"Hotel"> | boolean | null
+  checkInTime?: Prisma.StringNullableFilter<"Hotel"> | string | null
+  checkOutTime?: Prisma.StringNullableFilter<"Hotel"> | string | null
+  smokingAllowed?: Prisma.BoolNullableFilter<"Hotel"> | boolean | null
   mainImageUrl?: Prisma.StringNullableFilter<"Hotel"> | string | null
   searchKey?: Prisma.StringFilter<"Hotel"> | string
   destinationId?: Prisma.StringFilter<"Hotel"> | string
   createdAt?: Prisma.DateTimeFilter<"Hotel"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Hotel"> | Date | string
+}
+
+export type HotelCreateWithoutTagsInput = {
+  id?: string
+  slug: string
+  title: string
+  description?: string | null
+  categoryStars: number
+  status?: $Enums.HotelStatus
+  address?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  countryCode?: string | null
+  regionCode?: string | null
+  neighborhood?: string | null
+  zone?: string | null
+  distanceToBeachMeters?: number | null
+  distanceToAirportKm?: number | null
+  distanceToCenterMeters?: number | null
+  distanceToSkiLiftMeters?: number | null
+  distanceToMetroMeters?: number | null
+  propertyType?: $Enums.PropertyType
+  chainBrand?: string | null
+  isLuxury?: boolean
+  isBoutique?: boolean
+  isChain?: boolean
+  yearBuilt?: number | null
+  yearRenovated?: number | null
+  totalRooms?: number | null
+  ratingAvg?: number | null
+  reviewCount?: number
+  ratingCleanliness?: number | null
+  ratingService?: number | null
+  ratingLocation?: number | null
+  ratingValue?: number | null
+  popularityScore?: number
+  bookingCount30d?: number
+  viewCount30d?: number
+  conversionRate30d?: number | null
+  providerCount?: number
+  bestRateGuarantee?: boolean
+  priceFrom?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceCurrency?: string
+  priceBucket?: string | null
+  priceUpdatedAt?: Date | string | null
+  themes?: Prisma.HotelCreatethemesInput | string[]
+  vibes?: Prisma.HotelCreatevibesInput | string[]
+  amenityCodes?: Prisma.HotelCreateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelCreateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: $Enums.CancellationType | null
+  cancellationWindowHours?: number | null
+  paymentType?: $Enums.PaymentType | null
+  minAge?: number | null
+  petsAllowed?: boolean | null
+  petsFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: boolean | null
+  checkInTime?: string | null
+  checkOutTime?: string | null
+  smokingAllowed?: boolean | null
+  mainImageUrl?: string | null
+  searchKey: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  destination: Prisma.DestinationCreateNestedOneWithoutHotelsInput
+  rooms?: Prisma.RoomCreateNestedManyWithoutHotelInput
+  images?: Prisma.HotelImageCreateNestedManyWithoutHotelInput
+  amenities?: Prisma.HotelAmenityCreateNestedManyWithoutHotelInput
+  providerMappings?: Prisma.ProviderMappingCreateNestedManyWithoutHotelInput
+  bookingItems?: Prisma.BookingItemCreateNestedManyWithoutHotelInput
+  quotes?: Prisma.QuoteCreateNestedManyWithoutHotelInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutHotelInput
+  events?: Prisma.UserEventCreateNestedManyWithoutHotelInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestCreateNestedManyWithoutHotelInput
+}
+
+export type HotelUncheckedCreateWithoutTagsInput = {
+  id?: string
+  slug: string
+  title: string
+  description?: string | null
+  categoryStars: number
+  status?: $Enums.HotelStatus
+  address?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  countryCode?: string | null
+  regionCode?: string | null
+  neighborhood?: string | null
+  zone?: string | null
+  distanceToBeachMeters?: number | null
+  distanceToAirportKm?: number | null
+  distanceToCenterMeters?: number | null
+  distanceToSkiLiftMeters?: number | null
+  distanceToMetroMeters?: number | null
+  propertyType?: $Enums.PropertyType
+  chainBrand?: string | null
+  isLuxury?: boolean
+  isBoutique?: boolean
+  isChain?: boolean
+  yearBuilt?: number | null
+  yearRenovated?: number | null
+  totalRooms?: number | null
+  ratingAvg?: number | null
+  reviewCount?: number
+  ratingCleanliness?: number | null
+  ratingService?: number | null
+  ratingLocation?: number | null
+  ratingValue?: number | null
+  popularityScore?: number
+  bookingCount30d?: number
+  viewCount30d?: number
+  conversionRate30d?: number | null
+  providerCount?: number
+  bestRateGuarantee?: boolean
+  priceFrom?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceCurrency?: string
+  priceBucket?: string | null
+  priceUpdatedAt?: Date | string | null
+  themes?: Prisma.HotelCreatethemesInput | string[]
+  vibes?: Prisma.HotelCreatevibesInput | string[]
+  amenityCodes?: Prisma.HotelCreateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelCreateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: $Enums.CancellationType | null
+  cancellationWindowHours?: number | null
+  paymentType?: $Enums.PaymentType | null
+  minAge?: number | null
+  petsAllowed?: boolean | null
+  petsFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: boolean | null
+  checkInTime?: string | null
+  checkOutTime?: string | null
+  smokingAllowed?: boolean | null
+  mainImageUrl?: string | null
+  searchKey: string
+  destinationId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  rooms?: Prisma.RoomUncheckedCreateNestedManyWithoutHotelInput
+  images?: Prisma.HotelImageUncheckedCreateNestedManyWithoutHotelInput
+  amenities?: Prisma.HotelAmenityUncheckedCreateNestedManyWithoutHotelInput
+  providerMappings?: Prisma.ProviderMappingUncheckedCreateNestedManyWithoutHotelInput
+  bookingItems?: Prisma.BookingItemUncheckedCreateNestedManyWithoutHotelInput
+  quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutHotelInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutHotelInput
+  events?: Prisma.UserEventUncheckedCreateNestedManyWithoutHotelInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUncheckedCreateNestedManyWithoutHotelInput
+}
+
+export type HotelCreateOrConnectWithoutTagsInput = {
+  where: Prisma.HotelWhereUniqueInput
+  create: Prisma.XOR<Prisma.HotelCreateWithoutTagsInput, Prisma.HotelUncheckedCreateWithoutTagsInput>
+}
+
+export type HotelUpsertWithoutTagsInput = {
+  update: Prisma.XOR<Prisma.HotelUpdateWithoutTagsInput, Prisma.HotelUncheckedUpdateWithoutTagsInput>
+  create: Prisma.XOR<Prisma.HotelCreateWithoutTagsInput, Prisma.HotelUncheckedCreateWithoutTagsInput>
+  where?: Prisma.HotelWhereInput
+}
+
+export type HotelUpdateToOneWithWhereWithoutTagsInput = {
+  where?: Prisma.HotelWhereInput
+  data: Prisma.XOR<Prisma.HotelUpdateWithoutTagsInput, Prisma.HotelUncheckedUpdateWithoutTagsInput>
+}
+
+export type HotelUpdateWithoutTagsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryStars?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumHotelStatusFieldUpdateOperationsInput | $Enums.HotelStatus
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceToBeachMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToAirportKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceToCenterMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToSkiLiftMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToMetroMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  propertyType?: Prisma.EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+  chainBrand?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLuxury?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBoutique?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isChain?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  yearBuilt?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  yearRenovated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalRooms?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingCleanliness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingService?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingLocation?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  popularityScore?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  conversionRate30d?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  providerCount?: Prisma.IntFieldUpdateOperationsInput | number
+  bestRateGuarantee?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  priceFrom?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  priceBucket?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  themes?: Prisma.HotelUpdatethemesInput | string[]
+  vibes?: Prisma.HotelUpdatevibesInput | string[]
+  amenityCodes?: Prisma.HotelUpdateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelUpdateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: Prisma.NullableEnumCancellationTypeFieldUpdateOperationsInput | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentType?: Prisma.NullableEnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType | null
+  minAge?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  petsAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  petsFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  checkInTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checkOutTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  smokingAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  mainImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  searchKey?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  destination?: Prisma.DestinationUpdateOneRequiredWithoutHotelsNestedInput
+  rooms?: Prisma.RoomUpdateManyWithoutHotelNestedInput
+  images?: Prisma.HotelImageUpdateManyWithoutHotelNestedInput
+  amenities?: Prisma.HotelAmenityUpdateManyWithoutHotelNestedInput
+  providerMappings?: Prisma.ProviderMappingUpdateManyWithoutHotelNestedInput
+  bookingItems?: Prisma.BookingItemUpdateManyWithoutHotelNestedInput
+  quotes?: Prisma.QuoteUpdateManyWithoutHotelNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutHotelNestedInput
+  events?: Prisma.UserEventUpdateManyWithoutHotelNestedInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUpdateManyWithoutHotelNestedInput
+}
+
+export type HotelUncheckedUpdateWithoutTagsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryStars?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumHotelStatusFieldUpdateOperationsInput | $Enums.HotelStatus
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceToBeachMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToAirportKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceToCenterMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToSkiLiftMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToMetroMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  propertyType?: Prisma.EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+  chainBrand?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLuxury?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBoutique?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isChain?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  yearBuilt?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  yearRenovated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalRooms?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingCleanliness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingService?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingLocation?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  popularityScore?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  conversionRate30d?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  providerCount?: Prisma.IntFieldUpdateOperationsInput | number
+  bestRateGuarantee?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  priceFrom?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  priceBucket?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  themes?: Prisma.HotelUpdatethemesInput | string[]
+  vibes?: Prisma.HotelUpdatevibesInput | string[]
+  amenityCodes?: Prisma.HotelUpdateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelUpdateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: Prisma.NullableEnumCancellationTypeFieldUpdateOperationsInput | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentType?: Prisma.NullableEnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType | null
+  minAge?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  petsAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  petsFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  checkInTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checkOutTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  smokingAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  mainImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  searchKey?: Prisma.StringFieldUpdateOperationsInput | string
+  destinationId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  rooms?: Prisma.RoomUncheckedUpdateManyWithoutHotelNestedInput
+  images?: Prisma.HotelImageUncheckedUpdateManyWithoutHotelNestedInput
+  amenities?: Prisma.HotelAmenityUncheckedUpdateManyWithoutHotelNestedInput
+  providerMappings?: Prisma.ProviderMappingUncheckedUpdateManyWithoutHotelNestedInput
+  bookingItems?: Prisma.BookingItemUncheckedUpdateManyWithoutHotelNestedInput
+  quotes?: Prisma.QuoteUncheckedUpdateManyWithoutHotelNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutHotelNestedInput
+  events?: Prisma.UserEventUncheckedUpdateManyWithoutHotelNestedInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUncheckedUpdateManyWithoutHotelNestedInput
+}
+
+export type HotelCreateWithoutPointsOfInterestInput = {
+  id?: string
+  slug: string
+  title: string
+  description?: string | null
+  categoryStars: number
+  status?: $Enums.HotelStatus
+  address?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  countryCode?: string | null
+  regionCode?: string | null
+  neighborhood?: string | null
+  zone?: string | null
+  distanceToBeachMeters?: number | null
+  distanceToAirportKm?: number | null
+  distanceToCenterMeters?: number | null
+  distanceToSkiLiftMeters?: number | null
+  distanceToMetroMeters?: number | null
+  propertyType?: $Enums.PropertyType
+  chainBrand?: string | null
+  isLuxury?: boolean
+  isBoutique?: boolean
+  isChain?: boolean
+  yearBuilt?: number | null
+  yearRenovated?: number | null
+  totalRooms?: number | null
+  ratingAvg?: number | null
+  reviewCount?: number
+  ratingCleanliness?: number | null
+  ratingService?: number | null
+  ratingLocation?: number | null
+  ratingValue?: number | null
+  popularityScore?: number
+  bookingCount30d?: number
+  viewCount30d?: number
+  conversionRate30d?: number | null
+  providerCount?: number
+  bestRateGuarantee?: boolean
+  priceFrom?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceCurrency?: string
+  priceBucket?: string | null
+  priceUpdatedAt?: Date | string | null
+  themes?: Prisma.HotelCreatethemesInput | string[]
+  vibes?: Prisma.HotelCreatevibesInput | string[]
+  amenityCodes?: Prisma.HotelCreateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelCreateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: $Enums.CancellationType | null
+  cancellationWindowHours?: number | null
+  paymentType?: $Enums.PaymentType | null
+  minAge?: number | null
+  petsAllowed?: boolean | null
+  petsFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: boolean | null
+  checkInTime?: string | null
+  checkOutTime?: string | null
+  smokingAllowed?: boolean | null
+  mainImageUrl?: string | null
+  searchKey: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  destination: Prisma.DestinationCreateNestedOneWithoutHotelsInput
+  rooms?: Prisma.RoomCreateNestedManyWithoutHotelInput
+  images?: Prisma.HotelImageCreateNestedManyWithoutHotelInput
+  amenities?: Prisma.HotelAmenityCreateNestedManyWithoutHotelInput
+  providerMappings?: Prisma.ProviderMappingCreateNestedManyWithoutHotelInput
+  bookingItems?: Prisma.BookingItemCreateNestedManyWithoutHotelInput
+  quotes?: Prisma.QuoteCreateNestedManyWithoutHotelInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutHotelInput
+  events?: Prisma.UserEventCreateNestedManyWithoutHotelInput
+  tags?: Prisma.HotelTagCreateNestedManyWithoutHotelInput
+}
+
+export type HotelUncheckedCreateWithoutPointsOfInterestInput = {
+  id?: string
+  slug: string
+  title: string
+  description?: string | null
+  categoryStars: number
+  status?: $Enums.HotelStatus
+  address?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  countryCode?: string | null
+  regionCode?: string | null
+  neighborhood?: string | null
+  zone?: string | null
+  distanceToBeachMeters?: number | null
+  distanceToAirportKm?: number | null
+  distanceToCenterMeters?: number | null
+  distanceToSkiLiftMeters?: number | null
+  distanceToMetroMeters?: number | null
+  propertyType?: $Enums.PropertyType
+  chainBrand?: string | null
+  isLuxury?: boolean
+  isBoutique?: boolean
+  isChain?: boolean
+  yearBuilt?: number | null
+  yearRenovated?: number | null
+  totalRooms?: number | null
+  ratingAvg?: number | null
+  reviewCount?: number
+  ratingCleanliness?: number | null
+  ratingService?: number | null
+  ratingLocation?: number | null
+  ratingValue?: number | null
+  popularityScore?: number
+  bookingCount30d?: number
+  viewCount30d?: number
+  conversionRate30d?: number | null
+  providerCount?: number
+  bestRateGuarantee?: boolean
+  priceFrom?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceCurrency?: string
+  priceBucket?: string | null
+  priceUpdatedAt?: Date | string | null
+  themes?: Prisma.HotelCreatethemesInput | string[]
+  vibes?: Prisma.HotelCreatevibesInput | string[]
+  amenityCodes?: Prisma.HotelCreateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelCreateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: $Enums.CancellationType | null
+  cancellationWindowHours?: number | null
+  paymentType?: $Enums.PaymentType | null
+  minAge?: number | null
+  petsAllowed?: boolean | null
+  petsFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: boolean | null
+  checkInTime?: string | null
+  checkOutTime?: string | null
+  smokingAllowed?: boolean | null
+  mainImageUrl?: string | null
+  searchKey: string
+  destinationId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  rooms?: Prisma.RoomUncheckedCreateNestedManyWithoutHotelInput
+  images?: Prisma.HotelImageUncheckedCreateNestedManyWithoutHotelInput
+  amenities?: Prisma.HotelAmenityUncheckedCreateNestedManyWithoutHotelInput
+  providerMappings?: Prisma.ProviderMappingUncheckedCreateNestedManyWithoutHotelInput
+  bookingItems?: Prisma.BookingItemUncheckedCreateNestedManyWithoutHotelInput
+  quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutHotelInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutHotelInput
+  events?: Prisma.UserEventUncheckedCreateNestedManyWithoutHotelInput
+  tags?: Prisma.HotelTagUncheckedCreateNestedManyWithoutHotelInput
+}
+
+export type HotelCreateOrConnectWithoutPointsOfInterestInput = {
+  where: Prisma.HotelWhereUniqueInput
+  create: Prisma.XOR<Prisma.HotelCreateWithoutPointsOfInterestInput, Prisma.HotelUncheckedCreateWithoutPointsOfInterestInput>
+}
+
+export type HotelUpsertWithoutPointsOfInterestInput = {
+  update: Prisma.XOR<Prisma.HotelUpdateWithoutPointsOfInterestInput, Prisma.HotelUncheckedUpdateWithoutPointsOfInterestInput>
+  create: Prisma.XOR<Prisma.HotelCreateWithoutPointsOfInterestInput, Prisma.HotelUncheckedCreateWithoutPointsOfInterestInput>
+  where?: Prisma.HotelWhereInput
+}
+
+export type HotelUpdateToOneWithWhereWithoutPointsOfInterestInput = {
+  where?: Prisma.HotelWhereInput
+  data: Prisma.XOR<Prisma.HotelUpdateWithoutPointsOfInterestInput, Prisma.HotelUncheckedUpdateWithoutPointsOfInterestInput>
+}
+
+export type HotelUpdateWithoutPointsOfInterestInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryStars?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumHotelStatusFieldUpdateOperationsInput | $Enums.HotelStatus
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceToBeachMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToAirportKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceToCenterMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToSkiLiftMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToMetroMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  propertyType?: Prisma.EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+  chainBrand?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLuxury?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBoutique?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isChain?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  yearBuilt?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  yearRenovated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalRooms?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingCleanliness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingService?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingLocation?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  popularityScore?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  conversionRate30d?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  providerCount?: Prisma.IntFieldUpdateOperationsInput | number
+  bestRateGuarantee?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  priceFrom?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  priceBucket?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  themes?: Prisma.HotelUpdatethemesInput | string[]
+  vibes?: Prisma.HotelUpdatevibesInput | string[]
+  amenityCodes?: Prisma.HotelUpdateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelUpdateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: Prisma.NullableEnumCancellationTypeFieldUpdateOperationsInput | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentType?: Prisma.NullableEnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType | null
+  minAge?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  petsAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  petsFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  checkInTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checkOutTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  smokingAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  mainImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  searchKey?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  destination?: Prisma.DestinationUpdateOneRequiredWithoutHotelsNestedInput
+  rooms?: Prisma.RoomUpdateManyWithoutHotelNestedInput
+  images?: Prisma.HotelImageUpdateManyWithoutHotelNestedInput
+  amenities?: Prisma.HotelAmenityUpdateManyWithoutHotelNestedInput
+  providerMappings?: Prisma.ProviderMappingUpdateManyWithoutHotelNestedInput
+  bookingItems?: Prisma.BookingItemUpdateManyWithoutHotelNestedInput
+  quotes?: Prisma.QuoteUpdateManyWithoutHotelNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutHotelNestedInput
+  events?: Prisma.UserEventUpdateManyWithoutHotelNestedInput
+  tags?: Prisma.HotelTagUpdateManyWithoutHotelNestedInput
+}
+
+export type HotelUncheckedUpdateWithoutPointsOfInterestInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryStars?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumHotelStatusFieldUpdateOperationsInput | $Enums.HotelStatus
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceToBeachMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToAirportKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceToCenterMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToSkiLiftMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToMetroMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  propertyType?: Prisma.EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+  chainBrand?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLuxury?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBoutique?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isChain?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  yearBuilt?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  yearRenovated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalRooms?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingCleanliness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingService?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingLocation?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  popularityScore?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  conversionRate30d?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  providerCount?: Prisma.IntFieldUpdateOperationsInput | number
+  bestRateGuarantee?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  priceFrom?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  priceBucket?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  themes?: Prisma.HotelUpdatethemesInput | string[]
+  vibes?: Prisma.HotelUpdatevibesInput | string[]
+  amenityCodes?: Prisma.HotelUpdateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelUpdateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: Prisma.NullableEnumCancellationTypeFieldUpdateOperationsInput | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentType?: Prisma.NullableEnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType | null
+  minAge?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  petsAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  petsFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  checkInTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checkOutTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  smokingAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  mainImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  searchKey?: Prisma.StringFieldUpdateOperationsInput | string
+  destinationId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  rooms?: Prisma.RoomUncheckedUpdateManyWithoutHotelNestedInput
+  images?: Prisma.HotelImageUncheckedUpdateManyWithoutHotelNestedInput
+  amenities?: Prisma.HotelAmenityUncheckedUpdateManyWithoutHotelNestedInput
+  providerMappings?: Prisma.ProviderMappingUncheckedUpdateManyWithoutHotelNestedInput
+  bookingItems?: Prisma.BookingItemUncheckedUpdateManyWithoutHotelNestedInput
+  quotes?: Prisma.QuoteUncheckedUpdateManyWithoutHotelNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutHotelNestedInput
+  events?: Prisma.UserEventUncheckedUpdateManyWithoutHotelNestedInput
+  tags?: Prisma.HotelTagUncheckedUpdateManyWithoutHotelNestedInput
 }
 
 export type HotelCreateWithoutImagesInput = {
@@ -1251,13 +3228,53 @@ export type HotelCreateWithoutImagesInput = {
   address?: string | null
   latitude?: number | null
   longitude?: number | null
+  countryCode?: string | null
+  regionCode?: string | null
+  neighborhood?: string | null
+  zone?: string | null
+  distanceToBeachMeters?: number | null
+  distanceToAirportKm?: number | null
+  distanceToCenterMeters?: number | null
+  distanceToSkiLiftMeters?: number | null
+  distanceToMetroMeters?: number | null
+  propertyType?: $Enums.PropertyType
+  chainBrand?: string | null
+  isLuxury?: boolean
+  isBoutique?: boolean
+  isChain?: boolean
+  yearBuilt?: number | null
+  yearRenovated?: number | null
+  totalRooms?: number | null
   ratingAvg?: number | null
   reviewCount?: number
+  ratingCleanliness?: number | null
+  ratingService?: number | null
+  ratingLocation?: number | null
+  ratingValue?: number | null
   popularityScore?: number
+  bookingCount30d?: number
+  viewCount30d?: number
+  conversionRate30d?: number | null
+  providerCount?: number
+  bestRateGuarantee?: boolean
   priceFrom?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: string
+  priceBucket?: string | null
   priceUpdatedAt?: Date | string | null
   themes?: Prisma.HotelCreatethemesInput | string[]
+  vibes?: Prisma.HotelCreatevibesInput | string[]
+  amenityCodes?: Prisma.HotelCreateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelCreateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: $Enums.CancellationType | null
+  cancellationWindowHours?: number | null
+  paymentType?: $Enums.PaymentType | null
+  minAge?: number | null
+  petsAllowed?: boolean | null
+  petsFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: boolean | null
+  checkInTime?: string | null
+  checkOutTime?: string | null
+  smokingAllowed?: boolean | null
   mainImageUrl?: string | null
   searchKey: string
   createdAt?: Date | string
@@ -1270,6 +3287,8 @@ export type HotelCreateWithoutImagesInput = {
   quotes?: Prisma.QuoteCreateNestedManyWithoutHotelInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutHotelInput
   events?: Prisma.UserEventCreateNestedManyWithoutHotelInput
+  tags?: Prisma.HotelTagCreateNestedManyWithoutHotelInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestCreateNestedManyWithoutHotelInput
 }
 
 export type HotelUncheckedCreateWithoutImagesInput = {
@@ -1282,13 +3301,53 @@ export type HotelUncheckedCreateWithoutImagesInput = {
   address?: string | null
   latitude?: number | null
   longitude?: number | null
+  countryCode?: string | null
+  regionCode?: string | null
+  neighborhood?: string | null
+  zone?: string | null
+  distanceToBeachMeters?: number | null
+  distanceToAirportKm?: number | null
+  distanceToCenterMeters?: number | null
+  distanceToSkiLiftMeters?: number | null
+  distanceToMetroMeters?: number | null
+  propertyType?: $Enums.PropertyType
+  chainBrand?: string | null
+  isLuxury?: boolean
+  isBoutique?: boolean
+  isChain?: boolean
+  yearBuilt?: number | null
+  yearRenovated?: number | null
+  totalRooms?: number | null
   ratingAvg?: number | null
   reviewCount?: number
+  ratingCleanliness?: number | null
+  ratingService?: number | null
+  ratingLocation?: number | null
+  ratingValue?: number | null
   popularityScore?: number
+  bookingCount30d?: number
+  viewCount30d?: number
+  conversionRate30d?: number | null
+  providerCount?: number
+  bestRateGuarantee?: boolean
   priceFrom?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: string
+  priceBucket?: string | null
   priceUpdatedAt?: Date | string | null
   themes?: Prisma.HotelCreatethemesInput | string[]
+  vibes?: Prisma.HotelCreatevibesInput | string[]
+  amenityCodes?: Prisma.HotelCreateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelCreateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: $Enums.CancellationType | null
+  cancellationWindowHours?: number | null
+  paymentType?: $Enums.PaymentType | null
+  minAge?: number | null
+  petsAllowed?: boolean | null
+  petsFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: boolean | null
+  checkInTime?: string | null
+  checkOutTime?: string | null
+  smokingAllowed?: boolean | null
   mainImageUrl?: string | null
   searchKey: string
   destinationId: string
@@ -1301,6 +3360,8 @@ export type HotelUncheckedCreateWithoutImagesInput = {
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutHotelInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutHotelInput
   events?: Prisma.UserEventUncheckedCreateNestedManyWithoutHotelInput
+  tags?: Prisma.HotelTagUncheckedCreateNestedManyWithoutHotelInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUncheckedCreateNestedManyWithoutHotelInput
 }
 
 export type HotelCreateOrConnectWithoutImagesInput = {
@@ -1329,13 +3390,53 @@ export type HotelUpdateWithoutImagesInput = {
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceToBeachMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToAirportKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceToCenterMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToSkiLiftMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToMetroMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  propertyType?: Prisma.EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+  chainBrand?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLuxury?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBoutique?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isChain?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  yearBuilt?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  yearRenovated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalRooms?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingCleanliness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingService?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingLocation?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   popularityScore?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  conversionRate30d?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  providerCount?: Prisma.IntFieldUpdateOperationsInput | number
+  bestRateGuarantee?: Prisma.BoolFieldUpdateOperationsInput | boolean
   priceFrom?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  priceBucket?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   themes?: Prisma.HotelUpdatethemesInput | string[]
+  vibes?: Prisma.HotelUpdatevibesInput | string[]
+  amenityCodes?: Prisma.HotelUpdateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelUpdateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: Prisma.NullableEnumCancellationTypeFieldUpdateOperationsInput | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentType?: Prisma.NullableEnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType | null
+  minAge?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  petsAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  petsFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  checkInTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checkOutTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  smokingAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   mainImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   searchKey?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1348,6 +3449,8 @@ export type HotelUpdateWithoutImagesInput = {
   quotes?: Prisma.QuoteUpdateManyWithoutHotelNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutHotelNestedInput
   events?: Prisma.UserEventUpdateManyWithoutHotelNestedInput
+  tags?: Prisma.HotelTagUpdateManyWithoutHotelNestedInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUpdateManyWithoutHotelNestedInput
 }
 
 export type HotelUncheckedUpdateWithoutImagesInput = {
@@ -1360,13 +3463,53 @@ export type HotelUncheckedUpdateWithoutImagesInput = {
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceToBeachMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToAirportKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceToCenterMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToSkiLiftMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToMetroMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  propertyType?: Prisma.EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+  chainBrand?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLuxury?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBoutique?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isChain?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  yearBuilt?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  yearRenovated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalRooms?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingCleanliness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingService?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingLocation?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   popularityScore?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  conversionRate30d?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  providerCount?: Prisma.IntFieldUpdateOperationsInput | number
+  bestRateGuarantee?: Prisma.BoolFieldUpdateOperationsInput | boolean
   priceFrom?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  priceBucket?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   themes?: Prisma.HotelUpdatethemesInput | string[]
+  vibes?: Prisma.HotelUpdatevibesInput | string[]
+  amenityCodes?: Prisma.HotelUpdateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelUpdateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: Prisma.NullableEnumCancellationTypeFieldUpdateOperationsInput | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentType?: Prisma.NullableEnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType | null
+  minAge?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  petsAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  petsFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  checkInTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checkOutTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  smokingAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   mainImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   searchKey?: Prisma.StringFieldUpdateOperationsInput | string
   destinationId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1379,6 +3522,8 @@ export type HotelUncheckedUpdateWithoutImagesInput = {
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutHotelNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutHotelNestedInput
   events?: Prisma.UserEventUncheckedUpdateManyWithoutHotelNestedInput
+  tags?: Prisma.HotelTagUncheckedUpdateManyWithoutHotelNestedInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUncheckedUpdateManyWithoutHotelNestedInput
 }
 
 export type HotelCreateWithoutAmenitiesInput = {
@@ -1391,13 +3536,53 @@ export type HotelCreateWithoutAmenitiesInput = {
   address?: string | null
   latitude?: number | null
   longitude?: number | null
+  countryCode?: string | null
+  regionCode?: string | null
+  neighborhood?: string | null
+  zone?: string | null
+  distanceToBeachMeters?: number | null
+  distanceToAirportKm?: number | null
+  distanceToCenterMeters?: number | null
+  distanceToSkiLiftMeters?: number | null
+  distanceToMetroMeters?: number | null
+  propertyType?: $Enums.PropertyType
+  chainBrand?: string | null
+  isLuxury?: boolean
+  isBoutique?: boolean
+  isChain?: boolean
+  yearBuilt?: number | null
+  yearRenovated?: number | null
+  totalRooms?: number | null
   ratingAvg?: number | null
   reviewCount?: number
+  ratingCleanliness?: number | null
+  ratingService?: number | null
+  ratingLocation?: number | null
+  ratingValue?: number | null
   popularityScore?: number
+  bookingCount30d?: number
+  viewCount30d?: number
+  conversionRate30d?: number | null
+  providerCount?: number
+  bestRateGuarantee?: boolean
   priceFrom?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: string
+  priceBucket?: string | null
   priceUpdatedAt?: Date | string | null
   themes?: Prisma.HotelCreatethemesInput | string[]
+  vibes?: Prisma.HotelCreatevibesInput | string[]
+  amenityCodes?: Prisma.HotelCreateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelCreateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: $Enums.CancellationType | null
+  cancellationWindowHours?: number | null
+  paymentType?: $Enums.PaymentType | null
+  minAge?: number | null
+  petsAllowed?: boolean | null
+  petsFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: boolean | null
+  checkInTime?: string | null
+  checkOutTime?: string | null
+  smokingAllowed?: boolean | null
   mainImageUrl?: string | null
   searchKey: string
   createdAt?: Date | string
@@ -1410,6 +3595,8 @@ export type HotelCreateWithoutAmenitiesInput = {
   quotes?: Prisma.QuoteCreateNestedManyWithoutHotelInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutHotelInput
   events?: Prisma.UserEventCreateNestedManyWithoutHotelInput
+  tags?: Prisma.HotelTagCreateNestedManyWithoutHotelInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestCreateNestedManyWithoutHotelInput
 }
 
 export type HotelUncheckedCreateWithoutAmenitiesInput = {
@@ -1422,13 +3609,53 @@ export type HotelUncheckedCreateWithoutAmenitiesInput = {
   address?: string | null
   latitude?: number | null
   longitude?: number | null
+  countryCode?: string | null
+  regionCode?: string | null
+  neighborhood?: string | null
+  zone?: string | null
+  distanceToBeachMeters?: number | null
+  distanceToAirportKm?: number | null
+  distanceToCenterMeters?: number | null
+  distanceToSkiLiftMeters?: number | null
+  distanceToMetroMeters?: number | null
+  propertyType?: $Enums.PropertyType
+  chainBrand?: string | null
+  isLuxury?: boolean
+  isBoutique?: boolean
+  isChain?: boolean
+  yearBuilt?: number | null
+  yearRenovated?: number | null
+  totalRooms?: number | null
   ratingAvg?: number | null
   reviewCount?: number
+  ratingCleanliness?: number | null
+  ratingService?: number | null
+  ratingLocation?: number | null
+  ratingValue?: number | null
   popularityScore?: number
+  bookingCount30d?: number
+  viewCount30d?: number
+  conversionRate30d?: number | null
+  providerCount?: number
+  bestRateGuarantee?: boolean
   priceFrom?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: string
+  priceBucket?: string | null
   priceUpdatedAt?: Date | string | null
   themes?: Prisma.HotelCreatethemesInput | string[]
+  vibes?: Prisma.HotelCreatevibesInput | string[]
+  amenityCodes?: Prisma.HotelCreateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelCreateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: $Enums.CancellationType | null
+  cancellationWindowHours?: number | null
+  paymentType?: $Enums.PaymentType | null
+  minAge?: number | null
+  petsAllowed?: boolean | null
+  petsFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: boolean | null
+  checkInTime?: string | null
+  checkOutTime?: string | null
+  smokingAllowed?: boolean | null
   mainImageUrl?: string | null
   searchKey: string
   destinationId: string
@@ -1441,6 +3668,8 @@ export type HotelUncheckedCreateWithoutAmenitiesInput = {
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutHotelInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutHotelInput
   events?: Prisma.UserEventUncheckedCreateNestedManyWithoutHotelInput
+  tags?: Prisma.HotelTagUncheckedCreateNestedManyWithoutHotelInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUncheckedCreateNestedManyWithoutHotelInput
 }
 
 export type HotelCreateOrConnectWithoutAmenitiesInput = {
@@ -1469,13 +3698,53 @@ export type HotelUpdateWithoutAmenitiesInput = {
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceToBeachMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToAirportKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceToCenterMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToSkiLiftMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToMetroMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  propertyType?: Prisma.EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+  chainBrand?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLuxury?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBoutique?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isChain?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  yearBuilt?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  yearRenovated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalRooms?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingCleanliness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingService?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingLocation?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   popularityScore?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  conversionRate30d?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  providerCount?: Prisma.IntFieldUpdateOperationsInput | number
+  bestRateGuarantee?: Prisma.BoolFieldUpdateOperationsInput | boolean
   priceFrom?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  priceBucket?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   themes?: Prisma.HotelUpdatethemesInput | string[]
+  vibes?: Prisma.HotelUpdatevibesInput | string[]
+  amenityCodes?: Prisma.HotelUpdateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelUpdateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: Prisma.NullableEnumCancellationTypeFieldUpdateOperationsInput | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentType?: Prisma.NullableEnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType | null
+  minAge?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  petsAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  petsFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  checkInTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checkOutTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  smokingAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   mainImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   searchKey?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1488,6 +3757,8 @@ export type HotelUpdateWithoutAmenitiesInput = {
   quotes?: Prisma.QuoteUpdateManyWithoutHotelNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutHotelNestedInput
   events?: Prisma.UserEventUpdateManyWithoutHotelNestedInput
+  tags?: Prisma.HotelTagUpdateManyWithoutHotelNestedInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUpdateManyWithoutHotelNestedInput
 }
 
 export type HotelUncheckedUpdateWithoutAmenitiesInput = {
@@ -1500,13 +3771,53 @@ export type HotelUncheckedUpdateWithoutAmenitiesInput = {
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceToBeachMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToAirportKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceToCenterMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToSkiLiftMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToMetroMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  propertyType?: Prisma.EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+  chainBrand?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLuxury?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBoutique?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isChain?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  yearBuilt?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  yearRenovated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalRooms?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingCleanliness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingService?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingLocation?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   popularityScore?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  conversionRate30d?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  providerCount?: Prisma.IntFieldUpdateOperationsInput | number
+  bestRateGuarantee?: Prisma.BoolFieldUpdateOperationsInput | boolean
   priceFrom?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  priceBucket?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   themes?: Prisma.HotelUpdatethemesInput | string[]
+  vibes?: Prisma.HotelUpdatevibesInput | string[]
+  amenityCodes?: Prisma.HotelUpdateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelUpdateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: Prisma.NullableEnumCancellationTypeFieldUpdateOperationsInput | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentType?: Prisma.NullableEnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType | null
+  minAge?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  petsAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  petsFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  checkInTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checkOutTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  smokingAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   mainImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   searchKey?: Prisma.StringFieldUpdateOperationsInput | string
   destinationId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1519,6 +3830,8 @@ export type HotelUncheckedUpdateWithoutAmenitiesInput = {
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutHotelNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutHotelNestedInput
   events?: Prisma.UserEventUncheckedUpdateManyWithoutHotelNestedInput
+  tags?: Prisma.HotelTagUncheckedUpdateManyWithoutHotelNestedInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUncheckedUpdateManyWithoutHotelNestedInput
 }
 
 export type HotelCreateWithoutRoomsInput = {
@@ -1531,13 +3844,53 @@ export type HotelCreateWithoutRoomsInput = {
   address?: string | null
   latitude?: number | null
   longitude?: number | null
+  countryCode?: string | null
+  regionCode?: string | null
+  neighborhood?: string | null
+  zone?: string | null
+  distanceToBeachMeters?: number | null
+  distanceToAirportKm?: number | null
+  distanceToCenterMeters?: number | null
+  distanceToSkiLiftMeters?: number | null
+  distanceToMetroMeters?: number | null
+  propertyType?: $Enums.PropertyType
+  chainBrand?: string | null
+  isLuxury?: boolean
+  isBoutique?: boolean
+  isChain?: boolean
+  yearBuilt?: number | null
+  yearRenovated?: number | null
+  totalRooms?: number | null
   ratingAvg?: number | null
   reviewCount?: number
+  ratingCleanliness?: number | null
+  ratingService?: number | null
+  ratingLocation?: number | null
+  ratingValue?: number | null
   popularityScore?: number
+  bookingCount30d?: number
+  viewCount30d?: number
+  conversionRate30d?: number | null
+  providerCount?: number
+  bestRateGuarantee?: boolean
   priceFrom?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: string
+  priceBucket?: string | null
   priceUpdatedAt?: Date | string | null
   themes?: Prisma.HotelCreatethemesInput | string[]
+  vibes?: Prisma.HotelCreatevibesInput | string[]
+  amenityCodes?: Prisma.HotelCreateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelCreateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: $Enums.CancellationType | null
+  cancellationWindowHours?: number | null
+  paymentType?: $Enums.PaymentType | null
+  minAge?: number | null
+  petsAllowed?: boolean | null
+  petsFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: boolean | null
+  checkInTime?: string | null
+  checkOutTime?: string | null
+  smokingAllowed?: boolean | null
   mainImageUrl?: string | null
   searchKey: string
   createdAt?: Date | string
@@ -1550,6 +3903,8 @@ export type HotelCreateWithoutRoomsInput = {
   quotes?: Prisma.QuoteCreateNestedManyWithoutHotelInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutHotelInput
   events?: Prisma.UserEventCreateNestedManyWithoutHotelInput
+  tags?: Prisma.HotelTagCreateNestedManyWithoutHotelInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestCreateNestedManyWithoutHotelInput
 }
 
 export type HotelUncheckedCreateWithoutRoomsInput = {
@@ -1562,13 +3917,53 @@ export type HotelUncheckedCreateWithoutRoomsInput = {
   address?: string | null
   latitude?: number | null
   longitude?: number | null
+  countryCode?: string | null
+  regionCode?: string | null
+  neighborhood?: string | null
+  zone?: string | null
+  distanceToBeachMeters?: number | null
+  distanceToAirportKm?: number | null
+  distanceToCenterMeters?: number | null
+  distanceToSkiLiftMeters?: number | null
+  distanceToMetroMeters?: number | null
+  propertyType?: $Enums.PropertyType
+  chainBrand?: string | null
+  isLuxury?: boolean
+  isBoutique?: boolean
+  isChain?: boolean
+  yearBuilt?: number | null
+  yearRenovated?: number | null
+  totalRooms?: number | null
   ratingAvg?: number | null
   reviewCount?: number
+  ratingCleanliness?: number | null
+  ratingService?: number | null
+  ratingLocation?: number | null
+  ratingValue?: number | null
   popularityScore?: number
+  bookingCount30d?: number
+  viewCount30d?: number
+  conversionRate30d?: number | null
+  providerCount?: number
+  bestRateGuarantee?: boolean
   priceFrom?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: string
+  priceBucket?: string | null
   priceUpdatedAt?: Date | string | null
   themes?: Prisma.HotelCreatethemesInput | string[]
+  vibes?: Prisma.HotelCreatevibesInput | string[]
+  amenityCodes?: Prisma.HotelCreateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelCreateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: $Enums.CancellationType | null
+  cancellationWindowHours?: number | null
+  paymentType?: $Enums.PaymentType | null
+  minAge?: number | null
+  petsAllowed?: boolean | null
+  petsFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: boolean | null
+  checkInTime?: string | null
+  checkOutTime?: string | null
+  smokingAllowed?: boolean | null
   mainImageUrl?: string | null
   searchKey: string
   destinationId: string
@@ -1581,6 +3976,8 @@ export type HotelUncheckedCreateWithoutRoomsInput = {
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutHotelInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutHotelInput
   events?: Prisma.UserEventUncheckedCreateNestedManyWithoutHotelInput
+  tags?: Prisma.HotelTagUncheckedCreateNestedManyWithoutHotelInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUncheckedCreateNestedManyWithoutHotelInput
 }
 
 export type HotelCreateOrConnectWithoutRoomsInput = {
@@ -1609,13 +4006,53 @@ export type HotelUpdateWithoutRoomsInput = {
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceToBeachMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToAirportKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceToCenterMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToSkiLiftMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToMetroMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  propertyType?: Prisma.EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+  chainBrand?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLuxury?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBoutique?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isChain?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  yearBuilt?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  yearRenovated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalRooms?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingCleanliness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingService?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingLocation?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   popularityScore?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  conversionRate30d?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  providerCount?: Prisma.IntFieldUpdateOperationsInput | number
+  bestRateGuarantee?: Prisma.BoolFieldUpdateOperationsInput | boolean
   priceFrom?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  priceBucket?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   themes?: Prisma.HotelUpdatethemesInput | string[]
+  vibes?: Prisma.HotelUpdatevibesInput | string[]
+  amenityCodes?: Prisma.HotelUpdateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelUpdateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: Prisma.NullableEnumCancellationTypeFieldUpdateOperationsInput | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentType?: Prisma.NullableEnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType | null
+  minAge?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  petsAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  petsFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  checkInTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checkOutTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  smokingAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   mainImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   searchKey?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1628,6 +4065,8 @@ export type HotelUpdateWithoutRoomsInput = {
   quotes?: Prisma.QuoteUpdateManyWithoutHotelNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutHotelNestedInput
   events?: Prisma.UserEventUpdateManyWithoutHotelNestedInput
+  tags?: Prisma.HotelTagUpdateManyWithoutHotelNestedInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUpdateManyWithoutHotelNestedInput
 }
 
 export type HotelUncheckedUpdateWithoutRoomsInput = {
@@ -1640,13 +4079,53 @@ export type HotelUncheckedUpdateWithoutRoomsInput = {
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceToBeachMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToAirportKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceToCenterMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToSkiLiftMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToMetroMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  propertyType?: Prisma.EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+  chainBrand?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLuxury?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBoutique?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isChain?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  yearBuilt?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  yearRenovated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalRooms?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingCleanliness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingService?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingLocation?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   popularityScore?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  conversionRate30d?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  providerCount?: Prisma.IntFieldUpdateOperationsInput | number
+  bestRateGuarantee?: Prisma.BoolFieldUpdateOperationsInput | boolean
   priceFrom?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  priceBucket?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   themes?: Prisma.HotelUpdatethemesInput | string[]
+  vibes?: Prisma.HotelUpdatevibesInput | string[]
+  amenityCodes?: Prisma.HotelUpdateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelUpdateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: Prisma.NullableEnumCancellationTypeFieldUpdateOperationsInput | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentType?: Prisma.NullableEnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType | null
+  minAge?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  petsAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  petsFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  checkInTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checkOutTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  smokingAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   mainImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   searchKey?: Prisma.StringFieldUpdateOperationsInput | string
   destinationId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1659,6 +4138,8 @@ export type HotelUncheckedUpdateWithoutRoomsInput = {
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutHotelNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutHotelNestedInput
   events?: Prisma.UserEventUncheckedUpdateManyWithoutHotelNestedInput
+  tags?: Prisma.HotelTagUncheckedUpdateManyWithoutHotelNestedInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUncheckedUpdateManyWithoutHotelNestedInput
 }
 
 export type HotelCreateWithoutQuotesInput = {
@@ -1671,13 +4152,53 @@ export type HotelCreateWithoutQuotesInput = {
   address?: string | null
   latitude?: number | null
   longitude?: number | null
+  countryCode?: string | null
+  regionCode?: string | null
+  neighborhood?: string | null
+  zone?: string | null
+  distanceToBeachMeters?: number | null
+  distanceToAirportKm?: number | null
+  distanceToCenterMeters?: number | null
+  distanceToSkiLiftMeters?: number | null
+  distanceToMetroMeters?: number | null
+  propertyType?: $Enums.PropertyType
+  chainBrand?: string | null
+  isLuxury?: boolean
+  isBoutique?: boolean
+  isChain?: boolean
+  yearBuilt?: number | null
+  yearRenovated?: number | null
+  totalRooms?: number | null
   ratingAvg?: number | null
   reviewCount?: number
+  ratingCleanliness?: number | null
+  ratingService?: number | null
+  ratingLocation?: number | null
+  ratingValue?: number | null
   popularityScore?: number
+  bookingCount30d?: number
+  viewCount30d?: number
+  conversionRate30d?: number | null
+  providerCount?: number
+  bestRateGuarantee?: boolean
   priceFrom?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: string
+  priceBucket?: string | null
   priceUpdatedAt?: Date | string | null
   themes?: Prisma.HotelCreatethemesInput | string[]
+  vibes?: Prisma.HotelCreatevibesInput | string[]
+  amenityCodes?: Prisma.HotelCreateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelCreateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: $Enums.CancellationType | null
+  cancellationWindowHours?: number | null
+  paymentType?: $Enums.PaymentType | null
+  minAge?: number | null
+  petsAllowed?: boolean | null
+  petsFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: boolean | null
+  checkInTime?: string | null
+  checkOutTime?: string | null
+  smokingAllowed?: boolean | null
   mainImageUrl?: string | null
   searchKey: string
   createdAt?: Date | string
@@ -1690,6 +4211,8 @@ export type HotelCreateWithoutQuotesInput = {
   bookingItems?: Prisma.BookingItemCreateNestedManyWithoutHotelInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutHotelInput
   events?: Prisma.UserEventCreateNestedManyWithoutHotelInput
+  tags?: Prisma.HotelTagCreateNestedManyWithoutHotelInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestCreateNestedManyWithoutHotelInput
 }
 
 export type HotelUncheckedCreateWithoutQuotesInput = {
@@ -1702,13 +4225,53 @@ export type HotelUncheckedCreateWithoutQuotesInput = {
   address?: string | null
   latitude?: number | null
   longitude?: number | null
+  countryCode?: string | null
+  regionCode?: string | null
+  neighborhood?: string | null
+  zone?: string | null
+  distanceToBeachMeters?: number | null
+  distanceToAirportKm?: number | null
+  distanceToCenterMeters?: number | null
+  distanceToSkiLiftMeters?: number | null
+  distanceToMetroMeters?: number | null
+  propertyType?: $Enums.PropertyType
+  chainBrand?: string | null
+  isLuxury?: boolean
+  isBoutique?: boolean
+  isChain?: boolean
+  yearBuilt?: number | null
+  yearRenovated?: number | null
+  totalRooms?: number | null
   ratingAvg?: number | null
   reviewCount?: number
+  ratingCleanliness?: number | null
+  ratingService?: number | null
+  ratingLocation?: number | null
+  ratingValue?: number | null
   popularityScore?: number
+  bookingCount30d?: number
+  viewCount30d?: number
+  conversionRate30d?: number | null
+  providerCount?: number
+  bestRateGuarantee?: boolean
   priceFrom?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: string
+  priceBucket?: string | null
   priceUpdatedAt?: Date | string | null
   themes?: Prisma.HotelCreatethemesInput | string[]
+  vibes?: Prisma.HotelCreatevibesInput | string[]
+  amenityCodes?: Prisma.HotelCreateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelCreateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: $Enums.CancellationType | null
+  cancellationWindowHours?: number | null
+  paymentType?: $Enums.PaymentType | null
+  minAge?: number | null
+  petsAllowed?: boolean | null
+  petsFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: boolean | null
+  checkInTime?: string | null
+  checkOutTime?: string | null
+  smokingAllowed?: boolean | null
   mainImageUrl?: string | null
   searchKey: string
   destinationId: string
@@ -1721,6 +4284,8 @@ export type HotelUncheckedCreateWithoutQuotesInput = {
   bookingItems?: Prisma.BookingItemUncheckedCreateNestedManyWithoutHotelInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutHotelInput
   events?: Prisma.UserEventUncheckedCreateNestedManyWithoutHotelInput
+  tags?: Prisma.HotelTagUncheckedCreateNestedManyWithoutHotelInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUncheckedCreateNestedManyWithoutHotelInput
 }
 
 export type HotelCreateOrConnectWithoutQuotesInput = {
@@ -1749,13 +4314,53 @@ export type HotelUpdateWithoutQuotesInput = {
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceToBeachMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToAirportKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceToCenterMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToSkiLiftMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToMetroMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  propertyType?: Prisma.EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+  chainBrand?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLuxury?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBoutique?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isChain?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  yearBuilt?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  yearRenovated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalRooms?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingCleanliness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingService?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingLocation?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   popularityScore?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  conversionRate30d?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  providerCount?: Prisma.IntFieldUpdateOperationsInput | number
+  bestRateGuarantee?: Prisma.BoolFieldUpdateOperationsInput | boolean
   priceFrom?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  priceBucket?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   themes?: Prisma.HotelUpdatethemesInput | string[]
+  vibes?: Prisma.HotelUpdatevibesInput | string[]
+  amenityCodes?: Prisma.HotelUpdateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelUpdateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: Prisma.NullableEnumCancellationTypeFieldUpdateOperationsInput | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentType?: Prisma.NullableEnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType | null
+  minAge?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  petsAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  petsFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  checkInTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checkOutTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  smokingAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   mainImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   searchKey?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1768,6 +4373,8 @@ export type HotelUpdateWithoutQuotesInput = {
   bookingItems?: Prisma.BookingItemUpdateManyWithoutHotelNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutHotelNestedInput
   events?: Prisma.UserEventUpdateManyWithoutHotelNestedInput
+  tags?: Prisma.HotelTagUpdateManyWithoutHotelNestedInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUpdateManyWithoutHotelNestedInput
 }
 
 export type HotelUncheckedUpdateWithoutQuotesInput = {
@@ -1780,13 +4387,53 @@ export type HotelUncheckedUpdateWithoutQuotesInput = {
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceToBeachMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToAirportKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceToCenterMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToSkiLiftMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToMetroMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  propertyType?: Prisma.EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+  chainBrand?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLuxury?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBoutique?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isChain?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  yearBuilt?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  yearRenovated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalRooms?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingCleanliness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingService?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingLocation?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   popularityScore?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  conversionRate30d?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  providerCount?: Prisma.IntFieldUpdateOperationsInput | number
+  bestRateGuarantee?: Prisma.BoolFieldUpdateOperationsInput | boolean
   priceFrom?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  priceBucket?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   themes?: Prisma.HotelUpdatethemesInput | string[]
+  vibes?: Prisma.HotelUpdatevibesInput | string[]
+  amenityCodes?: Prisma.HotelUpdateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelUpdateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: Prisma.NullableEnumCancellationTypeFieldUpdateOperationsInput | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentType?: Prisma.NullableEnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType | null
+  minAge?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  petsAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  petsFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  checkInTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checkOutTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  smokingAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   mainImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   searchKey?: Prisma.StringFieldUpdateOperationsInput | string
   destinationId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1799,6 +4446,8 @@ export type HotelUncheckedUpdateWithoutQuotesInput = {
   bookingItems?: Prisma.BookingItemUncheckedUpdateManyWithoutHotelNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutHotelNestedInput
   events?: Prisma.UserEventUncheckedUpdateManyWithoutHotelNestedInput
+  tags?: Prisma.HotelTagUncheckedUpdateManyWithoutHotelNestedInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUncheckedUpdateManyWithoutHotelNestedInput
 }
 
 export type HotelCreateWithoutBookingItemsInput = {
@@ -1811,13 +4460,53 @@ export type HotelCreateWithoutBookingItemsInput = {
   address?: string | null
   latitude?: number | null
   longitude?: number | null
+  countryCode?: string | null
+  regionCode?: string | null
+  neighborhood?: string | null
+  zone?: string | null
+  distanceToBeachMeters?: number | null
+  distanceToAirportKm?: number | null
+  distanceToCenterMeters?: number | null
+  distanceToSkiLiftMeters?: number | null
+  distanceToMetroMeters?: number | null
+  propertyType?: $Enums.PropertyType
+  chainBrand?: string | null
+  isLuxury?: boolean
+  isBoutique?: boolean
+  isChain?: boolean
+  yearBuilt?: number | null
+  yearRenovated?: number | null
+  totalRooms?: number | null
   ratingAvg?: number | null
   reviewCount?: number
+  ratingCleanliness?: number | null
+  ratingService?: number | null
+  ratingLocation?: number | null
+  ratingValue?: number | null
   popularityScore?: number
+  bookingCount30d?: number
+  viewCount30d?: number
+  conversionRate30d?: number | null
+  providerCount?: number
+  bestRateGuarantee?: boolean
   priceFrom?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: string
+  priceBucket?: string | null
   priceUpdatedAt?: Date | string | null
   themes?: Prisma.HotelCreatethemesInput | string[]
+  vibes?: Prisma.HotelCreatevibesInput | string[]
+  amenityCodes?: Prisma.HotelCreateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelCreateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: $Enums.CancellationType | null
+  cancellationWindowHours?: number | null
+  paymentType?: $Enums.PaymentType | null
+  minAge?: number | null
+  petsAllowed?: boolean | null
+  petsFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: boolean | null
+  checkInTime?: string | null
+  checkOutTime?: string | null
+  smokingAllowed?: boolean | null
   mainImageUrl?: string | null
   searchKey: string
   createdAt?: Date | string
@@ -1830,6 +4519,8 @@ export type HotelCreateWithoutBookingItemsInput = {
   quotes?: Prisma.QuoteCreateNestedManyWithoutHotelInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutHotelInput
   events?: Prisma.UserEventCreateNestedManyWithoutHotelInput
+  tags?: Prisma.HotelTagCreateNestedManyWithoutHotelInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestCreateNestedManyWithoutHotelInput
 }
 
 export type HotelUncheckedCreateWithoutBookingItemsInput = {
@@ -1842,13 +4533,53 @@ export type HotelUncheckedCreateWithoutBookingItemsInput = {
   address?: string | null
   latitude?: number | null
   longitude?: number | null
+  countryCode?: string | null
+  regionCode?: string | null
+  neighborhood?: string | null
+  zone?: string | null
+  distanceToBeachMeters?: number | null
+  distanceToAirportKm?: number | null
+  distanceToCenterMeters?: number | null
+  distanceToSkiLiftMeters?: number | null
+  distanceToMetroMeters?: number | null
+  propertyType?: $Enums.PropertyType
+  chainBrand?: string | null
+  isLuxury?: boolean
+  isBoutique?: boolean
+  isChain?: boolean
+  yearBuilt?: number | null
+  yearRenovated?: number | null
+  totalRooms?: number | null
   ratingAvg?: number | null
   reviewCount?: number
+  ratingCleanliness?: number | null
+  ratingService?: number | null
+  ratingLocation?: number | null
+  ratingValue?: number | null
   popularityScore?: number
+  bookingCount30d?: number
+  viewCount30d?: number
+  conversionRate30d?: number | null
+  providerCount?: number
+  bestRateGuarantee?: boolean
   priceFrom?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: string
+  priceBucket?: string | null
   priceUpdatedAt?: Date | string | null
   themes?: Prisma.HotelCreatethemesInput | string[]
+  vibes?: Prisma.HotelCreatevibesInput | string[]
+  amenityCodes?: Prisma.HotelCreateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelCreateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: $Enums.CancellationType | null
+  cancellationWindowHours?: number | null
+  paymentType?: $Enums.PaymentType | null
+  minAge?: number | null
+  petsAllowed?: boolean | null
+  petsFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: boolean | null
+  checkInTime?: string | null
+  checkOutTime?: string | null
+  smokingAllowed?: boolean | null
   mainImageUrl?: string | null
   searchKey: string
   destinationId: string
@@ -1861,6 +4592,8 @@ export type HotelUncheckedCreateWithoutBookingItemsInput = {
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutHotelInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutHotelInput
   events?: Prisma.UserEventUncheckedCreateNestedManyWithoutHotelInput
+  tags?: Prisma.HotelTagUncheckedCreateNestedManyWithoutHotelInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUncheckedCreateNestedManyWithoutHotelInput
 }
 
 export type HotelCreateOrConnectWithoutBookingItemsInput = {
@@ -1889,13 +4622,53 @@ export type HotelUpdateWithoutBookingItemsInput = {
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceToBeachMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToAirportKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceToCenterMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToSkiLiftMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToMetroMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  propertyType?: Prisma.EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+  chainBrand?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLuxury?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBoutique?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isChain?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  yearBuilt?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  yearRenovated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalRooms?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingCleanliness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingService?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingLocation?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   popularityScore?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  conversionRate30d?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  providerCount?: Prisma.IntFieldUpdateOperationsInput | number
+  bestRateGuarantee?: Prisma.BoolFieldUpdateOperationsInput | boolean
   priceFrom?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  priceBucket?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   themes?: Prisma.HotelUpdatethemesInput | string[]
+  vibes?: Prisma.HotelUpdatevibesInput | string[]
+  amenityCodes?: Prisma.HotelUpdateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelUpdateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: Prisma.NullableEnumCancellationTypeFieldUpdateOperationsInput | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentType?: Prisma.NullableEnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType | null
+  minAge?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  petsAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  petsFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  checkInTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checkOutTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  smokingAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   mainImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   searchKey?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1908,6 +4681,8 @@ export type HotelUpdateWithoutBookingItemsInput = {
   quotes?: Prisma.QuoteUpdateManyWithoutHotelNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutHotelNestedInput
   events?: Prisma.UserEventUpdateManyWithoutHotelNestedInput
+  tags?: Prisma.HotelTagUpdateManyWithoutHotelNestedInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUpdateManyWithoutHotelNestedInput
 }
 
 export type HotelUncheckedUpdateWithoutBookingItemsInput = {
@@ -1920,13 +4695,53 @@ export type HotelUncheckedUpdateWithoutBookingItemsInput = {
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceToBeachMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToAirportKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceToCenterMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToSkiLiftMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToMetroMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  propertyType?: Prisma.EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+  chainBrand?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLuxury?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBoutique?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isChain?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  yearBuilt?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  yearRenovated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalRooms?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingCleanliness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingService?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingLocation?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   popularityScore?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  conversionRate30d?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  providerCount?: Prisma.IntFieldUpdateOperationsInput | number
+  bestRateGuarantee?: Prisma.BoolFieldUpdateOperationsInput | boolean
   priceFrom?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  priceBucket?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   themes?: Prisma.HotelUpdatethemesInput | string[]
+  vibes?: Prisma.HotelUpdatevibesInput | string[]
+  amenityCodes?: Prisma.HotelUpdateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelUpdateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: Prisma.NullableEnumCancellationTypeFieldUpdateOperationsInput | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentType?: Prisma.NullableEnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType | null
+  minAge?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  petsAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  petsFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  checkInTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checkOutTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  smokingAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   mainImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   searchKey?: Prisma.StringFieldUpdateOperationsInput | string
   destinationId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1939,6 +4754,8 @@ export type HotelUncheckedUpdateWithoutBookingItemsInput = {
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutHotelNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutHotelNestedInput
   events?: Prisma.UserEventUncheckedUpdateManyWithoutHotelNestedInput
+  tags?: Prisma.HotelTagUncheckedUpdateManyWithoutHotelNestedInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUncheckedUpdateManyWithoutHotelNestedInput
 }
 
 export type HotelCreateWithoutFavoritesInput = {
@@ -1951,13 +4768,53 @@ export type HotelCreateWithoutFavoritesInput = {
   address?: string | null
   latitude?: number | null
   longitude?: number | null
+  countryCode?: string | null
+  regionCode?: string | null
+  neighborhood?: string | null
+  zone?: string | null
+  distanceToBeachMeters?: number | null
+  distanceToAirportKm?: number | null
+  distanceToCenterMeters?: number | null
+  distanceToSkiLiftMeters?: number | null
+  distanceToMetroMeters?: number | null
+  propertyType?: $Enums.PropertyType
+  chainBrand?: string | null
+  isLuxury?: boolean
+  isBoutique?: boolean
+  isChain?: boolean
+  yearBuilt?: number | null
+  yearRenovated?: number | null
+  totalRooms?: number | null
   ratingAvg?: number | null
   reviewCount?: number
+  ratingCleanliness?: number | null
+  ratingService?: number | null
+  ratingLocation?: number | null
+  ratingValue?: number | null
   popularityScore?: number
+  bookingCount30d?: number
+  viewCount30d?: number
+  conversionRate30d?: number | null
+  providerCount?: number
+  bestRateGuarantee?: boolean
   priceFrom?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: string
+  priceBucket?: string | null
   priceUpdatedAt?: Date | string | null
   themes?: Prisma.HotelCreatethemesInput | string[]
+  vibes?: Prisma.HotelCreatevibesInput | string[]
+  amenityCodes?: Prisma.HotelCreateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelCreateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: $Enums.CancellationType | null
+  cancellationWindowHours?: number | null
+  paymentType?: $Enums.PaymentType | null
+  minAge?: number | null
+  petsAllowed?: boolean | null
+  petsFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: boolean | null
+  checkInTime?: string | null
+  checkOutTime?: string | null
+  smokingAllowed?: boolean | null
   mainImageUrl?: string | null
   searchKey: string
   createdAt?: Date | string
@@ -1970,6 +4827,8 @@ export type HotelCreateWithoutFavoritesInput = {
   bookingItems?: Prisma.BookingItemCreateNestedManyWithoutHotelInput
   quotes?: Prisma.QuoteCreateNestedManyWithoutHotelInput
   events?: Prisma.UserEventCreateNestedManyWithoutHotelInput
+  tags?: Prisma.HotelTagCreateNestedManyWithoutHotelInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestCreateNestedManyWithoutHotelInput
 }
 
 export type HotelUncheckedCreateWithoutFavoritesInput = {
@@ -1982,13 +4841,53 @@ export type HotelUncheckedCreateWithoutFavoritesInput = {
   address?: string | null
   latitude?: number | null
   longitude?: number | null
+  countryCode?: string | null
+  regionCode?: string | null
+  neighborhood?: string | null
+  zone?: string | null
+  distanceToBeachMeters?: number | null
+  distanceToAirportKm?: number | null
+  distanceToCenterMeters?: number | null
+  distanceToSkiLiftMeters?: number | null
+  distanceToMetroMeters?: number | null
+  propertyType?: $Enums.PropertyType
+  chainBrand?: string | null
+  isLuxury?: boolean
+  isBoutique?: boolean
+  isChain?: boolean
+  yearBuilt?: number | null
+  yearRenovated?: number | null
+  totalRooms?: number | null
   ratingAvg?: number | null
   reviewCount?: number
+  ratingCleanliness?: number | null
+  ratingService?: number | null
+  ratingLocation?: number | null
+  ratingValue?: number | null
   popularityScore?: number
+  bookingCount30d?: number
+  viewCount30d?: number
+  conversionRate30d?: number | null
+  providerCount?: number
+  bestRateGuarantee?: boolean
   priceFrom?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: string
+  priceBucket?: string | null
   priceUpdatedAt?: Date | string | null
   themes?: Prisma.HotelCreatethemesInput | string[]
+  vibes?: Prisma.HotelCreatevibesInput | string[]
+  amenityCodes?: Prisma.HotelCreateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelCreateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: $Enums.CancellationType | null
+  cancellationWindowHours?: number | null
+  paymentType?: $Enums.PaymentType | null
+  minAge?: number | null
+  petsAllowed?: boolean | null
+  petsFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: boolean | null
+  checkInTime?: string | null
+  checkOutTime?: string | null
+  smokingAllowed?: boolean | null
   mainImageUrl?: string | null
   searchKey: string
   destinationId: string
@@ -2001,6 +4900,8 @@ export type HotelUncheckedCreateWithoutFavoritesInput = {
   bookingItems?: Prisma.BookingItemUncheckedCreateNestedManyWithoutHotelInput
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutHotelInput
   events?: Prisma.UserEventUncheckedCreateNestedManyWithoutHotelInput
+  tags?: Prisma.HotelTagUncheckedCreateNestedManyWithoutHotelInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUncheckedCreateNestedManyWithoutHotelInput
 }
 
 export type HotelCreateOrConnectWithoutFavoritesInput = {
@@ -2029,13 +4930,53 @@ export type HotelUpdateWithoutFavoritesInput = {
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceToBeachMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToAirportKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceToCenterMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToSkiLiftMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToMetroMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  propertyType?: Prisma.EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+  chainBrand?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLuxury?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBoutique?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isChain?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  yearBuilt?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  yearRenovated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalRooms?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingCleanliness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingService?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingLocation?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   popularityScore?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  conversionRate30d?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  providerCount?: Prisma.IntFieldUpdateOperationsInput | number
+  bestRateGuarantee?: Prisma.BoolFieldUpdateOperationsInput | boolean
   priceFrom?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  priceBucket?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   themes?: Prisma.HotelUpdatethemesInput | string[]
+  vibes?: Prisma.HotelUpdatevibesInput | string[]
+  amenityCodes?: Prisma.HotelUpdateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelUpdateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: Prisma.NullableEnumCancellationTypeFieldUpdateOperationsInput | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentType?: Prisma.NullableEnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType | null
+  minAge?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  petsAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  petsFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  checkInTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checkOutTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  smokingAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   mainImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   searchKey?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2048,6 +4989,8 @@ export type HotelUpdateWithoutFavoritesInput = {
   bookingItems?: Prisma.BookingItemUpdateManyWithoutHotelNestedInput
   quotes?: Prisma.QuoteUpdateManyWithoutHotelNestedInput
   events?: Prisma.UserEventUpdateManyWithoutHotelNestedInput
+  tags?: Prisma.HotelTagUpdateManyWithoutHotelNestedInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUpdateManyWithoutHotelNestedInput
 }
 
 export type HotelUncheckedUpdateWithoutFavoritesInput = {
@@ -2060,13 +5003,53 @@ export type HotelUncheckedUpdateWithoutFavoritesInput = {
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceToBeachMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToAirportKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceToCenterMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToSkiLiftMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToMetroMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  propertyType?: Prisma.EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+  chainBrand?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLuxury?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBoutique?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isChain?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  yearBuilt?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  yearRenovated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalRooms?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingCleanliness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingService?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingLocation?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   popularityScore?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  conversionRate30d?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  providerCount?: Prisma.IntFieldUpdateOperationsInput | number
+  bestRateGuarantee?: Prisma.BoolFieldUpdateOperationsInput | boolean
   priceFrom?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  priceBucket?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   themes?: Prisma.HotelUpdatethemesInput | string[]
+  vibes?: Prisma.HotelUpdatevibesInput | string[]
+  amenityCodes?: Prisma.HotelUpdateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelUpdateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: Prisma.NullableEnumCancellationTypeFieldUpdateOperationsInput | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentType?: Prisma.NullableEnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType | null
+  minAge?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  petsAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  petsFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  checkInTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checkOutTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  smokingAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   mainImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   searchKey?: Prisma.StringFieldUpdateOperationsInput | string
   destinationId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2079,6 +5062,8 @@ export type HotelUncheckedUpdateWithoutFavoritesInput = {
   bookingItems?: Prisma.BookingItemUncheckedUpdateManyWithoutHotelNestedInput
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutHotelNestedInput
   events?: Prisma.UserEventUncheckedUpdateManyWithoutHotelNestedInput
+  tags?: Prisma.HotelTagUncheckedUpdateManyWithoutHotelNestedInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUncheckedUpdateManyWithoutHotelNestedInput
 }
 
 export type HotelCreateWithoutEventsInput = {
@@ -2091,13 +5076,53 @@ export type HotelCreateWithoutEventsInput = {
   address?: string | null
   latitude?: number | null
   longitude?: number | null
+  countryCode?: string | null
+  regionCode?: string | null
+  neighborhood?: string | null
+  zone?: string | null
+  distanceToBeachMeters?: number | null
+  distanceToAirportKm?: number | null
+  distanceToCenterMeters?: number | null
+  distanceToSkiLiftMeters?: number | null
+  distanceToMetroMeters?: number | null
+  propertyType?: $Enums.PropertyType
+  chainBrand?: string | null
+  isLuxury?: boolean
+  isBoutique?: boolean
+  isChain?: boolean
+  yearBuilt?: number | null
+  yearRenovated?: number | null
+  totalRooms?: number | null
   ratingAvg?: number | null
   reviewCount?: number
+  ratingCleanliness?: number | null
+  ratingService?: number | null
+  ratingLocation?: number | null
+  ratingValue?: number | null
   popularityScore?: number
+  bookingCount30d?: number
+  viewCount30d?: number
+  conversionRate30d?: number | null
+  providerCount?: number
+  bestRateGuarantee?: boolean
   priceFrom?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: string
+  priceBucket?: string | null
   priceUpdatedAt?: Date | string | null
   themes?: Prisma.HotelCreatethemesInput | string[]
+  vibes?: Prisma.HotelCreatevibesInput | string[]
+  amenityCodes?: Prisma.HotelCreateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelCreateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: $Enums.CancellationType | null
+  cancellationWindowHours?: number | null
+  paymentType?: $Enums.PaymentType | null
+  minAge?: number | null
+  petsAllowed?: boolean | null
+  petsFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: boolean | null
+  checkInTime?: string | null
+  checkOutTime?: string | null
+  smokingAllowed?: boolean | null
   mainImageUrl?: string | null
   searchKey: string
   createdAt?: Date | string
@@ -2110,6 +5135,8 @@ export type HotelCreateWithoutEventsInput = {
   bookingItems?: Prisma.BookingItemCreateNestedManyWithoutHotelInput
   quotes?: Prisma.QuoteCreateNestedManyWithoutHotelInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutHotelInput
+  tags?: Prisma.HotelTagCreateNestedManyWithoutHotelInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestCreateNestedManyWithoutHotelInput
 }
 
 export type HotelUncheckedCreateWithoutEventsInput = {
@@ -2122,13 +5149,53 @@ export type HotelUncheckedCreateWithoutEventsInput = {
   address?: string | null
   latitude?: number | null
   longitude?: number | null
+  countryCode?: string | null
+  regionCode?: string | null
+  neighborhood?: string | null
+  zone?: string | null
+  distanceToBeachMeters?: number | null
+  distanceToAirportKm?: number | null
+  distanceToCenterMeters?: number | null
+  distanceToSkiLiftMeters?: number | null
+  distanceToMetroMeters?: number | null
+  propertyType?: $Enums.PropertyType
+  chainBrand?: string | null
+  isLuxury?: boolean
+  isBoutique?: boolean
+  isChain?: boolean
+  yearBuilt?: number | null
+  yearRenovated?: number | null
+  totalRooms?: number | null
   ratingAvg?: number | null
   reviewCount?: number
+  ratingCleanliness?: number | null
+  ratingService?: number | null
+  ratingLocation?: number | null
+  ratingValue?: number | null
   popularityScore?: number
+  bookingCount30d?: number
+  viewCount30d?: number
+  conversionRate30d?: number | null
+  providerCount?: number
+  bestRateGuarantee?: boolean
   priceFrom?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: string
+  priceBucket?: string | null
   priceUpdatedAt?: Date | string | null
   themes?: Prisma.HotelCreatethemesInput | string[]
+  vibes?: Prisma.HotelCreatevibesInput | string[]
+  amenityCodes?: Prisma.HotelCreateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelCreateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: $Enums.CancellationType | null
+  cancellationWindowHours?: number | null
+  paymentType?: $Enums.PaymentType | null
+  minAge?: number | null
+  petsAllowed?: boolean | null
+  petsFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: boolean | null
+  checkInTime?: string | null
+  checkOutTime?: string | null
+  smokingAllowed?: boolean | null
   mainImageUrl?: string | null
   searchKey: string
   destinationId: string
@@ -2141,6 +5208,8 @@ export type HotelUncheckedCreateWithoutEventsInput = {
   bookingItems?: Prisma.BookingItemUncheckedCreateNestedManyWithoutHotelInput
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutHotelInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutHotelInput
+  tags?: Prisma.HotelTagUncheckedCreateNestedManyWithoutHotelInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUncheckedCreateNestedManyWithoutHotelInput
 }
 
 export type HotelCreateOrConnectWithoutEventsInput = {
@@ -2169,13 +5238,53 @@ export type HotelUpdateWithoutEventsInput = {
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceToBeachMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToAirportKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceToCenterMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToSkiLiftMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToMetroMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  propertyType?: Prisma.EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+  chainBrand?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLuxury?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBoutique?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isChain?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  yearBuilt?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  yearRenovated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalRooms?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingCleanliness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingService?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingLocation?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   popularityScore?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  conversionRate30d?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  providerCount?: Prisma.IntFieldUpdateOperationsInput | number
+  bestRateGuarantee?: Prisma.BoolFieldUpdateOperationsInput | boolean
   priceFrom?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  priceBucket?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   themes?: Prisma.HotelUpdatethemesInput | string[]
+  vibes?: Prisma.HotelUpdatevibesInput | string[]
+  amenityCodes?: Prisma.HotelUpdateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelUpdateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: Prisma.NullableEnumCancellationTypeFieldUpdateOperationsInput | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentType?: Prisma.NullableEnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType | null
+  minAge?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  petsAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  petsFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  checkInTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checkOutTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  smokingAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   mainImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   searchKey?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2188,6 +5297,8 @@ export type HotelUpdateWithoutEventsInput = {
   bookingItems?: Prisma.BookingItemUpdateManyWithoutHotelNestedInput
   quotes?: Prisma.QuoteUpdateManyWithoutHotelNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutHotelNestedInput
+  tags?: Prisma.HotelTagUpdateManyWithoutHotelNestedInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUpdateManyWithoutHotelNestedInput
 }
 
 export type HotelUncheckedUpdateWithoutEventsInput = {
@@ -2200,13 +5311,53 @@ export type HotelUncheckedUpdateWithoutEventsInput = {
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceToBeachMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToAirportKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceToCenterMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToSkiLiftMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToMetroMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  propertyType?: Prisma.EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+  chainBrand?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLuxury?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBoutique?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isChain?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  yearBuilt?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  yearRenovated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalRooms?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingCleanliness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingService?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingLocation?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   popularityScore?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  conversionRate30d?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  providerCount?: Prisma.IntFieldUpdateOperationsInput | number
+  bestRateGuarantee?: Prisma.BoolFieldUpdateOperationsInput | boolean
   priceFrom?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  priceBucket?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   themes?: Prisma.HotelUpdatethemesInput | string[]
+  vibes?: Prisma.HotelUpdatevibesInput | string[]
+  amenityCodes?: Prisma.HotelUpdateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelUpdateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: Prisma.NullableEnumCancellationTypeFieldUpdateOperationsInput | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentType?: Prisma.NullableEnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType | null
+  minAge?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  petsAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  petsFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  checkInTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checkOutTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  smokingAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   mainImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   searchKey?: Prisma.StringFieldUpdateOperationsInput | string
   destinationId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2219,6 +5370,8 @@ export type HotelUncheckedUpdateWithoutEventsInput = {
   bookingItems?: Prisma.BookingItemUncheckedUpdateManyWithoutHotelNestedInput
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutHotelNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutHotelNestedInput
+  tags?: Prisma.HotelTagUncheckedUpdateManyWithoutHotelNestedInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUncheckedUpdateManyWithoutHotelNestedInput
 }
 
 export type HotelCreateManyDestinationInput = {
@@ -2231,13 +5384,53 @@ export type HotelCreateManyDestinationInput = {
   address?: string | null
   latitude?: number | null
   longitude?: number | null
+  countryCode?: string | null
+  regionCode?: string | null
+  neighborhood?: string | null
+  zone?: string | null
+  distanceToBeachMeters?: number | null
+  distanceToAirportKm?: number | null
+  distanceToCenterMeters?: number | null
+  distanceToSkiLiftMeters?: number | null
+  distanceToMetroMeters?: number | null
+  propertyType?: $Enums.PropertyType
+  chainBrand?: string | null
+  isLuxury?: boolean
+  isBoutique?: boolean
+  isChain?: boolean
+  yearBuilt?: number | null
+  yearRenovated?: number | null
+  totalRooms?: number | null
   ratingAvg?: number | null
   reviewCount?: number
+  ratingCleanliness?: number | null
+  ratingService?: number | null
+  ratingLocation?: number | null
+  ratingValue?: number | null
   popularityScore?: number
+  bookingCount30d?: number
+  viewCount30d?: number
+  conversionRate30d?: number | null
+  providerCount?: number
+  bestRateGuarantee?: boolean
   priceFrom?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: string
+  priceBucket?: string | null
   priceUpdatedAt?: Date | string | null
   themes?: Prisma.HotelCreatethemesInput | string[]
+  vibes?: Prisma.HotelCreatevibesInput | string[]
+  amenityCodes?: Prisma.HotelCreateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelCreateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: $Enums.CancellationType | null
+  cancellationWindowHours?: number | null
+  paymentType?: $Enums.PaymentType | null
+  minAge?: number | null
+  petsAllowed?: boolean | null
+  petsFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: boolean | null
+  checkInTime?: string | null
+  checkOutTime?: string | null
+  smokingAllowed?: boolean | null
   mainImageUrl?: string | null
   searchKey: string
   createdAt?: Date | string
@@ -2254,13 +5447,53 @@ export type HotelUpdateWithoutDestinationInput = {
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceToBeachMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToAirportKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceToCenterMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToSkiLiftMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToMetroMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  propertyType?: Prisma.EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+  chainBrand?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLuxury?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBoutique?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isChain?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  yearBuilt?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  yearRenovated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalRooms?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingCleanliness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingService?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingLocation?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   popularityScore?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  conversionRate30d?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  providerCount?: Prisma.IntFieldUpdateOperationsInput | number
+  bestRateGuarantee?: Prisma.BoolFieldUpdateOperationsInput | boolean
   priceFrom?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  priceBucket?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   themes?: Prisma.HotelUpdatethemesInput | string[]
+  vibes?: Prisma.HotelUpdatevibesInput | string[]
+  amenityCodes?: Prisma.HotelUpdateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelUpdateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: Prisma.NullableEnumCancellationTypeFieldUpdateOperationsInput | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentType?: Prisma.NullableEnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType | null
+  minAge?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  petsAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  petsFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  checkInTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checkOutTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  smokingAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   mainImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   searchKey?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2273,6 +5506,8 @@ export type HotelUpdateWithoutDestinationInput = {
   quotes?: Prisma.QuoteUpdateManyWithoutHotelNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutHotelNestedInput
   events?: Prisma.UserEventUpdateManyWithoutHotelNestedInput
+  tags?: Prisma.HotelTagUpdateManyWithoutHotelNestedInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUpdateManyWithoutHotelNestedInput
 }
 
 export type HotelUncheckedUpdateWithoutDestinationInput = {
@@ -2285,13 +5520,53 @@ export type HotelUncheckedUpdateWithoutDestinationInput = {
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceToBeachMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToAirportKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceToCenterMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToSkiLiftMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToMetroMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  propertyType?: Prisma.EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+  chainBrand?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLuxury?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBoutique?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isChain?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  yearBuilt?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  yearRenovated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalRooms?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingCleanliness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingService?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingLocation?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   popularityScore?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  conversionRate30d?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  providerCount?: Prisma.IntFieldUpdateOperationsInput | number
+  bestRateGuarantee?: Prisma.BoolFieldUpdateOperationsInput | boolean
   priceFrom?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  priceBucket?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   themes?: Prisma.HotelUpdatethemesInput | string[]
+  vibes?: Prisma.HotelUpdatevibesInput | string[]
+  amenityCodes?: Prisma.HotelUpdateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelUpdateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: Prisma.NullableEnumCancellationTypeFieldUpdateOperationsInput | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentType?: Prisma.NullableEnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType | null
+  minAge?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  petsAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  petsFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  checkInTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checkOutTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  smokingAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   mainImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   searchKey?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2304,6 +5579,8 @@ export type HotelUncheckedUpdateWithoutDestinationInput = {
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutHotelNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutHotelNestedInput
   events?: Prisma.UserEventUncheckedUpdateManyWithoutHotelNestedInput
+  tags?: Prisma.HotelTagUncheckedUpdateManyWithoutHotelNestedInput
+  pointsOfInterest?: Prisma.HotelPointOfInterestUncheckedUpdateManyWithoutHotelNestedInput
 }
 
 export type HotelUncheckedUpdateManyWithoutDestinationInput = {
@@ -2316,13 +5593,53 @@ export type HotelUncheckedUpdateManyWithoutDestinationInput = {
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  neighborhood?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceToBeachMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToAirportKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceToCenterMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToSkiLiftMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceToMetroMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  propertyType?: Prisma.EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+  chainBrand?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLuxury?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBoutique?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isChain?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  yearBuilt?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  yearRenovated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalRooms?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  ratingCleanliness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingService?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingLocation?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   popularityScore?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount30d?: Prisma.IntFieldUpdateOperationsInput | number
+  conversionRate30d?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  providerCount?: Prisma.IntFieldUpdateOperationsInput | number
+  bestRateGuarantee?: Prisma.BoolFieldUpdateOperationsInput | boolean
   priceFrom?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   priceCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  priceBucket?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   themes?: Prisma.HotelUpdatethemesInput | string[]
+  vibes?: Prisma.HotelUpdatevibesInput | string[]
+  amenityCodes?: Prisma.HotelUpdateamenityCodesInput | string[]
+  boardTypes?: Prisma.HotelUpdateboardTypesInput | $Enums.BoardType[]
+  cancellationType?: Prisma.NullableEnumCancellationTypeFieldUpdateOperationsInput | $Enums.CancellationType | null
+  cancellationWindowHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  paymentType?: Prisma.NullableEnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType | null
+  minAge?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  petsAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  petsFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  childrenAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  checkInTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checkOutTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  smokingAllowed?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   mainImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   searchKey?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2343,6 +5660,8 @@ export type HotelCountOutputType = {
   quotes: number
   favorites: number
   events: number
+  tags: number
+  pointsOfInterest: number
 }
 
 export type HotelCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2354,6 +5673,8 @@ export type HotelCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.
   quotes?: boolean | HotelCountOutputTypeCountQuotesArgs
   favorites?: boolean | HotelCountOutputTypeCountFavoritesArgs
   events?: boolean | HotelCountOutputTypeCountEventsArgs
+  tags?: boolean | HotelCountOutputTypeCountTagsArgs
+  pointsOfInterest?: boolean | HotelCountOutputTypeCountPointsOfInterestArgs
 }
 
 /**
@@ -2422,6 +5743,20 @@ export type HotelCountOutputTypeCountEventsArgs<ExtArgs extends runtime.Types.Ex
   where?: Prisma.UserEventWhereInput
 }
 
+/**
+ * HotelCountOutputType without action
+ */
+export type HotelCountOutputTypeCountTagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.HotelTagWhereInput
+}
+
+/**
+ * HotelCountOutputType without action
+ */
+export type HotelCountOutputTypeCountPointsOfInterestArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.HotelPointOfInterestWhereInput
+}
+
 
 export type HotelSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2433,13 +5768,53 @@ export type HotelSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   address?: boolean
   latitude?: boolean
   longitude?: boolean
+  countryCode?: boolean
+  regionCode?: boolean
+  neighborhood?: boolean
+  zone?: boolean
+  distanceToBeachMeters?: boolean
+  distanceToAirportKm?: boolean
+  distanceToCenterMeters?: boolean
+  distanceToSkiLiftMeters?: boolean
+  distanceToMetroMeters?: boolean
+  propertyType?: boolean
+  chainBrand?: boolean
+  isLuxury?: boolean
+  isBoutique?: boolean
+  isChain?: boolean
+  yearBuilt?: boolean
+  yearRenovated?: boolean
+  totalRooms?: boolean
   ratingAvg?: boolean
   reviewCount?: boolean
+  ratingCleanliness?: boolean
+  ratingService?: boolean
+  ratingLocation?: boolean
+  ratingValue?: boolean
   popularityScore?: boolean
+  bookingCount30d?: boolean
+  viewCount30d?: boolean
+  conversionRate30d?: boolean
+  providerCount?: boolean
+  bestRateGuarantee?: boolean
   priceFrom?: boolean
   priceCurrency?: boolean
+  priceBucket?: boolean
   priceUpdatedAt?: boolean
   themes?: boolean
+  vibes?: boolean
+  amenityCodes?: boolean
+  boardTypes?: boolean
+  cancellationType?: boolean
+  cancellationWindowHours?: boolean
+  paymentType?: boolean
+  minAge?: boolean
+  petsAllowed?: boolean
+  petsFee?: boolean
+  childrenAllowed?: boolean
+  checkInTime?: boolean
+  checkOutTime?: boolean
+  smokingAllowed?: boolean
   mainImageUrl?: boolean
   searchKey?: boolean
   destinationId?: boolean
@@ -2454,6 +5829,8 @@ export type HotelSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   quotes?: boolean | Prisma.Hotel$quotesArgs<ExtArgs>
   favorites?: boolean | Prisma.Hotel$favoritesArgs<ExtArgs>
   events?: boolean | Prisma.Hotel$eventsArgs<ExtArgs>
+  tags?: boolean | Prisma.Hotel$tagsArgs<ExtArgs>
+  pointsOfInterest?: boolean | Prisma.Hotel$pointsOfInterestArgs<ExtArgs>
   _count?: boolean | Prisma.HotelCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["hotel"]>
 
@@ -2467,13 +5844,53 @@ export type HotelSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   address?: boolean
   latitude?: boolean
   longitude?: boolean
+  countryCode?: boolean
+  regionCode?: boolean
+  neighborhood?: boolean
+  zone?: boolean
+  distanceToBeachMeters?: boolean
+  distanceToAirportKm?: boolean
+  distanceToCenterMeters?: boolean
+  distanceToSkiLiftMeters?: boolean
+  distanceToMetroMeters?: boolean
+  propertyType?: boolean
+  chainBrand?: boolean
+  isLuxury?: boolean
+  isBoutique?: boolean
+  isChain?: boolean
+  yearBuilt?: boolean
+  yearRenovated?: boolean
+  totalRooms?: boolean
   ratingAvg?: boolean
   reviewCount?: boolean
+  ratingCleanliness?: boolean
+  ratingService?: boolean
+  ratingLocation?: boolean
+  ratingValue?: boolean
   popularityScore?: boolean
+  bookingCount30d?: boolean
+  viewCount30d?: boolean
+  conversionRate30d?: boolean
+  providerCount?: boolean
+  bestRateGuarantee?: boolean
   priceFrom?: boolean
   priceCurrency?: boolean
+  priceBucket?: boolean
   priceUpdatedAt?: boolean
   themes?: boolean
+  vibes?: boolean
+  amenityCodes?: boolean
+  boardTypes?: boolean
+  cancellationType?: boolean
+  cancellationWindowHours?: boolean
+  paymentType?: boolean
+  minAge?: boolean
+  petsAllowed?: boolean
+  petsFee?: boolean
+  childrenAllowed?: boolean
+  checkInTime?: boolean
+  checkOutTime?: boolean
+  smokingAllowed?: boolean
   mainImageUrl?: boolean
   searchKey?: boolean
   destinationId?: boolean
@@ -2492,13 +5909,53 @@ export type HotelSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   address?: boolean
   latitude?: boolean
   longitude?: boolean
+  countryCode?: boolean
+  regionCode?: boolean
+  neighborhood?: boolean
+  zone?: boolean
+  distanceToBeachMeters?: boolean
+  distanceToAirportKm?: boolean
+  distanceToCenterMeters?: boolean
+  distanceToSkiLiftMeters?: boolean
+  distanceToMetroMeters?: boolean
+  propertyType?: boolean
+  chainBrand?: boolean
+  isLuxury?: boolean
+  isBoutique?: boolean
+  isChain?: boolean
+  yearBuilt?: boolean
+  yearRenovated?: boolean
+  totalRooms?: boolean
   ratingAvg?: boolean
   reviewCount?: boolean
+  ratingCleanliness?: boolean
+  ratingService?: boolean
+  ratingLocation?: boolean
+  ratingValue?: boolean
   popularityScore?: boolean
+  bookingCount30d?: boolean
+  viewCount30d?: boolean
+  conversionRate30d?: boolean
+  providerCount?: boolean
+  bestRateGuarantee?: boolean
   priceFrom?: boolean
   priceCurrency?: boolean
+  priceBucket?: boolean
   priceUpdatedAt?: boolean
   themes?: boolean
+  vibes?: boolean
+  amenityCodes?: boolean
+  boardTypes?: boolean
+  cancellationType?: boolean
+  cancellationWindowHours?: boolean
+  paymentType?: boolean
+  minAge?: boolean
+  petsAllowed?: boolean
+  petsFee?: boolean
+  childrenAllowed?: boolean
+  checkInTime?: boolean
+  checkOutTime?: boolean
+  smokingAllowed?: boolean
   mainImageUrl?: boolean
   searchKey?: boolean
   destinationId?: boolean
@@ -2517,13 +5974,53 @@ export type HotelSelectScalar = {
   address?: boolean
   latitude?: boolean
   longitude?: boolean
+  countryCode?: boolean
+  regionCode?: boolean
+  neighborhood?: boolean
+  zone?: boolean
+  distanceToBeachMeters?: boolean
+  distanceToAirportKm?: boolean
+  distanceToCenterMeters?: boolean
+  distanceToSkiLiftMeters?: boolean
+  distanceToMetroMeters?: boolean
+  propertyType?: boolean
+  chainBrand?: boolean
+  isLuxury?: boolean
+  isBoutique?: boolean
+  isChain?: boolean
+  yearBuilt?: boolean
+  yearRenovated?: boolean
+  totalRooms?: boolean
   ratingAvg?: boolean
   reviewCount?: boolean
+  ratingCleanliness?: boolean
+  ratingService?: boolean
+  ratingLocation?: boolean
+  ratingValue?: boolean
   popularityScore?: boolean
+  bookingCount30d?: boolean
+  viewCount30d?: boolean
+  conversionRate30d?: boolean
+  providerCount?: boolean
+  bestRateGuarantee?: boolean
   priceFrom?: boolean
   priceCurrency?: boolean
+  priceBucket?: boolean
   priceUpdatedAt?: boolean
   themes?: boolean
+  vibes?: boolean
+  amenityCodes?: boolean
+  boardTypes?: boolean
+  cancellationType?: boolean
+  cancellationWindowHours?: boolean
+  paymentType?: boolean
+  minAge?: boolean
+  petsAllowed?: boolean
+  petsFee?: boolean
+  childrenAllowed?: boolean
+  checkInTime?: boolean
+  checkOutTime?: boolean
+  smokingAllowed?: boolean
   mainImageUrl?: boolean
   searchKey?: boolean
   destinationId?: boolean
@@ -2531,7 +6028,7 @@ export type HotelSelectScalar = {
   updatedAt?: boolean
 }
 
-export type HotelOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "title" | "description" | "categoryStars" | "status" | "address" | "latitude" | "longitude" | "ratingAvg" | "reviewCount" | "popularityScore" | "priceFrom" | "priceCurrency" | "priceUpdatedAt" | "themes" | "mainImageUrl" | "searchKey" | "destinationId" | "createdAt" | "updatedAt", ExtArgs["result"]["hotel"]>
+export type HotelOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "title" | "description" | "categoryStars" | "status" | "address" | "latitude" | "longitude" | "countryCode" | "regionCode" | "neighborhood" | "zone" | "distanceToBeachMeters" | "distanceToAirportKm" | "distanceToCenterMeters" | "distanceToSkiLiftMeters" | "distanceToMetroMeters" | "propertyType" | "chainBrand" | "isLuxury" | "isBoutique" | "isChain" | "yearBuilt" | "yearRenovated" | "totalRooms" | "ratingAvg" | "reviewCount" | "ratingCleanliness" | "ratingService" | "ratingLocation" | "ratingValue" | "popularityScore" | "bookingCount30d" | "viewCount30d" | "conversionRate30d" | "providerCount" | "bestRateGuarantee" | "priceFrom" | "priceCurrency" | "priceBucket" | "priceUpdatedAt" | "themes" | "vibes" | "amenityCodes" | "boardTypes" | "cancellationType" | "cancellationWindowHours" | "paymentType" | "minAge" | "petsAllowed" | "petsFee" | "childrenAllowed" | "checkInTime" | "checkOutTime" | "smokingAllowed" | "mainImageUrl" | "searchKey" | "destinationId" | "createdAt" | "updatedAt", ExtArgs["result"]["hotel"]>
 export type HotelInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   destination?: boolean | Prisma.DestinationDefaultArgs<ExtArgs>
   rooms?: boolean | Prisma.Hotel$roomsArgs<ExtArgs>
@@ -2542,6 +6039,8 @@ export type HotelInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   quotes?: boolean | Prisma.Hotel$quotesArgs<ExtArgs>
   favorites?: boolean | Prisma.Hotel$favoritesArgs<ExtArgs>
   events?: boolean | Prisma.Hotel$eventsArgs<ExtArgs>
+  tags?: boolean | Prisma.Hotel$tagsArgs<ExtArgs>
+  pointsOfInterest?: boolean | Prisma.Hotel$pointsOfInterestArgs<ExtArgs>
   _count?: boolean | Prisma.HotelCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type HotelIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2563,6 +6062,8 @@ export type $HotelPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     quotes: Prisma.$QuotePayload<ExtArgs>[]
     favorites: Prisma.$FavoritePayload<ExtArgs>[]
     events: Prisma.$UserEventPayload<ExtArgs>[]
+    tags: Prisma.$HotelTagPayload<ExtArgs>[]
+    pointsOfInterest: Prisma.$HotelPointOfInterestPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2574,13 +6075,53 @@ export type $HotelPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     address: string | null
     latitude: number | null
     longitude: number | null
+    countryCode: string | null
+    regionCode: string | null
+    neighborhood: string | null
+    zone: string | null
+    distanceToBeachMeters: number | null
+    distanceToAirportKm: number | null
+    distanceToCenterMeters: number | null
+    distanceToSkiLiftMeters: number | null
+    distanceToMetroMeters: number | null
+    propertyType: $Enums.PropertyType
+    chainBrand: string | null
+    isLuxury: boolean
+    isBoutique: boolean
+    isChain: boolean
+    yearBuilt: number | null
+    yearRenovated: number | null
+    totalRooms: number | null
     ratingAvg: number | null
     reviewCount: number
+    ratingCleanliness: number | null
+    ratingService: number | null
+    ratingLocation: number | null
+    ratingValue: number | null
     popularityScore: number
+    bookingCount30d: number
+    viewCount30d: number
+    conversionRate30d: number | null
+    providerCount: number
+    bestRateGuarantee: boolean
     priceFrom: runtime.Decimal | null
     priceCurrency: string
+    priceBucket: string | null
     priceUpdatedAt: Date | null
     themes: string[]
+    vibes: string[]
+    amenityCodes: string[]
+    boardTypes: $Enums.BoardType[]
+    cancellationType: $Enums.CancellationType | null
+    cancellationWindowHours: number | null
+    paymentType: $Enums.PaymentType | null
+    minAge: number | null
+    petsAllowed: boolean | null
+    petsFee: runtime.Decimal | null
+    childrenAllowed: boolean | null
+    checkInTime: string | null
+    checkOutTime: string | null
+    smokingAllowed: boolean | null
     mainImageUrl: string | null
     searchKey: string
     destinationId: string
@@ -2989,6 +6530,8 @@ export interface Prisma__HotelClient<T, Null = never, ExtArgs extends runtime.Ty
   quotes<T extends Prisma.Hotel$quotesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Hotel$quotesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   favorites<T extends Prisma.Hotel$favoritesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Hotel$favoritesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FavoritePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   events<T extends Prisma.Hotel$eventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Hotel$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tags<T extends Prisma.Hotel$tagsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Hotel$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HotelTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  pointsOfInterest<T extends Prisma.Hotel$pointsOfInterestArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Hotel$pointsOfInterestArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HotelPointOfInterestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3027,13 +6570,53 @@ export interface HotelFieldRefs {
   readonly address: Prisma.FieldRef<"Hotel", 'String'>
   readonly latitude: Prisma.FieldRef<"Hotel", 'Float'>
   readonly longitude: Prisma.FieldRef<"Hotel", 'Float'>
+  readonly countryCode: Prisma.FieldRef<"Hotel", 'String'>
+  readonly regionCode: Prisma.FieldRef<"Hotel", 'String'>
+  readonly neighborhood: Prisma.FieldRef<"Hotel", 'String'>
+  readonly zone: Prisma.FieldRef<"Hotel", 'String'>
+  readonly distanceToBeachMeters: Prisma.FieldRef<"Hotel", 'Int'>
+  readonly distanceToAirportKm: Prisma.FieldRef<"Hotel", 'Float'>
+  readonly distanceToCenterMeters: Prisma.FieldRef<"Hotel", 'Int'>
+  readonly distanceToSkiLiftMeters: Prisma.FieldRef<"Hotel", 'Int'>
+  readonly distanceToMetroMeters: Prisma.FieldRef<"Hotel", 'Int'>
+  readonly propertyType: Prisma.FieldRef<"Hotel", 'PropertyType'>
+  readonly chainBrand: Prisma.FieldRef<"Hotel", 'String'>
+  readonly isLuxury: Prisma.FieldRef<"Hotel", 'Boolean'>
+  readonly isBoutique: Prisma.FieldRef<"Hotel", 'Boolean'>
+  readonly isChain: Prisma.FieldRef<"Hotel", 'Boolean'>
+  readonly yearBuilt: Prisma.FieldRef<"Hotel", 'Int'>
+  readonly yearRenovated: Prisma.FieldRef<"Hotel", 'Int'>
+  readonly totalRooms: Prisma.FieldRef<"Hotel", 'Int'>
   readonly ratingAvg: Prisma.FieldRef<"Hotel", 'Float'>
   readonly reviewCount: Prisma.FieldRef<"Hotel", 'Int'>
+  readonly ratingCleanliness: Prisma.FieldRef<"Hotel", 'Float'>
+  readonly ratingService: Prisma.FieldRef<"Hotel", 'Float'>
+  readonly ratingLocation: Prisma.FieldRef<"Hotel", 'Float'>
+  readonly ratingValue: Prisma.FieldRef<"Hotel", 'Float'>
   readonly popularityScore: Prisma.FieldRef<"Hotel", 'Int'>
+  readonly bookingCount30d: Prisma.FieldRef<"Hotel", 'Int'>
+  readonly viewCount30d: Prisma.FieldRef<"Hotel", 'Int'>
+  readonly conversionRate30d: Prisma.FieldRef<"Hotel", 'Float'>
+  readonly providerCount: Prisma.FieldRef<"Hotel", 'Int'>
+  readonly bestRateGuarantee: Prisma.FieldRef<"Hotel", 'Boolean'>
   readonly priceFrom: Prisma.FieldRef<"Hotel", 'Decimal'>
   readonly priceCurrency: Prisma.FieldRef<"Hotel", 'String'>
+  readonly priceBucket: Prisma.FieldRef<"Hotel", 'String'>
   readonly priceUpdatedAt: Prisma.FieldRef<"Hotel", 'DateTime'>
   readonly themes: Prisma.FieldRef<"Hotel", 'String[]'>
+  readonly vibes: Prisma.FieldRef<"Hotel", 'String[]'>
+  readonly amenityCodes: Prisma.FieldRef<"Hotel", 'String[]'>
+  readonly boardTypes: Prisma.FieldRef<"Hotel", 'BoardType[]'>
+  readonly cancellationType: Prisma.FieldRef<"Hotel", 'CancellationType'>
+  readonly cancellationWindowHours: Prisma.FieldRef<"Hotel", 'Int'>
+  readonly paymentType: Prisma.FieldRef<"Hotel", 'PaymentType'>
+  readonly minAge: Prisma.FieldRef<"Hotel", 'Int'>
+  readonly petsAllowed: Prisma.FieldRef<"Hotel", 'Boolean'>
+  readonly petsFee: Prisma.FieldRef<"Hotel", 'Decimal'>
+  readonly childrenAllowed: Prisma.FieldRef<"Hotel", 'Boolean'>
+  readonly checkInTime: Prisma.FieldRef<"Hotel", 'String'>
+  readonly checkOutTime: Prisma.FieldRef<"Hotel", 'String'>
+  readonly smokingAllowed: Prisma.FieldRef<"Hotel", 'Boolean'>
   readonly mainImageUrl: Prisma.FieldRef<"Hotel", 'String'>
   readonly searchKey: Prisma.FieldRef<"Hotel", 'String'>
   readonly destinationId: Prisma.FieldRef<"Hotel", 'String'>
@@ -3629,6 +7212,54 @@ export type Hotel$eventsArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.UserEventScalarFieldEnum | Prisma.UserEventScalarFieldEnum[]
+}
+
+/**
+ * Hotel.tags
+ */
+export type Hotel$tagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the HotelTag
+   */
+  select?: Prisma.HotelTagSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the HotelTag
+   */
+  omit?: Prisma.HotelTagOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.HotelTagInclude<ExtArgs> | null
+  where?: Prisma.HotelTagWhereInput
+  orderBy?: Prisma.HotelTagOrderByWithRelationInput | Prisma.HotelTagOrderByWithRelationInput[]
+  cursor?: Prisma.HotelTagWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.HotelTagScalarFieldEnum | Prisma.HotelTagScalarFieldEnum[]
+}
+
+/**
+ * Hotel.pointsOfInterest
+ */
+export type Hotel$pointsOfInterestArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the HotelPointOfInterest
+   */
+  select?: Prisma.HotelPointOfInterestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the HotelPointOfInterest
+   */
+  omit?: Prisma.HotelPointOfInterestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.HotelPointOfInterestInclude<ExtArgs> | null
+  where?: Prisma.HotelPointOfInterestWhereInput
+  orderBy?: Prisma.HotelPointOfInterestOrderByWithRelationInput | Prisma.HotelPointOfInterestOrderByWithRelationInput[]
+  cursor?: Prisma.HotelPointOfInterestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.HotelPointOfInterestScalarFieldEnum | Prisma.HotelPointOfInterestScalarFieldEnum[]
 }
 
 /**

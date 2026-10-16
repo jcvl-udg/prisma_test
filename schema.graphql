@@ -192,6 +192,22 @@ type HotelAmenity {
   amenity: Amenity!
 }
 
+type HotelFacetValue {
+  count: Int!
+  value: String!
+}
+
+type HotelFacets {
+  amenities: [HotelFacetValue!]!
+  boardTypes: [HotelFacetValue!]!
+  cancellationTypes: [HotelFacetValue!]!
+  priceBuckets: [HotelFacetValue!]!
+  propertyTypes: [HotelFacetValue!]!
+  stars: [HotelFacetValue!]!
+  themes: [HotelFacetValue!]!
+  total: Int!
+}
+
 input HotelFilter {
   """Por defecto 2 (solo aplica con fechas)"""
   adults: Int
@@ -294,6 +310,7 @@ type Query {
   destinationBySlug(slug: String!): Destination
   destinations(featuredOnly: Boolean = false, take: Int = 12): [Destination!]!
   hotelBySlug(checkIn: Date, checkOut: Date, slug: String!): Hotel
+  hotelFacets(filter: HotelFilter): HotelFacets!
   hotels(after: String, before: String, filter: HotelFilter, first: Int, last: Int, sort: HotelSort = POPULAR): QueryHotelsConnection!
   hotelsCount(filter: HotelFilter): Int!
   me: User

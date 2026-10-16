@@ -1,11 +1,28 @@
 import 'dotenv/config';
 import { randomUUID } from 'node:crypto';
 import { PrismaPg } from '@prisma/adapter-pg';
-import { PrismaClient, Prisma } from './generated/client';
+import {
+  PrismaClient,
+  Prisma,
+  type CancellationType,
+  type POIKind,
+  type PaymentType,
+  type PropertyType,
+} from './generated/client';
 import { normalize, slugify } from '../lib/text';
 import { Pool } from 'pg';
 
 import bcrypt from 'bcryptjs';
+import { allocateHotelCounts, getSeedConfig } from './seed-lib/config';
+import {
+  buildAmenityCodes,
+  createRandom,
+  logNormal as generateLogNormal,
+  priceBucketFor,
+  weightedPick,
+} from './seed-lib/generators';
+import { isSeedStepComplete, markSeedStepComplete } from './seed-lib/progress';
+import { copyRoomInventory } from './seed-lib/copy-helper';
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL!,
@@ -19,13 +36,15 @@ const pool = new Pool({
 const prisma = new PrismaClient({ adapter: new PrismaPg(pool) });
 
 // ─────────────────────────────────────────────────────────────
-// CONFIGURACIÓN (ajustable por variables de entorno)
-//   SEED_DAYS  = días de inventario a generar     (por defecto 90)
-//   SEED_SCALE = multiplicador de hoteles         (por defecto 1 ≈ 1 000 hoteles)
-// Ejemplo: SEED_SCALE=3 npx tsx prisma/seed.ts  (≈ 3 000 hoteles, prueba de estrés)
+// CONFIGURACIÓN: SEED_PROFILE=dev|demo|stress; SEED_DAYS y SEED_SCALE
+// se conservan como overrides compatibles con el seeder anterior.
 // ─────────────────────────────────────────────────────────────
-const DAYS = Number(process.env.SEED_DAYS ?? 90);
-const HOTEL_SCALE = Number(process.env.SEED_SCALE ?? 1);
+const SEED_CONFIG = getSeedConfig({
+  SEED_PROFILE: process.env.SEED_PROFILE,
+  SEED_DAYS: process.env.SEED_DAYS,
+  SEED_SCALE: process.env.SEED_SCALE,
+});
+const { days: DAYS, hotels: HOTEL_COUNT, events: EVENT_COUNT } = SEED_CONFIG;
 const CHUNK = 500;
 
 // ─────────────────────────────────────────────────────────────
@@ -33,27 +52,13 @@ const CHUNK = 500;
 // Mismo seed => mismos datos en cualquier máquina: los bugs de búsqueda
 // se pueden reproducir y los tests no dependen del azar.
 // ─────────────────────────────────────────────────────────────
-function mulberry32(seed: number) {
-  return () => {
-    seed |= 0;
-    seed = (seed + 0x6d2b79f5) | 0;
-    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-const rand = mulberry32(20260930);
+let rand = createRandom(20260930);
 const int = (min: number, max: number) => Math.floor(rand() * (max - min + 1)) + min;
 const pick = <T>(arr: T[]): T => arr[Math.floor(rand() * arr.length)];
 const round2 = (n: number) => Math.round(n * 100) / 100;
 
 function weighted<T>(items: [T, number][]): T {
-  const total = items.reduce((s, [, w]) => s + w, 0);
-  let r = rand() * total;
-  for (const [item, w] of items) {
-    if ((r -= w) <= 0) return item;
-  }
-  return items[items.length - 1][0];
+  return weightedPick(rand, items);
 }
 
 // Muestra sin reemplazo (Fisher-Yates parcial)
@@ -68,6 +73,16 @@ function sample<T>(arr: T[], n: number): T[] {
   return out;
 }
 
+function distanceMeters(lat1: number, lng1: number, lat2: number, lng2: number): number {
+  const toRadians = (degrees: number) => (degrees * Math.PI) / 180;
+  const deltaLat = toRadians(lat2 - lat1);
+  const deltaLng = toRadians(lng2 - lng1);
+  const haversine =
+    Math.sin(deltaLat / 2) ** 2 +
+    Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) * Math.sin(deltaLng / 2) ** 2;
+  return Math.round(6_371_000 * 2 * Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine)));
+}
+
 // Inserta en lotes para no exceder el límite de parámetros de Postgres
 async function inChunks<T>(rows: T[], run: (chunk: T[]) => Promise<unknown>) {
   for (let i = 0; i < rows.length; i += CHUNK) await run(rows.slice(i, i + CHUNK));
@@ -77,6 +92,26 @@ async function inChunks<T>(rows: T[], run: (chunk: T[]) => Promise<unknown>) {
 const now = new Date();
 const BASE_DAY = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
 const dayDate = (offset: number) => new Date(BASE_DAY + offset * 86_400_000);
+const SEED_CONFIG_KEY =
+  `${SEED_CONFIG.profile}-hotels-${HOTEL_COUNT}-days-${DAYS}-events-${EVENT_COUNT}`;
+
+function seedFor(label: string): number {
+  let hash = 2_166_136_261;
+  for (const character of label) {
+    hash = Math.imul(hash ^ character.charCodeAt(0), 16_777_619);
+  }
+  return hash >>> 0;
+}
+
+async function resetSeedData(): Promise<void> {
+  await prisma.$executeRawUnsafe(`
+    TRUNCATE TABLE "_SeedProgress","HotelPointOfInterest","HotelTag","PointOfInterest",
+      "BookingEvent","BookingItem","Booking","Quote","UserEvent","Favorite",
+      "HotelAmenity","HotelImage","RoomInventory","RoomMapping","ProviderMapping","Room",
+      "Hotel","Amenity","Destination","Provider","Session","Account","VerificationToken",
+      "Profile","User" RESTART IDENTITY CASCADE
+  `);
+}
 
 // ─────────────────────────────────────────────────────────────
 // DATOS SEMILLA
@@ -128,11 +163,11 @@ const AMENITIES = [
   { code: 'AIRPORT_SHUTTLE', name: 'Traslado al aeropuerto', category: 'GENERAL' },
   { code: 'ACCESSIBLE', name: 'Accesible', category: 'GENERAL' },
   { code: 'PET_FRIENDLY', name: 'Admite mascotas', category: 'GENERAL' },
-  { code: 'POOL', name: 'Alberca', category: 'LEISURE' },
-  { code: 'GYM', name: 'Gimnasio', category: 'LEISURE' },
+  { code: 'POOL', name: 'Alberca', category: 'RECREATION' },
+  { code: 'GYM', name: 'Gimnasio', category: 'RECREATION' },
   { code: 'SPA', name: 'Spa', category: 'WELLNESS' },
-  { code: 'GOLF', name: 'Campo de golf', category: 'LEISURE' },
-  { code: 'BEACHFRONT', name: 'Frente a la playa', category: 'LEISURE' },
+  { code: 'GOLF', name: 'Campo de golf', category: 'RECREATION' },
+  { code: 'BEACHFRONT', name: 'Frente a la playa', category: 'RECREATION' },
   { code: 'KIDS_CLUB', name: 'Club infantil', category: 'FAMILY' },
   { code: 'RESTAURANT', name: 'Restaurante', category: 'FOOD' },
   { code: 'BAR', name: 'Bar', category: 'FOOD' },
@@ -140,6 +175,76 @@ const AMENITIES = [
   { code: 'ALL_INCLUSIVE', name: 'Todo incluido', category: 'FOOD' },
   { code: 'ROOM_SERVICE', name: 'Servicio a la habitación', category: 'FOOD' },
   { code: 'BUSINESS_CENTER', name: 'Centro de negocios', category: 'BUSINESS' },
+  { code: 'HEATING', name: 'Calefacción', category: 'GENERAL' },
+  { code: 'FREE_PARKING', name: 'Estacionamiento gratuito', category: 'GENERAL' },
+  { code: 'EV_CHARGER', name: 'Cargador para vehículos eléctricos', category: 'GENERAL' },
+  { code: 'LUGGAGE_STORAGE', name: 'Consigna de equipaje', category: 'GENERAL' },
+  { code: '24H_FRONT_DESK', name: 'Recepción 24 horas', category: 'GENERAL' },
+  { code: 'CONCIERGE', name: 'Conserjería', category: 'GENERAL' },
+  { code: 'LAUNDRY', name: 'Lavandería', category: 'GENERAL' },
+  { code: 'LOUNGE', name: 'Salón', category: 'FOOD' },
+  { code: 'ROOFTOP_BAR', name: 'Bar en azotea', category: 'FOOD' },
+  { code: 'COFFEE_SHOP', name: 'Cafetería', category: 'FOOD' },
+  { code: 'VEGAN_OPTIONS', name: 'Opciones veganas', category: 'FOOD' },
+  { code: 'HALAL', name: 'Opciones halal', category: 'FOOD' },
+  { code: 'KOSHER', name: 'Opciones kosher', category: 'FOOD' },
+  { code: 'SAUNA', name: 'Sauna', category: 'WELLNESS' },
+  { code: 'JACUZZI', name: 'Jacuzzi', category: 'WELLNESS' },
+  { code: 'MASSAGE', name: 'Masajes', category: 'WELLNESS' },
+  { code: 'YOGA', name: 'Yoga', category: 'WELLNESS' },
+  { code: 'MEDITATION', name: 'Meditación', category: 'WELLNESS' },
+  { code: 'HOT_SPRING', name: 'Aguas termales', category: 'WELLNESS' },
+  { code: 'BEAUTY_SALON', name: 'Salón de belleza', category: 'WELLNESS' },
+  { code: 'BABYSITTING', name: 'Cuidado de niños', category: 'FAMILY' },
+  { code: 'PLAYGROUND', name: 'Área de juegos', category: 'FAMILY' },
+  { code: 'KIDS_POOL', name: 'Alberca infantil', category: 'FAMILY' },
+  { code: 'FAMILY_ROOMS', name: 'Habitaciones familiares', category: 'FAMILY' },
+  { code: 'INDOOR_POOL', name: 'Alberca interior', category: 'RECREATION' },
+  { code: 'OUTDOOR_POOL', name: 'Alberca exterior', category: 'RECREATION' },
+  { code: 'INFINITY_POOL', name: 'Alberca infinita', category: 'RECREATION' },
+  { code: 'TENNIS', name: 'Tenis', category: 'RECREATION' },
+  { code: 'PADEL', name: 'Pádel', category: 'RECREATION' },
+  { code: 'MINI_GOLF', name: 'Minigolf', category: 'RECREATION' },
+  { code: 'WATER_SPORTS', name: 'Deportes acuáticos', category: 'RECREATION' },
+  { code: 'DIVING', name: 'Buceo', category: 'RECREATION' },
+  { code: 'SNORKELING', name: 'Esnórquel', category: 'RECREATION' },
+  { code: 'SURF_SCHOOL', name: 'Escuela de surf', category: 'RECREATION' },
+  { code: 'SKI_STORAGE', name: 'Guardaesquís', category: 'RECREATION' },
+  { code: 'BIKE_RENTAL', name: 'Alquiler de bicicletas', category: 'RECREATION' },
+  { code: 'GAME_ROOM', name: 'Sala de juegos', category: 'RECREATION' },
+  { code: 'CINEMA', name: 'Cine', category: 'RECREATION' },
+  { code: 'KARAOKE', name: 'Karaoke', category: 'RECREATION' },
+  { code: 'FREE_SHUTTLE', name: 'Traslado gratuito', category: 'TRANSPORT' },
+  { code: 'CAR_RENTAL', name: 'Alquiler de automóviles', category: 'TRANSPORT' },
+  { code: 'TAXI_SERVICE', name: 'Servicio de taxi', category: 'TRANSPORT' },
+  { code: 'BIKE_PARKING', name: 'Estacionamiento para bicicletas', category: 'TRANSPORT' },
+  { code: 'MEETING_ROOMS', name: 'Salas de reuniones', category: 'BUSINESS' },
+  { code: 'CONFERENCE_FACILITIES', name: 'Instalaciones para conferencias', category: 'BUSINESS' },
+  { code: 'COWORKING', name: 'Espacio de coworking', category: 'BUSINESS' },
+  { code: 'PRINTER', name: 'Impresora', category: 'BUSINESS' },
+  { code: 'WHEELCHAIR_ACCESSIBLE', name: 'Acceso para silla de ruedas', category: 'ACCESSIBILITY' },
+  { code: 'WHEELCHAIR_RENTAL', name: 'Alquiler de sillas de ruedas', category: 'ACCESSIBILITY' },
+  { code: 'BRAILLE', name: 'Señalización en braille', category: 'ACCESSIBILITY' },
+  { code: 'AUDIO_GUIDE', name: 'Audioguía', category: 'ACCESSIBILITY' },
+  { code: 'HEARING_LOOP', name: 'Bucle magnético', category: 'ACCESSIBILITY' },
+  { code: 'SERVICE_ANIMALS', name: 'Animales de asistencia', category: 'ACCESSIBILITY' },
+  { code: 'ACCESSIBLE_BATHROOM', name: 'Baño accesible', category: 'ACCESSIBILITY' },
+  { code: 'ACCESSIBLE_PARKING', name: 'Estacionamiento accesible', category: 'ACCESSIBILITY' },
+  { code: 'ELEVATOR', name: 'Elevador', category: 'ACCESSIBILITY' },
+  { code: 'ECO_CERTIFIED', name: 'Certificación ecológica', category: 'SUSTAINABILITY' },
+  { code: 'SOLAR_POWER', name: 'Energía solar', category: 'SUSTAINABILITY' },
+  { code: 'WATER_RECYCLING', name: 'Reciclaje de agua', category: 'SUSTAINABILITY' },
+  { code: 'LOCAL_SOURCING', name: 'Abastecimiento local', category: 'SUSTAINABILITY' },
+  { code: 'CARBON_NEUTRAL', name: 'Carbono neutral', category: 'SUSTAINABILITY' },
+  { code: 'NO_SINGLE_USE_PLASTIC', name: 'Sin plásticos de un solo uso', category: 'SUSTAINABILITY' },
+  { code: 'GREEN_KEY', name: 'Certificación Green Key', category: 'SUSTAINABILITY' },
+  { code: 'LEED_CERTIFIED', name: 'Certificación LEED', category: 'SUSTAINABILITY' },
+  { code: 'CCTV', name: 'Videovigilancia', category: 'SAFETY' },
+  { code: 'SAFE_DEPOSIT', name: 'Caja de seguridad', category: 'SAFETY' },
+  { code: 'SMOKE_DETECTORS', name: 'Detectores de humo', category: 'SAFETY' },
+  { code: 'FIRE_EXTINGUISHERS', name: 'Extintores', category: 'SAFETY' },
+  { code: 'FIRST_AID', name: 'Primeros auxilios', category: 'SAFETY' },
+  { code: '24H_SECURITY', name: 'Seguridad 24 horas', category: 'SAFETY' },
 ];
 
 const NAME_PREFIXES = ['Grand', 'Royal', 'Boutique', 'Plaza', 'Vista', 'Oasis', 'Imperial', 'Central', 'Golden', 'Blue'];
@@ -161,7 +266,28 @@ const ROOM_TEMPLATES: RoomTemplate[] = [
   { name: 'Presidential Suite', code: 'PRS', mult: 3.2, adults: 4, children: 2, size: 90, bed: 'King', maxUnits: 2 },
 ];
 
-const BASE_PRICE_BY_STARS: Record<number, number> = { 2: 45, 3: 70, 4: 120, 5: 230 };
+const BASE_PRICE_BY_STARS: Record<number, number> = { 2: 45, 3: 70, 4: 120, 5: 380 };
+const CHAIN_BRANDS = ['Aleca Collection', 'Marriott', 'Hilton', 'Hyatt', 'Accor', 'Wyndham'];
+const chainBrandByRegion = new Map<string, string>();
+const VIBES = ['modern', 'classic', 'rustic', 'minimalist', 'bohemian', 'colonial', 'contemporary', 'traditional'];
+const HOTEL_THEMES = [
+  'beach', 'city', 'mountain', 'romantic', 'family', 'business', 'wellness', 'nightlife', 'adventure',
+  'culture', 'gastronomy', 'shopping', 'luxury', 'all-inclusive', 'adults-only', 'lgbtq-friendly',
+  'digital-nomad', 'seniors', 'pet-friendly', 'eco', 'ski', 'golf', 'surf', 'hiking', 'art', 'design',
+];
+const AUDIENCES = ['families', 'couples', 'business-travelers', 'solo-travelers', 'adults-only', 'digital-nomads'];
+const CERTIFICATIONS = ['eco-certified', 'green-key', 'leed-certified', 'carbon-neutral'];
+const AWARDS = ['guest-favorite', 'design-award', 'best-value', 'travelers-choice'];
+
+function getChainBrand(region: string): string {
+  let brand = chainBrandByRegion.get(region);
+  if (!brand) {
+    const index = [...region].reduce((sum, character) => sum + character.charCodeAt(0), 0) % CHAIN_BRANDS.length;
+    brand = CHAIN_BRANDS[index];
+    chainBrandByRegion.set(region, brand);
+  }
+  return brand;
+}
 
 const FIRST_NAMES = ['Ana', 'Luis', 'María', 'Carlos', 'Sofía', 'Diego', 'Valentina', 'Jorge', 'Camila', 'Mateo', 'Lucía', 'Andrés', 'Paula', 'Javier', 'Daniela', 'Sergio', 'Elena', 'Pablo', 'Isabel', 'Rafael'];
 const LAST_NAMES = ['García', 'Hernández', 'López', 'Martínez', 'González', 'Pérez', 'Rodríguez', 'Sánchez', 'Ramírez', 'Torres', 'Flores', 'Rivera', 'Gómez', 'Díaz', 'Cruz', 'Morales', 'Reyes', 'Ortiz', 'Vargas', 'Castillo'];
@@ -174,50 +300,147 @@ async function main() {
   if (process.env.NODE_ENV === 'production') {
     throw new Error('El seed destruye datos: no se ejecuta con NODE_ENV=production');
   }
+  if (process.env.SEED_RESUME !== undefined && !['0', '1'].includes(process.env.SEED_RESUME)) {
+    throw new Error('SEED_RESUME solo admite "0" o "1".');
+  }
+  const resumeRequested = process.env.SEED_RESUME === '1';
+  const previousConfig = resumeRequested
+    ? await prisma.seedProgress.findMany({ where: { phase: 'config' }, select: { subPhase: true } })
+    : [];
+  if (previousConfig.length && !previousConfig.some(({ subPhase }) => subPhase === SEED_CONFIG_KEY)) {
+    throw new Error(
+      `La configuración guardada del seed no coincide con ${SEED_CONFIG_KEY}. ` +
+      'Ejecuta el seed sin SEED_RESUME=1 para iniciar desde cero.',
+    );
+  }
+  const resume = resumeRequested && previousConfig.length > 0;
+  if (!resume || !(await isSeedStepComplete(prisma, 'setup', 'catalog'))) {
+    if (resume) {
+      console.warn('   La preparación del catálogo quedó incompleta; se reiniciará el seed para evitar datos parciales.');
+    }
+    await resetSeedData();
+    await markSeedStepComplete(prisma, 'config', SEED_CONFIG_KEY);
+  }
   const SEED_PASSWORD_HASH = await bcrypt.hash('password123', 10);
 
   const t0 = Date.now();
-  console.log(`🌱 Seed iniciado · ${DAYS} días de inventario · escala x${HOTEL_SCALE}`);
+  console.log(
+    `🌱 Seed ${SEED_CONFIG.profile} · ${HOTEL_COUNT} hoteles · ${DAYS} días de inventario · ${EVENT_COUNT} eventos`,
+  );
 
-  // 1) Limpieza rápida: un solo TRUNCATE con CASCADE (mucho más rápido que N deleteMany)
-  await prisma.$executeRawUnsafe(`
-    TRUNCATE TABLE "BookingEvent","BookingItem","Booking","Quote","UserEvent","Favorite",
-      "HotelAmenity","HotelImage","RoomInventory","RoomMapping","ProviderMapping","Room",
-      "Hotel","Amenity","Destination","Provider","Session","Account","VerificationToken",
-      "Profile","User" RESTART IDENTITY CASCADE
-  `);
-
-  // 2) Proveedores
-  const providers = [
-    { id: randomUUID(), code: 'LOCAL', name: 'Inventario propio' },
-    { id: randomUUID(), code: 'HOTELBEDS', name: 'Hotelbeds (HBX)' },
-    { id: randomUUID(), code: 'OMNIBEES', name: 'Omnibees' },
+  const poiTemplates: { kind: POIKind; name: string; themes?: string[] }[] = [
+    { kind: 'AIRPORT', name: 'Aeropuerto Internacional' },
+    { kind: 'BEACH', name: 'Playa', themes: ['beach'] },
+    { kind: 'LANDMARK', name: 'Centro histórico' },
+    { kind: 'MALL', name: 'Centro comercial' },
+    { kind: 'PARK', name: 'Parque principal' },
+    { kind: 'MUSEUM', name: 'Museo regional' },
+    { kind: 'CONVENTION_CENTER', name: 'Centro de convenciones', themes: ['business'] },
+    { kind: 'STADIUM', name: 'Estadio municipal' },
   ];
-  await prisma.provider.createMany({ data: providers });
-  const providerId = Object.fromEntries(providers.map((p) => [p.code, p.id])) as Record<string, string>;
 
-  // 3) Amenidades
-  const amenityRows = AMENITIES.map((a) => ({ id: randomUUID(), ...a }));
-  await prisma.amenity.createMany({ data: amenityRows });
+  const setupComplete = await isSeedStepComplete(prisma, 'setup', 'catalog');
+  let providerRows = await prisma.provider.findMany({ select: { id: true, code: true } });
+  let amenityRows = await prisma.amenity.findMany({ select: { id: true, code: true } });
+  let destRows = await prisma.destination.findMany({
+    orderBy: { slug: 'asc' },
+    select: {
+      id: true, slug: true, name: true, code: true, countryCode: true,
+      latitude: true, longitude: true, themes: true, popularityScore: true,
+      isFeatured: true, description: true, imageUrl: true, searchKey: true,
+    },
+  });
+  if (!setupComplete) {
+    // 1) Catálogo base
+    const providers = [
+      { id: randomUUID(), code: 'LOCAL', name: 'Inventario propio' },
+      { id: randomUUID(), code: 'HOTELBEDS', name: 'Hotelbeds (HBX)' },
+      { id: randomUUID(), code: 'OMNIBEES', name: 'Omnibees' },
+    ];
+    await prisma.provider.createMany({ data: providers });
+    providerRows = providers;
+
+    const generatedAmenities = AMENITIES.map((a) => ({ id: randomUUID(), ...a }));
+    await prisma.amenity.createMany({ data: generatedAmenities });
+    amenityRows = generatedAmenities;
+
+    const generatedDestinations: Prisma.DestinationCreateManyInput[] = DESTINATIONS.map((d) => ({
+      id: randomUUID(),
+      slug: slugify(d.name),
+      name: d.name,
+      code: d.code,
+      countryCode: d.country,
+      latitude: d.lat,
+      longitude: d.lng,
+      themes: d.themes,
+      popularityScore: d.pop,
+      isFeatured: d.pop >= 85,
+      description: `Descubre ${d.name}: hoteles seleccionados para viajeros de ${d.themes.slice(0, 2).join(' y ')}.`,
+      imageUrl: `https://picsum.photos/seed/${slugify(d.name)}/1200/800`,
+      searchKey: normalize(`${d.name} ${d.code}`),
+    }));
+    await prisma.destination.createMany({ data: generatedDestinations });
+    destRows = await prisma.destination.findMany({
+      orderBy: { slug: 'asc' },
+      select: {
+        id: true, slug: true, name: true, code: true, countryCode: true,
+        latitude: true, longitude: true, themes: true, popularityScore: true,
+        isFeatured: true, description: true, imageUrl: true, searchKey: true,
+      },
+    });
+
+    const poiRows: Prisma.PointOfInterestCreateManyInput[] = [];
+    const generatedDestinationIds = new Map(
+      destRows.map((destination) => [destination.slug, destination.id]),
+    );
+    for (const destination of DESTINATIONS) {
+      const destinationRowId = generatedDestinationIds.get(slugify(destination.name));
+      if (!destinationRowId) throw new Error(`No se generó el destino "${destination.name}".`);
+      const templates = poiTemplates.filter(
+        (template) => !template.themes || template.themes.some((theme) => destination.themes.includes(theme)),
+      );
+      const airport = templates.find((template) => template.kind === 'AIRPORT');
+      if (!airport) throw new Error(`Falta una plantilla de aeropuerto para ${destination.name}.`);
+      const selected = [airport, ...sample(templates.filter((template) => template !== airport), 4)];
+      selected.forEach((template) => {
+        poiRows.push({
+          id: randomUUID(),
+          kind: template.kind,
+          name: `${destination.name} ${template.name}`,
+          latitude: destination.lat + (rand() - 0.5) * 0.08,
+          longitude: destination.lng + (rand() - 0.5) * 0.08,
+          destinationId: destinationRowId,
+        });
+      });
+    }
+    await prisma.pointOfInterest.createMany({ data: poiRows });
+    await markSeedStepComplete(prisma, 'setup', 'catalog');
+  } else {
+    console.log('   Catálogo base ya completado; se reutiliza.');
+  }
+
+  const providerId = Object.fromEntries(providerRows.map((p) => [p.code, p.id])) as Record<string, string>;
+  const getProviderId = (code: string): string => {
+    const id = providerId[code];
+    if (!id) throw new Error(`No existe el proveedor ${code} en los datos semilla.`);
+    return id;
+  };
   const amenityId = Object.fromEntries(amenityRows.map((a) => [a.code, a.id])) as Record<string, string>;
-
-  // 4) Destinos
-  const destRows: Prisma.DestinationCreateManyInput[] = DESTINATIONS.map((d) => ({
-    id: randomUUID(),
-    slug: slugify(d.name),
-    name: d.name,
-    code: d.code,
-    countryCode: d.country,
-    latitude: d.lat,
-    longitude: d.lng,
-    themes: d.themes,
-    popularityScore: d.pop,
-    isFeatured: d.pop >= 85,
-    description: `Descubre ${d.name}: hoteles seleccionados para viajeros de ${d.themes.slice(0, 2).join(' y ')}.`,
-    imageUrl: `https://picsum.photos/seed/${slugify(d.name)}/1200/800`,
-    searchKey: normalize(`${d.name} ${d.code}`),
-  }));
-  await prisma.destination.createMany({ data: destRows });
+  const destinationId = new Map(destRows.map((destination) => [destination.slug, destination.id]));
+  const getDestinationId = (slug: string): string => {
+    const id = destinationId.get(slug);
+    if (!id) throw new Error(`No existe el destino "${slug}" en el catálogo.`);
+    return id;
+  };
+  const pois = await prisma.pointOfInterest.findMany({
+    select: { id: true, destinationId: true, kind: true, latitude: true, longitude: true },
+  });
+  const poiByDestination = new Map<string, typeof pois>();
+  for (const poi of pois) {
+    const destinationPois = poiByDestination.get(poi.destinationId) ?? [];
+    destinationPois.push(poi);
+    poiByDestination.set(poi.destinationId, destinationPois);
+  }
 
   // 5) Hoteles + habitaciones + inventario (todo en memoria y luego inserción por lotes)
   const hotels: Prisma.HotelCreateManyInput[] = [];
@@ -227,13 +450,14 @@ async function main() {
   const inventory: Prisma.RoomInventoryCreateManyInput[] = [];
   const mappings: Prisma.ProviderMappingCreateManyInput[] = [];
   const roomMappings: Prisma.RoomMappingCreateManyInput[] = [];
+  const hotelTags: Prisma.HotelTagCreateManyInput[] = [];
+  const hotelPOIs: Prisma.HotelPointOfInterestCreateManyInput[] = [];
   const roomsMeta: { id: string; hotelId: string; providerId: string; base: number }[] = [];
   const usedSlugs = new Set<string>();
   let hbCounter = 0;
   let obCounter = 0;
 
     // ── Contadores de lo realmente insertado (los arrays se vacían con splice) ──
-    let hotelsBuilt = 0;
     let roomsBuilt = 0;
     let inventoryBuilt = 0;
   
@@ -267,39 +491,87 @@ async function main() {
     async function flushBatch() {
       if (hotels.length) {
         const batch = hotels.splice(0);
-        await withRetry('hotels', () => inChunks(batch, (c) => prisma.hotel.createMany({ data: c })));
+        await withRetry('hotels', () =>
+          inChunks(batch, (c) => prisma.hotel.createMany({ data: c, skipDuplicates: true })),
+        );
       }
       if (images.length) {
         const batch = images.splice(0);
-        await withRetry('images', () => inChunks(batch, (c) => prisma.hotelImage.createMany({ data: c })));
+        await withRetry('images', () =>
+          inChunks(batch, (c) => prisma.hotelImage.createMany({ data: c, skipDuplicates: true })),
+        );
       }
       if (hotelAmenities.length) {
         const batch = hotelAmenities.splice(0);
-        await withRetry('hotelAmenities', () => inChunks(batch, (c) => prisma.hotelAmenity.createMany({ data: c })));
+        await withRetry('hotelAmenities', () =>
+          inChunks(batch, (c) => prisma.hotelAmenity.createMany({ data: c, skipDuplicates: true })),
+        );
+      }
+      if (hotelTags.length) {
+        const batch = hotelTags.splice(0);
+        await withRetry('hotelTags', () =>
+          inChunks(batch, (c) => prisma.hotelTag.createMany({ data: c, skipDuplicates: true })),
+        );
+      }
+      if (hotelPOIs.length) {
+        const batch = hotelPOIs.splice(0);
+        await withRetry('hotelPOIs', () =>
+          inChunks(batch, (c) => prisma.hotelPointOfInterest.createMany({ data: c, skipDuplicates: true })),
+        );
       }
       if (mappings.length) {
         const batch = mappings.splice(0);
-        await withRetry('mappings', () => inChunks(batch, (c) => prisma.providerMapping.createMany({ data: c })));
+        await withRetry('mappings', () =>
+          inChunks(batch, (c) => prisma.providerMapping.createMany({ data: c, skipDuplicates: true })),
+        );
       }
       if (rooms.length) {
         const batch = rooms.splice(0);
         roomsBuilt += batch.length;
-        await withRetry('rooms', () => inChunks(batch, (c) => prisma.room.createMany({ data: c })));
+        await withRetry('rooms', () =>
+          inChunks(batch, (c) => prisma.room.createMany({ data: c, skipDuplicates: true })),
+        );
       }
       if (inventory.length) {
         const batch = inventory.splice(0);
         inventoryBuilt += batch.length;
-        await withRetry('inventory', () => inChunks(batch, (c) => prisma.roomInventory.createMany({ data: c })));
+        if (Math.floor((inventoryBuilt - batch.length) / 5_000) < Math.floor(inventoryBuilt / 5_000)) {
+          console.log(`   ... ${inventoryBuilt.toLocaleString()} noches de inventario`);
+        }
+        const insertInventory = () => inChunks(
+          batch,
+          (chunk) => prisma.roomInventory.createMany({ data: chunk, skipDuplicates: true }),
+        );
+        await withRetry('inventory', () =>
+          SEED_CONFIG.profile === 'stress'
+            ? copyRoomInventory(pool, batch, insertInventory)
+            : insertInventory(),
+        );
       }
       if (roomMappings.length) {
         const batch = roomMappings.splice(0);
-        await withRetry('roomMappings', () => inChunks(batch, (c) => prisma.roomMapping.createMany({ data: c })));
+        await withRetry('roomMappings', () =>
+          inChunks(batch, (c) => prisma.roomMapping.createMany({ data: c, skipDuplicates: true })),
+        );
       }
     }
 
+  const hotelCounts = allocateHotelCounts(
+    HOTEL_COUNT,
+    DESTINATIONS.map(({ code, pop }) => ({ code, popularity: pop })),
+  );
   for (const [di, d] of DESTINATIONS.entries()) {
-    const dest = destRows[di];
-    const count = Math.max(3, Math.round((14 + d.pop / 4) * HOTEL_SCALE));
+    const destId = getDestinationId(slugify(d.name));
+    const count = hotelCounts[di];
+    const destinationStep = slugify(d.name);
+    if (resume && await isSeedStepComplete(prisma, 'hotels', destinationStep)) {
+      console.log(`   Destino ya completado: ${d.name}`);
+      continue;
+    }
+    if (resume) {
+      await prisma.hotel.deleteMany({ where: { destinationId: destId } });
+    }
+    rand = createRandom(seedFor(`destination:${d.code}`));
 
     for (let h = 0; h < count; h++) {
       const stars = weighted<number>([[2, 8], [3, 32], [4, 40], [5, 20]]);
@@ -316,27 +588,32 @@ async function main() {
       const hotelId = randomUUID();
       const themes = new Set<string>(sample(d.themes, int(1, Math.min(3, d.themes.length))));
       if (stars === 5) themes.add('luxury');
+      if (stars === 5 && rand() < 0.4) themes.add('adults-only');
+      if (rand() < 0.08) themes.add(pick(HOTEL_THEMES));
       if (rand() < 0.2) themes.add(pick(['family', 'romantic', 'wellness']));
+      const vibes = sample(VIBES, int(1, 3));
 
       const rating = Math.min(9.9, Math.max(5.5, 6.2 + stars * 0.6 + (rand() - 0.5) * 1.6));
       const ratingAvg = Math.round(rating * 10) / 10;
 
       // Amenidades coherentes con categoría y tema
-      const codes = new Set<string>(['WIFI']);
-      if (stars >= 3) ['AC', 'RESTAURANT'].forEach((c) => codes.add(c));
-      if (stars >= 4) ['POOL', 'GYM', 'BAR'].forEach((c) => codes.add(c));
-      if (stars === 5) ['SPA', 'ROOM_SERVICE'].forEach((c) => codes.add(c));
-      if (themes.has('beach') && rand() < 0.5) codes.add('BEACHFRONT');
-      if (d.themes.includes('all-inclusive') && rand() < 0.4) codes.add('ALL_INCLUSIVE');
-      if (themes.has('family') && rand() < 0.5) codes.add('KIDS_CLUB');
-      if (d.themes.includes('golf') && rand() < 0.4) codes.add('GOLF');
-      if (themes.has('city') && rand() < 0.4) codes.add('BUSINESS_CENTER');
-      if (rand() < 0.2) codes.add('PET_FRIENDLY');
-      if (rand() < 0.4) codes.add('PARKING');
-      if (rand() < 0.3) codes.add('AIRPORT_SHUTTLE');
-      if (rand() < 0.5) codes.add('ACCESSIBLE');
-      if (rand() < 0.6) codes.add('BREAKFAST');
+      const codes = buildAmenityCodes(
+        rand,
+        stars,
+        themes,
+        d.themes,
+        AMENITIES.map((amenity) => amenity.code),
+      );
       codes.forEach((c) => hotelAmenities.push({ hotelId, amenityId: amenityId[c] }));
+      for (const [kind, values] of [
+        ['AUDIENCE', AUDIENCES],
+        ['VIBE', vibes],
+        ['CERTIFICATION', CERTIFICATIONS],
+        ['AWARD', AWARDS],
+      ] as const) {
+        const selected = kind === 'VIBE' ? values : rand() < 0.35 ? [pick([...values])] : [];
+        selected.forEach((value) => hotelTags.push({ hotelId, kind, value }));
+      }
 
       // Proveedor(es) del hotel
       const primary = weighted<string>([['LOCAL', 15], ['HOTELBEDS', 60], ['OMNIBEES', 25]]);
@@ -350,7 +627,7 @@ async function main() {
           : `local-${hotelId}`;
         mappingExternal[code] = externalId;
         mappings.push({
-          id: randomUUID(), providerId: providerId[code], hotelId, externalId,
+          id: randomUUID(), providerId: getProviderId(code), hotelId, externalId,
           lastSyncedAt: code === 'LOCAL' ? null : new Date(),
         });
       }
@@ -359,6 +636,23 @@ async function main() {
       const base = BASE_PRICE_BY_STARS[stars] * d.priceIndex;
       const phase = int(0, 75);
       let minPrice: number | null = null;
+      const hotelLatitude = d.lat + (rand() - 0.5) * 0.1;
+      const hotelLongitude = d.lng + (rand() - 0.5) * 0.1;
+      const poiCandidates = poiByDestination.get(destId) ?? [];
+      const hotelPoiSelection = sample(poiCandidates, Math.min(poiCandidates.length, int(1, 3)));
+      hotelPoiSelection.forEach((poi) =>
+        hotelPOIs.push({
+          hotelId,
+          poiId: poi.id,
+          distanceMeters: distanceMeters(hotelLatitude, hotelLongitude, poi.latitude, poi.longitude),
+        }),
+      );
+      const chain = rand() < 0.3;
+      const regionChainBrand = getChainBrand(d.country);
+      const hotelBoardTypes = sample(
+        ['ROOM_ONLY', 'BREAKFAST', 'HALF_BOARD', 'FULL_BOARD', 'ALL_INCLUSIVE'] as const,
+        int(1, 3),
+      );
       const pool = ROOM_TEMPLATES.filter((t) => (t.name.includes('Ocean') ? themes.has('beach') : true));
       const chosen = sample(pool, int(3, Math.min(6, pool.length)));
 
@@ -367,13 +661,23 @@ async function main() {
         rooms.push({
           id: roomId, hotelId, name: t.name, code: t.code,
           maxAdults: t.adults, maxChildren: t.children, sizeM2: t.size, bedType: t.bed,
+          viewType: t.name.includes('Ocean') ? 'SEA' : t.name.includes('City') ? 'CITY' : 'NONE',
+          boardType: pick([...hotelBoardTypes]),
+          hasBalcony: themes.has('beach') && rand() < 0.4,
+          hasTerrace: stars >= 4 && rand() < 0.25,
+          hasKitchen: t.name.includes('Suite') && rand() < 0.3,
+          hasJacuzzi: stars === 5 && rand() < 0.2,
+          isAccessible: rand() < 0.15,
+          smokingAllowed: false,
+          bedCount: t.bed.startsWith('2 ') ? 2 : 1,
+          floor: int(1, 20),
         });
-        roomsMeta.push({ id: roomId, hotelId, providerId: providerId[primary], base: base * t.mult });
+        roomsMeta.push({ id: roomId, hotelId, providerId: getProviderId(primary), base: base * t.mult });
 
         for (const code of hotelProviders) {
           if (code === 'LOCAL') continue;
           roomMappings.push({
-            id: randomUUID(), providerId: providerId[code], roomId,
+            id: randomUUID(), providerId: getProviderId(code), roomId,
             externalCode: `${mappingExternal[code]}-${t.code}`,
           });
         }
@@ -383,7 +687,7 @@ async function main() {
           const dow = date.getUTCDay();
           const weekend = dow === 5 || dow === 6 ? 1.15 : 1; // viernes/sábado más caros
           const season = 1 + 0.18 * Math.sin((2 * Math.PI * (i + phase)) / 75); // temporadas
-          const price = round2(base * t.mult * weekend * season * (0.95 + rand() * 0.1));
+          const price = round2(base * t.mult * weekend * season * generateLogNormal(rand, 1, 0.12));
           const available = rand() < 0.08 ? 0 : int(1, t.maxUnits); // ~8% de noches cerradas
           inventory.push({ roomId, date, available, priceAmount: price, currency: 'USD' });
           if (available > 0 && (minPrice === null || price < minPrice)) minPrice = price;
@@ -400,17 +704,61 @@ async function main() {
       hotels.push({
         id: hotelId, slug, title, categoryStars: stars, status: 'ACTIVE',
         description: `${title}, ${stars} estrellas en ${d.name}.`,
-        latitude: d.lat + (rand() - 0.5) * 0.1,
-        longitude: d.lng + (rand() - 0.5) * 0.1,
-        ratingAvg, reviewCount: int(15, 3500),
+        latitude: hotelLatitude,
+        longitude: hotelLongitude,
+        countryCode: d.country,
+        regionCode: d.country,
+        neighborhood: `${d.name} ${pick(['Centro', 'Norte', 'Sur', 'Zona Hotelera'])}`,
+        zone: themes.has('beach') ? 'Coastal' : themes.has('city') ? 'Downtown' : 'Central',
+        distanceToBeachMeters: themes.has('beach') ? (rand() < 0.5 ? int(50, 499) : int(500, 8_000)) : null,
+        distanceToAirportKm: round2(1 + rand() * 50),
+        distanceToCenterMeters: int(100, 10_000),
+        distanceToSkiLiftMeters: themes.has('mountain') ? int(50, 5_000) : null,
+        distanceToMetroMeters: themes.has('city') ? (rand() < 0.6 ? int(50, 999) : int(1_000, 5_000)) : null,
+        propertyType: weighted<PropertyType>([
+          ['HOTEL', 45], ['RESORT', 15], ['HOSTEL', 5], ['APARTMENT', 8], ['VILLA', 5],
+          ['BOUTIQUE_HOTEL', 8], ['BED_AND_BREAKFAST', 4], ['MOTEL', 3], ['LODGE', 4], ['APARTHOTEL', 3],
+        ]),
+        chainBrand: chain ? regionChainBrand : null,
+        isLuxury: stars === 5 || (stars === 4 && rand() < 0.15),
+        isBoutique: rand() < 0.2,
+        isChain: chain,
+        yearBuilt: int(1960, 2020),
+        yearRenovated: rand() < 0.4 ? int(2010, 2025) : null,
+        totalRooms: chosen.reduce((sum, template) => sum + template.maxUnits, 0),
+        ratingAvg,
+        reviewCount: int(15, 3500),
+        ratingCleanliness: round2(Math.min(9.9, ratingAvg + (rand() - 0.5))),
+        ratingService: round2(Math.min(9.9, ratingAvg + (rand() - 0.5))),
+        ratingLocation: round2(Math.min(9.9, ratingAvg + (rand() - 0.5))),
+        ratingValue: round2(Math.min(9.9, ratingAvg + (rand() - 0.5))),
         popularityScore: popularityScore,
+        bookingCount30d: int(0, 300),
+        viewCount30d: int(0, 5_000),
+        conversionRate30d: round2(rand() * 0.12),
+        providerCount: hotelProviders.length,
+        bestRateGuarantee: rand() < 0.7,
         priceFrom: minPrice, priceCurrency: 'USD', priceUpdatedAt: new Date(),
+        priceBucket: priceBucketFor(minPrice),
         themes: [...themes],
+        vibes,
+        amenityCodes: [...codes],
+        boardTypes: [...hotelBoardTypes],
+        cancellationType: weighted<CancellationType>([['FREE', 55], ['PARTIAL', 25], ['NON_REFUNDABLE', 20]]),
+        cancellationWindowHours: int(24, 168),
+        paymentType: weighted<PaymentType>([['PREPAID', 45], ['AT_PROPERTY', 35], ['DEPOSIT', 20]]),
+        minAge: themes.has('adults-only') ? 18 : 0,
+        petsAllowed: codes.has('PET_FRIENDLY'),
+        petsFee: codes.has('PET_FRIENDLY') ? round2(int(0, 50)) : null,
+        childrenAllowed: !themes.has('adults-only'),
+        checkInTime: '15:00',
+        checkOutTime: '11:00',
+        smokingAllowed: false,
         mainImageUrl: `https://picsum.photos/seed/${slug}-0/1200/800`,
         searchKey: normalize(`${title} ${d.name} ${d.code}`),
-        destinationId: String(dest.id),
+        destinationId: destId,
       });
-      hotelsLite.push({ id: hotelId, popularityScore, destinationId: String(dest.id) });
+      hotelsLite.push({ id: hotelId, popularityScore, destinationId: destId });
       // Trigger de flush cada HOTEL_BATCH_SIZE hoteles
       hotelsInBatch++;
       if (hotelsInBatch >= HOTEL_BATCH_SIZE) {
@@ -421,40 +769,94 @@ async function main() {
         }
       }
     }
+    await flushBatch();
+    hotelsInBatch = 0;
+    await markSeedStepComplete(prisma, 'hotels', destinationStep);
   };
-  // Cerrar el último batch parcial
-  await flushBatch();
-  console.log(`   ${hotelsLite.length} hoteles, ${roomsBuilt} habitaciones, ${inventoryBuilt} noches insertadas`);
+  hotelsLite.length = 0;
+  hotelsLite.push(...await prisma.hotel.findMany({
+    select: { id: true, popularityScore: true, destinationId: true },
+  }));
+  console.log(
+    `   ${hotelsLite.length} hoteles, ${roomsBuilt} habitaciones generadas en esta ejecución, ` +
+    `${inventoryBuilt} noches insertadas`,
+  );
 
-  // 6) Usuarios: 1 admin, 1 agente y 60 clientes con perfil
-  const users: Prisma.UserCreateManyInput[] = [
-    { id: randomUUID(), email: 'admin@agencia.test', name: 'Admin Agencia', role: 'ADMIN', emailVerified: new Date(), password: SEED_PASSWORD_HASH },
-    { id: randomUUID(), email: 'agente@agencia.test', name: 'Agente Demo', role: 'AGENT', emailVerified: new Date() , password: SEED_PASSWORD_HASH },
-  ];
-  for (let i = 0; i < 60; i++) {
-    const first = pick(FIRST_NAMES);
-    const last = pick(LAST_NAMES);
-    users.push({
-      id: randomUUID(),
-      email: `${normalize(first)}.${normalize(last)}${i}@example.com`, // siempre normalizado
-      name: `${first} ${last}`,
-      role: 'CUSTOMER',
-      emailVerified: rand() < 0.8 ? new Date() : null,
-      password: SEED_PASSWORD_HASH,
+  // 6) Usuarios: si el proceso se interrumpe, se rehace esta fase completa.
+  const usersComplete = resume && await isSeedStepComplete(prisma, 'accounts', 'users');
+  let users: { id: string; email: string; name: string | null; role: string }[];
+  if (usersComplete) {
+    users = await prisma.user.findMany({ select: { id: true, email: true, name: true, role: true } });
+  } else {
+    if (resume) {
+      await prisma.booking.deleteMany();
+      await prisma.quote.deleteMany();
+      await prisma.userEvent.deleteMany();
+      await prisma.favorite.deleteMany();
+      await prisma.user.deleteMany();
+    }
+    rand = createRandom(seedFor('users'));
+    const generatedUsers: Prisma.UserCreateManyInput[] = [
+      { id: randomUUID(), email: 'admin@agencia.test', name: 'Admin Agencia', role: 'ADMIN', emailVerified: new Date(), password: SEED_PASSWORD_HASH },
+      { id: randomUUID(), email: 'agente@agencia.test', name: 'Agente Demo', role: 'AGENT', emailVerified: new Date(), password: SEED_PASSWORD_HASH },
+    ];
+    for (let i = 0; i < 60; i++) {
+      const first = pick(FIRST_NAMES);
+      const last = pick(LAST_NAMES);
+      generatedUsers.push({
+        id: randomUUID(),
+        email: `${normalize(first)}.${normalize(last)}${i}@example.com`,
+        name: `${first} ${last}`,
+        role: 'CUSTOMER',
+        emailVerified: rand() < 0.8 ? new Date() : null,
+        password: SEED_PASSWORD_HASH,
+      });
+    }
+    await prisma.user.createMany({ data: generatedUsers });
+    await prisma.profile.createMany({
+      data: generatedUsers.map((user) => ({
+        id: randomUUID(),
+        userId: String(user.id),
+        phone: `+52 33 ${int(1000, 9999)} ${int(1000, 9999)}`,
+        country: weighted<string>([['MX', 70], ['US', 10], ['CO', 8], ['ES', 6], ['AR', 6]]),
+        currency: 'MXN',
+      })),
+    });
+    await markSeedStepComplete(prisma, 'accounts', 'users');
+    users = generatedUsers.map((user) => ({
+      id: String(user.id),
+      email: String(user.email),
+      name: user.name ?? null,
+      role: String(user.role),
+    }));
+  }
+  const customers = users.filter((user) => user.role === 'CUSTOMER');
+  const localProviderId = getProviderId('LOCAL');
+  const dbRooms = await prisma.room.findMany({
+    select: {
+      id: true,
+      hotelId: true,
+      inventory: { orderBy: { date: 'asc' }, take: 1, select: { priceAmount: true } },
+      mappings: { take: 1, select: { providerId: true } },
+    },
+  });
+  roomsMeta.length = 0;
+  for (const room of dbRooms) {
+    const firstNight = room.inventory[0];
+    if (!firstNight) throw new Error(`La habitación ${room.id} no tiene inventario para generar reservas.`);
+    roomsMeta.push({
+      id: room.id,
+      hotelId: room.hotelId,
+      providerId: room.mappings[0]?.providerId ?? localProviderId,
+      base: Number(firstNight.priceAmount),
     });
   }
-  await prisma.user.createMany({ data: users });
-  await prisma.profile.createMany({
-    data: users.map((u) => ({
-      id: randomUUID(), userId: u.id as string,
-      phone: `+52 33 ${int(1000, 9999)} ${int(1000, 9999)}`,
-      country: weighted<string>([['MX', 70], ['US', 10], ['CO', 8], ['ES', 6], ['AR', 6]]),
-      currency: 'MXN',
-    })),
-  });
-  const customers = users.filter((u) => u.role === 'CUSTOMER');
 
   // 7) Reservas históricas con ítems y bitácora (estados variados)
+  const bookingsComplete = resume && await isSeedStepComplete(prisma, 'bookings', 'history');
+  if (!bookingsComplete) {
+    if (resume) await prisma.booking.deleteMany();
+    rand = createRandom(seedFor('bookings'));
   const bookings: Prisma.BookingCreateManyInput[] = [];
   const bookingItems: Prisma.BookingItemCreateManyInput[] = [];
   const bookingEvents: Prisma.BookingEventCreateManyInput[] = [];
@@ -480,7 +882,7 @@ async function main() {
     for (let k = 0; k < nItems; k++) {
       const meta = pick(roomsMeta);
       const nights = int(2, 7);
-      const start = int(5, Math.max(6, DAYS - 10));
+      const start = int(0, Math.max(0, DAYS - nights));
       const price = round2(meta.base * nights * (0.9 + rand() * 0.3));
       total += price;
       const isLocal = meta.providerId === providerId.LOCAL;
@@ -517,46 +919,68 @@ async function main() {
   await prisma.booking.createMany({ data: bookings });
   await prisma.bookingItem.createMany({ data: bookingItems });
   await prisma.bookingEvent.createMany({ data: bookingEvents });
+    await markSeedStepComplete(prisma, 'bookings', 'history');
+  }
 
   // 8) Señales de comportamiento (recomendaciones) y favoritos
   // Los hoteles populares reciben más tráfico: índice = rand² => sesgo hacia el inicio
-  const hotelsByPop = [...hotelsLite].sort((a, b) => b.popularityScore - a.popularityScore);
-  const popularHotel = () => hotelsByPop[Math.floor(rand() * rand() * hotelsByPop.length)];
-  const destByHotel = new Map(hotelsLite.map((h) => [h.id, h.destinationId]));
-
+  const behaviorComplete = resume && await isSeedStepComplete(prisma, 'behavior', 'signals');
   const events: Prisma.UserEventCreateManyInput[] = [];
-  for (let i = 0; i < 4000; i++) {
-    const type = weighted<'SEARCH' | 'HOTEL_VIEW' | 'CART_ADD' | 'CHECKOUT_START' | 'BOOKED'>([
-      ['SEARCH', 35], ['HOTEL_VIEW', 45], ['CART_ADD', 10], ['CHECKOUT_START', 6], ['BOOKED', 4],
-    ]);
-    const isUser = rand() < 0.5;
-    const createdAt = new Date(Date.now() - int(0, 30 * 86_400_000));
-    if (type === 'SEARCH') {
-      const d = pick(destRows);
-      events.push({ id: randomUUID(), type, createdAt, destinationId: d.id, query: d.name,
-        userId: isUser ? (pick(customers).id as string) : null, anonymousId: isUser ? null : `anon-${int(1, 400)}` });
-    } else {
-      const h = popularHotel();
-      events.push({ id: randomUUID(), type, createdAt, hotelId: h.id as string, destinationId: destByHotel.get(h.id as string),
-        userId: isUser ? (pick(customers).id as string) : null, anonymousId: isUser ? null : `anon-${int(1, 400)}` });
+  if (!behaviorComplete) {
+    if (resume) {
+      await prisma.userEvent.deleteMany();
+      await prisma.favorite.deleteMany();
     }
-  }
-  await inChunks(events, (c) => prisma.userEvent.createMany({ data: c }));
+    rand = createRandom(seedFor('behavior'));
+    const hotelsByPop = [...hotelsLite].sort((a, b) => b.popularityScore - a.popularityScore);
+    const popularHotel = () => hotelsByPop[Math.floor(rand() * rand() * hotelsByPop.length)];
+    const destByHotel = new Map(hotelsLite.map((hotel) => [hotel.id, hotel.destinationId]));
 
-  const favorites: Prisma.FavoriteCreateManyInput[] = [];
-  for (const u of customers) {
-    const ids = new Set<string>();
-    for (let n = int(0, 6); n > 0; n--) ids.add(popularHotel().id as string);
-    ids.forEach((hotelId) => favorites.push({ userId: u.id as string, hotelId }));
+    for (let i = 0; i < EVENT_COUNT; i++) {
+      const type = weighted<'SEARCH' | 'HOTEL_VIEW' | 'CART_ADD' | 'CHECKOUT_START' | 'BOOKED'>([
+        ['SEARCH', 35], ['HOTEL_VIEW', 45], ['CART_ADD', 10], ['CHECKOUT_START', 6], ['BOOKED', 4],
+      ]);
+      const isUser = rand() < 0.5;
+      const createdAt = new Date(Date.now() - int(0, 30 * 86_400_000));
+      if (type === 'SEARCH') {
+        const destination = pick(destRows);
+        events.push({
+          id: randomUUID(), type, createdAt, destinationId: destination.id, query: destination.name,
+          userId: isUser ? pick(customers).id : null,
+          anonymousId: isUser ? null : `anon-${int(1, 400)}`,
+        });
+      } else {
+        const hotel = popularHotel();
+        events.push({
+          id: randomUUID(), type, createdAt, hotelId: hotel.id,
+          destinationId: destByHotel.get(hotel.id),
+          userId: isUser ? pick(customers).id : null,
+          anonymousId: isUser ? null : `anon-${int(1, 400)}`,
+        });
+      }
+    }
+    await inChunks(events, (chunk) => prisma.userEvent.createMany({ data: chunk, skipDuplicates: true }));
+
+    const favorites: Prisma.FavoriteCreateManyInput[] = [];
+    for (const user of customers) {
+      const ids = new Set<string>();
+      for (let n = int(0, 6); n > 0; n--) ids.add(popularHotel().id);
+      ids.forEach((hotelId) => favorites.push({ userId: user.id, hotelId }));
+    }
+    await prisma.favorite.createMany({ data: favorites, skipDuplicates: true });
+    await markSeedStepComplete(prisma, 'behavior', 'signals');
   }
-  await prisma.favorite.createMany({ data: favorites });
 
   // 9) Resumen
   const secs = ((Date.now() - t0) / 1000).toFixed(1);
+  const [totalRooms, totalInventory] = await Promise.all([
+    prisma.room.count(),
+    prisma.roomInventory.count(),
+  ]);
   console.log(
     `✅ Listo en ${secs}s · ${destRows.length} destinos · ${hotelsLite.length} hoteles · ` +
-      `${roomsBuilt} habitaciones · ${inventoryBuilt} noches · ${users.length} usuarios · ` +
-      `${bookings.length} reservas · ${events.length} eventos`,
+      `${totalRooms} habitaciones · ${totalInventory} noches · ${users.length} usuarios · ` +
+      `${await prisma.booking.count()} reservas · ${await prisma.userEvent.count()} eventos`,
   );
 
   if (process.env.SEED_BENCHMARK === '1') {
@@ -577,9 +1001,15 @@ async function main() {
   
 }
 
-main().then()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
+main()
+  .catch((error: unknown) => {
+    console.error(error);
+    process.exitCode = 1;
   })
-  .finally(() => prisma.$disconnect());
+  .finally(async () => {
+    try {
+      await prisma.$disconnect();
+    } finally {
+      await pool.end();
+    }
+  });

@@ -52,6 +52,67 @@ enum EventType {
   BOOKED
 }
 
+enum PropertyType {
+  HOTEL
+  RESORT
+  HOSTEL
+  APARTMENT
+  VILLA
+  BOUTIQUE_HOTEL
+  BED_AND_BREAKFAST
+  MOTEL
+  LODGE
+  APARTHOTEL
+}
+
+enum ViewType {
+  NONE
+  CITY
+  SEA
+  GARDEN
+  MOUNTAIN
+  POOL
+  LANDMARK
+}
+
+enum BoardType {
+  ROOM_ONLY
+  BREAKFAST
+  HALF_BOARD
+  FULL_BOARD
+  ALL_INCLUSIVE
+}
+
+enum CancellationType {
+  FREE
+  PARTIAL
+  NON_REFUNDABLE
+}
+
+enum PaymentType {
+  PREPAID
+  AT_PROPERTY
+  DEPOSIT
+}
+
+enum POIKind {
+  AIRPORT
+  BEACH
+  LANDMARK
+  MALL
+  STADIUM
+  CONVENTION_CENTER
+  PARK
+  MUSEUM
+}
+
+enum TagKind {
+  AUDIENCE
+  VIBE
+  CERTIFICATION
+  AWARD
+}
+
 // ======================================================
 // 1. USUARIOS Y SESIONES
 // Account / Session / VerificationToken siguen el formato del adaptador
@@ -200,8 +261,9 @@ model Destination {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
-  hotels Hotel[]
-  events UserEvent[]
+  hotels           Hotel[]
+  events           UserEvent[]
+  pointsOfInterest PointOfInterest[]
 
   @@index([searchKey(ops: raw("gin_trgm_ops"))], type: Gin)
   @@index([isFeatured, popularityScore(sort: Desc)]) // destinos populares de la landing
@@ -217,22 +279,63 @@ model Hotel {
   categoryStars Int // 1-5
   status        HotelStatus @default(ACTIVE)
 
-  address   String?
-  latitude  Float?
-  longitude Float?
+  address                 String?
+  latitude                Float?
+  longitude               Float?
+  countryCode             String?
+  regionCode              String?
+  neighborhood            String?
+  zone                    String?
+  distanceToBeachMeters   Int?
+  distanceToAirportKm     Float?
+  distanceToCenterMeters  Int?
+  distanceToSkiLiftMeters Int?
+  distanceToMetroMeters   Int?
+
+  propertyType  PropertyType @default(HOTEL)
+  chainBrand    String?
+  isLuxury      Boolean      @default(false)
+  isBoutique    Boolean      @default(false)
+  isChain       Boolean      @default(false)
+  yearBuilt     Int?
+  yearRenovated Int?
+  totalRooms    Int?
 
   // Datos DENORMALIZADOS para ordenar/filtrar sin JOINs pesados.
   // Los recalcula un job (o el proceso de sync) — son caché, no fuente de verdad.
-  ratingAvg       Float?
-  reviewCount     Int       @default(0)
-  popularityScore Int       @default(0)
-  priceFrom       Decimal?  @db.Decimal(10, 2) // "desde $X por noche"
-  priceCurrency   String    @default("USD")
-  priceUpdatedAt  DateTime?
+  ratingAvg         Float?
+  reviewCount       Int       @default(0)
+  ratingCleanliness Float?
+  ratingService     Float?
+  ratingLocation    Float?
+  ratingValue       Float?
+  popularityScore   Int       @default(0)
+  bookingCount30d   Int       @default(0)
+  viewCount30d      Int       @default(0)
+  conversionRate30d Float?
+  providerCount     Int       @default(0)
+  bestRateGuarantee Boolean   @default(false)
+  priceFrom         Decimal?  @db.Decimal(10, 2) // "desde $X por noche"
+  priceCurrency     String    @default("USD")
+  priceBucket       String?
+  priceUpdatedAt    DateTime?
 
-  themes       String[] // base para recomendaciones por afinidad
-  mainImageUrl String?
-  searchKey    String // normalize(title + destino + código)
+  themes                  String[]          @default([]) // base para recomendaciones por afinidad
+  vibes                   String[]          @default([])
+  amenityCodes            String[]          @default([])
+  boardTypes              BoardType[]       @default([])
+  cancellationType        CancellationType?
+  cancellationWindowHours Int?
+  paymentType             PaymentType?
+  minAge                  Int?
+  petsAllowed             Boolean?
+  petsFee                 Decimal?          @db.Decimal(10, 2)
+  childrenAllowed         Boolean?
+  checkInTime             String?
+  checkOutTime            String?
+  smokingAllowed          Boolean?
+  mainImageUrl            String?
+  searchKey               String // normalize(title + destino + código)
 
   destinationId String
   destination   Destination @relation(fields: [destinationId], references: [id])
@@ -248,12 +351,70 @@ model Hotel {
   quotes           Quote[]
   favorites        Favorite[]
   events           UserEvent[]
+  tags             HotelTag[]
+  pointsOfInterest HotelPointOfInterest[]
 
   @@index([searchKey(ops: raw("gin_trgm_ops"))], type: Gin) // texto libre tolerante
   @@index([destinationId, status, categoryStars]) // búsqueda típica: destino + estrellas
   @@index([status, popularityScore(sort: Desc)]) // ranking por defecto
   @@index([status, priceFrom]) // orden/filtro por precio
   @@index([themes], type: Gin) // filtros y afinidad por tema
+  @@index([vibes], type: Gin)
+  @@index([boardTypes], type: Gin)
+  @@index([amenityCodes], type: Gin)
+  @@index([latitude, longitude])
+  @@index([status, categoryStars, popularityScore])
+  @@index([status, priceFrom, categoryStars])
+  @@index([destinationId, status, categoryStars, priceFrom])
+  @@index([status, propertyType, categoryStars])
+  @@index([status, cancellationType, priceFrom])
+  @@index([distanceToBeachMeters])
+  @@index([distanceToAirportKm])
+  @@index([distanceToCenterMeters])
+}
+
+model HotelTag {
+  hotelId String
+  kind    TagKind
+  value   String
+  hotel   Hotel   @relation(fields: [hotelId], references: [id], onDelete: Cascade)
+
+  @@id([hotelId, kind, value])
+  @@index([kind, value])
+}
+
+model PointOfInterest {
+  id            String                 @id @default(cuid())
+  name          String
+  kind          POIKind
+  latitude      Float
+  longitude     Float
+  destinationId String
+  destination   Destination            @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+  hotelPOIs     HotelPointOfInterest[]
+
+  @@index([destinationId, kind])
+}
+
+model HotelPointOfInterest {
+  hotelId        String
+  poiId          String
+  distanceMeters Int
+  hotel          Hotel           @relation(fields: [hotelId], references: [id], onDelete: Cascade)
+  poi            PointOfInterest @relation(fields: [poiId], references: [id], onDelete: Cascade)
+
+  @@id([hotelId, poiId])
+  @@index([poiId, distanceMeters])
+}
+
+model SeedProgress {
+  id       String   @id @default(cuid())
+  phase    String
+  subPhase String
+  doneAt   DateTime @default(now())
+
+  @@unique([phase, subPhase])
+  @@map("_SeedProgress")
 }
 
 model HotelImage {
@@ -287,15 +448,25 @@ model HotelAmenity {
 
 // "Room" = TIPO de habitación (Standard, Suite...), no una unidad física.
 model Room {
-  id          String  @id @default(cuid())
-  hotelId     String
-  name        String
-  code        String?
-  maxAdults   Int     @default(2)
-  maxChildren Int     @default(0)
-  sizeM2      Int?
-  bedType     String?
-  hotel       Hotel   @relation(fields: [hotelId], references: [id], onDelete: Cascade)
+  id             String    @id @default(cuid())
+  hotelId        String
+  name           String
+  code           String?
+  maxAdults      Int       @default(2)
+  maxChildren    Int       @default(0)
+  sizeM2         Int?
+  bedType        String?
+  viewType       ViewType  @default(NONE)
+  boardType      BoardType @default(ROOM_ONLY)
+  hasBalcony     Boolean   @default(false)
+  hasTerrace     Boolean   @default(false)
+  hasKitchen     Boolean   @default(false)
+  hasJacuzzi     Boolean   @default(false)
+  isAccessible   Boolean   @default(false)
+  smokingAllowed Boolean   @default(false)
+  bedCount       Int       @default(1)
+  floor          Int?
+  hotel          Hotel     @relation(fields: [hotelId], references: [id], onDelete: Cascade)
 
   inventory    RoomInventory[]
   mappings     RoomMapping[]
